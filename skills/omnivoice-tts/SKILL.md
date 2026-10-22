@@ -1,6 +1,6 @@
 ---
 name: omnivoice-tts
-description: Generate local multilingual text-to-speech and reusable named zero-shot voice profiles with the official k2-fsa/OmniVoice model. Use as this repository's default voice/narration provider when no provider or template-specific voice is requested; also use when the user explicitly requests OmniVoice or k2-fsa/OmniVoice, needs a reusable cloned voice from a short authorized reference recording, wants to manage named local voice profiles, or wants CPU/MPS/CUDA/XPU-local inference without a cloud voice API.
+description: Generate local multilingual text-to-speech and reusable named zero-shot voice profiles with the official k2-fsa/OmniVoice model. Use as this repository's default voice/narration provider when the user or the active workflow requests no other provider or voice; also use when the user explicitly requests OmniVoice or k2-fsa/OmniVoice, needs a reusable cloned voice from a short authorized reference recording, wants to manage named local voice profiles, or wants CPU/MPS/CUDA/XPU-local inference without a cloud voice API.
 ---
 
 # OmniVoice TTS
@@ -21,7 +21,6 @@ Generate 24 kHz WAV speech with `k2-fsa/OmniVoice`. Use the bundled wrapper inst
 - Before every synthesis, apply the text-preparation workflow below, including when using a batch or job-local runner. Do not pass raw line breaks inside a chunk to the model.
 - Run `$fix-omnivoice` after every successful synthesis by default. Keep the requested output as the raw original and create a corrected sibling plus JSON audit report.
 - Use `--skip-fix-omnivoice` only when the user explicitly requests raw-only output or when debugging synthesis artifacts.
-- For template-based jobs, follow the matching `template.toml` and template skill; their voice contract takes precedence over this repository-level fallback.
 
 ## Chuẩn bị văn bản trước TTS
 
@@ -47,7 +46,7 @@ Runtime OmniVoice đang cài có bước `_combine_text()` xóa CR/LF bằng chu
 
 ## Project narration conventions
 
-- For Vietnamese narration in this project, prefer the named `Socolive` profile when the user has selected it or when the job's voice contract specifies it. Do not silently replace an explicitly selected voice or a template-specific voice.
+- For Vietnamese narration in this project, prefer the named `Socolive` profile when the user has selected it or when the job's voice contract specifies it. Do not silently replace an explicitly selected voice or a voice the job's contract requires.
 - Preserve Vietnamese diacritics and direct-dialogue quotation marks. Use Vietnamese curly quotes: `“...”`.
 - For hesitation, use the Unicode ellipsis `…`, not four ASCII periods. Example: `“Ờ… anh bán gì cơ?”`. The ellipsis gives the model a natural internal hesitation; it is not a precise millisecond timer.
 - Use the prepared TTS text: one line per beat, one blank line between beats. The wrapper normalizes line-ending formats but preserves single line breaks; the text-preparation workflow above must resolve those before synthesis. Disable formatting normalization only for debugging with `--no-normalize-linebreaks`.

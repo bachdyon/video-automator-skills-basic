@@ -206,9 +206,9 @@ def download_kind(
     if existing and not args.overwrite:
         return existing
 
-    template = str(output_dir / f"{stem}.%(ext)s")
+    output_pattern = str(output_dir / f"{stem}.%(ext)s")
     command = yt_dlp + yt_dlp_options(args)
-    command.extend(["-o", template])
+    command.extend(["-o", output_pattern])
 
     if kind == "video":
         if args.hd:

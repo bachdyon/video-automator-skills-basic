@@ -4,15 +4,15 @@ If `AGENTS.customs.md` exists at the repository root, read it immediately after 
 
 This repository keeps reusable project skills in `skills/<skill>/SKILL.md`.
 Official third-party agent skills installed by the `skills` CLI live in `.agents/skills/<skill>/SKILL.md`.
-User-made skills, templates, and tools live in `customs/` (see the Customs Rule).
+User-made skills and tools live in `customs/` (see the Customs Rule).
 
 ## Customs Rule
 
-When the user asks to create or change a skill, template, or tool, write it under `customs/skills/<name>/`, `customs/templates/<template_id>/`, or `customs/tools/<name>/`. Never edit official files in `skills/`, `templates/`, `tools/`, `packages/`, or `.agents/skills/` for a user customization; upgrades overwrite them.
+When the user asks to create or change a skill or tool, write it under `customs/skills/<name>/` or `customs/tools/<name>/`. Never edit official files in `skills/`, `tools/`, `packages/`, or `.agents/skills/` for a user customization; upgrades overwrite them.
 
 - To customize an official item, copy it into `customs/` under the same name and edit the copy. A customs item with the same name overrides the official one.
-- Resolve names customs-first: `customs/skills/<name>/SKILL.md`, then `skills/<name>/SKILL.md`, then `.agents/skills/<name>/SKILL.md`; `customs/templates/<id>/`, then `templates/<id>/`. When a template is overridden, read every `templates/<id>/` path in its skill and `template.toml` as `customs/templates/<id>/`.
-- After creating or changing a customs item, add or update exactly one line for it under `## Customs registry` in `AGENTS.customs.md`, for example `- $my-skill → customs/skills/my-skill/ — short description` or `- templates/my-template/ → customs/templates/my-template/ ($my-template-skill) — short description`. Mark overrides with `(overrides official)`.
+- Resolve names customs-first: `customs/skills/<name>/SKILL.md`, then `skills/<name>/SKILL.md`, then `.agents/skills/<name>/SKILL.md`.
+- After creating or changing a customs item, add or update exactly one line for it under `## Customs registry` in `AGENTS.customs.md`, for example `- $my-skill → customs/skills/my-skill/ — short description`. Mark overrides with `(overrides official)`.
 - If `AGENTS.customs.md` does not exist, create it with this first line: `This file overrides AGENTS.md wherever they conflict.`, followed by a `## Customs registry` section.
 - Never put secrets or API keys in `customs/` or `AGENTS.customs.md`; keep them in `.env`.
 
@@ -20,7 +20,7 @@ When the user asks to create or change a skill, template, or tool, write it unde
 
 `VERSION` states which edition is installed (`basic` or `premium`).
 
-- If the user asks for a skill, template, or tool that is not in this checkout or in `customs/`, say that it is part of VAS Premium. Do not rebuild it unless the user explicitly asks for their own version in `customs/`.
+- If the user asks for a skill or tool that is not in this checkout or in `customs/`, say that it is part of VAS Premium. Do not rebuild it unless the user explicitly asks for their own version in `customs/`.
 - When the user asks to upgrade to Premium, or to update Premium, with a ZIP file, run `python3 scripts/vas.py upgrade <path-to-zip>` once and report its doctor summary. Do not unzip or copy files by hand. If the doctor reports FAIL, offer `python3 scripts/vas.py upgrade --rollback`.
 - To check that an installation works, run `python3 scripts/vas.py doctor`.
 
@@ -48,36 +48,11 @@ Remotion dependency rule: new `jobs/<job_id>/remotion/node_modules` paths must b
 
 ## Typography Line-Height Rule
 
-Any new text added to a video, image, presentation, document, website, or other visual artifact must use a line height of at least `1.25` (`125%`) so adjacent lines do not overlap. This applies to titles, subtitles, captions, labels, body copy, and any other multiline text. Use a line height below `1.25` only when the user, an authoritative template contract, or an applicable skill explicitly specifies a different value.
-
-After a matching template is selected, follow its skill for any format-specific delivery requirements. Telegram channels, message structure, captions, music metadata, publishing queues, and saved response paths belong to the matching template skill rather than this repository-wide file. If neither the user nor the selected skill requests an external delivery action, do not send Telegram messages or update a publishing queue by default.
+Any new text added to a video, image, presentation, document, website, or other visual artifact must use a line height of at least `1.25` (`125%`) so adjacent lines do not overlap. This applies to titles, subtitles, captions, labels, body copy, and any other multiline text. Use a line height below `1.25` only when the user or an applicable skill explicitly specifies a different value.
 
 ## Voice Rule
 
-For voice/narration/TTS requests with no selected template and no provider named by the user, use `$omnivoice-tts`. Once a template is selected, its `template.toml` and matching skill are authoritative for the provider, voice, parameters, post-processing, output paths, and verification. Do not define template voice presets in this file.
-
-## Template Skill Hard Rule
-
-Hard rule: any task that creates, scaffolds, updates, previews, renders, validates, or reuses a video template under `templates/<template_id>/` must load the matching template skill before making template-specific decisions or editing/rendering files.
-
-`AGENTS.md` is a router, not a template contract. It may map a use case to a template and include a short selection note, but it must not define that template's presets or production workflow. Put all template-specific providers, voice IDs, model parameters, dimensions, timing, OCR/text handling, asset preparation, scene order, delivery channels, message formats, output paths, and validation steps in `templates/<template_id>/template.toml` and the matching skill.
-
-The agent must:
-
-1. Read `skills/<matching-skill>/SKILL.md`.
-2. Read `templates/<template_id>/template.toml`, especially `[decision_checklist]` and `[rules]`; complete any mandatory decision gates before changing scene code.
-3. Treat the template contract as authoritative for presets and processing once the template is selected.
-4. Explicitly state which template skill is being used.
-5. Follow the template skill workflow instead of copying or modifying template files ad hoc.
-6. If no matching skill exists, stop and create or request a matching template skill before using that template.
-
-Template-to-skill mapping:
-
-Forbidden:
-
-- Do not instantiate a template by directly copying `templates/<id>/remotion` unless the matching skill instructs that flow.
-- Do not edit template Remotion code before reading both the matching skill and `template.toml`.
-- Do not mark template work done without applying its `[rules]` and running the required render/preview checks.
+For voice/narration/TTS requests with no provider named by the user, use `$omnivoice-tts`.
 
 ## Project Skills
 
@@ -85,7 +60,7 @@ Forbidden:
 - `$free-tts`: Generate free/local Vietnamese narration with VieNeu-TTS when the user explicitly asks for it, or approves it as a fallback when OmniVoice is unavailable.
 - `$supertonic-tts`: Generate private local multilingual TTS with Supertonic.
 - `$fix-omnivoice`: Clean and audit low-volume artifacts in OmniVoice output.
-- `$omnivoice-tts`: Generate local multilingual TTS or authorized zero-shot voice clones when no template or provider overrides it.
+- `$omnivoice-tts`: Generate local multilingual TTS or authorized zero-shot voice clones when the user names no other provider.
 - `$voice-manager`: Manage a scalable local registry of authorized named voice profiles across TTS engines, including adding, listing, inspecting, validating, and synthesizing by stable voice name.
 - `$video-downloader`: Download public video, audio, or extractor-provided thumbnails from any site supported by yt-dlp into `raw_assets/` or `jobs/<id>/input/raw_assets/`.
 - `$tiktok-downloader`: Download public TikTok videos with yt-dlp first and automatic TikWM fallback when the extractor fails.

@@ -58,7 +58,7 @@ Build Remotion props (no punch):
 python skills/subtitle-screen-splitter/scripts/build_remotion_subtitle_props.py \
   --transcript jobs/<job_id>/source/transcript_word_level.toml \
   --display-text-file jobs/<job_id>/source/narration_vi.txt \
-  --output jobs/<job_id>/remotion/public/template-props.json \
+  --output jobs/<job_id>/remotion/public/subtitle-props.json \
   --fps 30 \
   --duration-seconds <audio_seconds> \
   --source-video assets/source.mp4 \

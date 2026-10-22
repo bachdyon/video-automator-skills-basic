@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build Remotion template-props.json with subtitle pages (no punch)."""
+"""Build a Remotion props JSON file with subtitle pages (no punch)."""
 
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ def main() -> int:
     parser.add_argument("--duration-seconds", type=float, required=True)
     parser.add_argument("--source-video", default="assets/source.mp4")
     parser.add_argument("--voice-audio", default="assets/voice.wav")
-    parser.add_argument("--source-audio", default="", help="Optional retimed original bed WAV path for template-props")
+    parser.add_argument("--source-audio", default="", help="Optional retimed original bed WAV path for the props file")
     parser.add_argument("--source-audio-volume", type=float, default=0.3)
     parser.add_argument("--subtitle-bottom-px", type=int, default=380)
     parser.add_argument("--subtitle-max-width-px", type=int, default=640)

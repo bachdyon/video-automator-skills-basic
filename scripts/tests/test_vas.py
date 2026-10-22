@@ -135,6 +135,19 @@ class LintTests(unittest.TestCase):
             refs = sorted(p.rsplit(" ", 1)[-1] for p in problems)
             self.assertEqual(refs, ["$paid-gen", "`paid-gen`", "skills/paid-gen", "templates/paid-tpl", "tools/paid_index"])
 
+    def test_template_mentions(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            stage = Path(tmp)
+            write_tree(stage, {
+                "README.md": "Use a Template here.\nplain\n",
+                ".agents/skills/x/SKILL.md": "project template\n",
+                "skills/a/run.py": "pattern = 1\n",
+            })
+            self.assertEqual(
+                vas.template_mentions(stage, ["README.md", ".agents/skills/x/SKILL.md", "skills/a/run.py"]),
+                ["README.md:1: mentions templates (Basic has none)"],
+            )
+
     def test_secret_scan(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)

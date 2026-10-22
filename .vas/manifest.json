@@ -1,7 +1,7 @@
 {
   "edition": "basic",
-  "version": "1.0.1",
-  "created": "2026-10-22T12:05:40Z",
+  "version": "1.0.2",
+  "created": "2026-10-22T12:13:49Z",
   "files": {
     ".agents/skills/motion-design/SKILL.md": {
       "sha256": "8729ecbc7e5736c1295baaa8ba0384bb4b1aac9cf91b83fcdc64d9548a57bb19",
@@ -1058,30 +1058,30 @@
       "size": 1168
     },
     ".gitignore": {
-      "sha256": "ea0a187c898ec41bfa04fd51ebcf751ee5b39e1a1f3c3c395a281f4ec0080910",
-      "size": 2894
+      "sha256": "e5c870e19a1451761c95a35c358601bfcf4d7a6aa072f9e99feda16553b93044",
+      "size": 2665
     },
     ".junie/skills/remotion-best-practices": {
       "symlink": "../../.agents/skills/remotion-best-practices"
     },
     "AGENTS.md": {
-      "sha256": "f43eaddfd12493b5283fc9623e39f5670d6af867c37ba430d610b9eed58cb8c7",
-      "size": 12330
+      "sha256": "9f8c0a36f54815a6c295b0616efe876c56319ecb38e09f3b1beeaac98fdce05a",
+      "size": 9508
     },
     "CONTRIBUTING.md": {
-      "sha256": "efa93e48e34088bd169946724df220355271f8ccaafce45b73709b83478c8720",
-      "size": 3358
+      "sha256": "09a9c32d2596be7845129f7877d0d01ce0aee442baf864558c886770b6b5749d",
+      "size": 3355
     },
     "LICENSE": {
       "sha256": "1680534195e2d30e31ab27f256aa1851ca65eb57d7fc48e128af008e07261d17",
       "size": 4012
     },
     "README.md": {
-      "sha256": "bcefde8dfeb39a90e79053b8a1a377b2a80a20ccb07fe7c636e8d9ff4c36b3e0",
-      "size": 4082
+      "sha256": "b7869486214ac66f965744cfee0dced992f126c62155d76fb41ef02362fb6973",
+      "size": 5668
     },
     "VERSION": {
-      "sha256": "97496a15c261ba9d3294546c6dca7804b5e0ba7ae6dc576bc0fa4c503c68d095",
+      "sha256": "61720880bc196f78a3b4ec8f1433f652584b8cae79ecd408d7d9cdee4e85be11",
       "size": 36
     },
     "customs/.gitkeep": {
@@ -1173,12 +1173,12 @@
       "size": 1370
     },
     "scripts/tests/test_vas.py": {
-      "sha256": "097ae19fcb6c2912348e109c2ea4867741f5574048d294dae60fbca8a92acf35",
-      "size": 13332
+      "sha256": "e372a2bc39283d9c1c767b286460d5f51c190ba058ebf7cf7423867fe7910772",
+      "size": 13911
     },
     "scripts/vas.py": {
-      "sha256": "90ca22bc988bd94ce05ba281dc177e28d78d78bc58f8f58895c8c75fd45b347e",
-      "size": 60512
+      "sha256": "a6caddf81342fab9168f4c0c053c87a1c6ddc89215f77699b9ad88dbc9031913",
+      "size": 61542
     },
     "skills-lock.json": {
       "sha256": "b6e212cb707c3f72add14fe27df691e8382cad89ad0c9722dd25b8ef1e10a2e4",
@@ -1229,8 +1229,8 @@
       "size": 14891
     },
     "skills/omnivoice-tts/SKILL.md": {
-      "sha256": "a1885ebc59bad860ba4ea40b2edb69cd936d08e33cf5c56a49ba6cfc02650799",
-      "size": 23156
+      "sha256": "abef10a2de17fde95aa97d6b9157d389083154c09240913f6977f829f81c033b",
+      "size": 23024
     },
     "skills/omnivoice-tts/agents/openai.yaml": {
       "sha256": "b0a6a6dbf1512e3185e7da873ea6d88e06620edcaae06a84d1bb875a58cf2264",
@@ -1265,7 +1265,7 @@
       "size": 2663
     },
     "skills/subtitle-screen-splitter/SKILL.md": {
-      "sha256": "0f6215cab1a3a97573b2f91af888745dede7f9e723f48a8f48583c5e05974e11",
+      "sha256": "c1ce4afcb0a9175c6ae3f2493a190cf609e98b2e3b0efba72d065683f6afc37e",
       "size": 3477
     },
     "skills/subtitle-screen-splitter/agents/openai.yaml": {
@@ -1273,8 +1273,8 @@
       "size": 265
     },
     "skills/subtitle-screen-splitter/scripts/build_remotion_subtitle_props.py": {
-      "sha256": "5919ca2eeccd355fdea264fa18a8d28f71c019b6a786fa9d66a5b5a25f71cefb",
-      "size": 3256
+      "sha256": "1b4eaf56abd1b8a0a8d037d8e376373fe9baced3369c93e3c3e62a542b2ef291",
+      "size": 3254
     },
     "skills/subtitle-screen-splitter/scripts/split_subtitle_screens.py": {
       "sha256": "4b4a4e44e6372553fdd26b38c5ed705b6644c8c04079e6b7831ecc4e2794727c",
@@ -1329,8 +1329,8 @@
       "size": 5123
     },
     "skills/video-downloader/scripts/download_video.py": {
-      "sha256": "921141ced1329e90f47efbb317ac8309281a33176e22160069b015ba9419445a",
-      "size": 12430
+      "sha256": "4d8fd2f142c3c49ceedb818481ad4eb62e35c192657b4bce6fb402fd59385aa5",
+      "size": 12442
     },
     "skills/video-job-manager/SKILL.md": {
       "sha256": "558e1e6099519dc532298138b9b5bc674b8550b92683f035993d95919d01aee8",

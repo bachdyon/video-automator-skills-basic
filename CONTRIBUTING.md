@@ -40,7 +40,7 @@ Mở Issue với label `feature-request`, mô tả:
 
 Pattern khi viết skill mới:
 
-1. Copy thư mục `skills/_shared/` làm template (giữ pattern shared utils).
+1. Copy thư mục `skills/_shared/` làm mẫu (giữ pattern shared utils).
 2. Tạo `skills/<your-skill>/SKILL.md` theo format hiện có (frontmatter `name`, `description` ngắn để Cursor index được).
 3. Cập nhật [AGENTS.md](AGENTS.md) thêm dòng `$your-skill` vào mục **Project Skills**.
 4. Tạo trang `docs/skills/<your-skill>.mdx` port nội dung SKILL.md sang MDX (giữ nguyên nội dung kỹ thuật).

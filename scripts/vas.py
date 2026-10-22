@@ -450,6 +450,26 @@ def secret_scan(base: Path, files: list[str]) -> list[str]:
     return hits
 
 
+TEMPLATE_WORD_RE = re.compile(r"template", re.IGNORECASE)
+# Third-party skills and the edition tooling itself may say "template"; nothing else in Basic may.
+TEMPLATE_LINT_EXEMPT = (".agents/", "scripts/vas.py", "scripts/tests/", "package-lock.json")
+
+
+def template_mentions(stage: Path, files: list[str]) -> list[str]:
+    """Basic has no templates: report every first-party text line that mentions one."""
+    problems: list[str] = []
+    for rel in files:
+        if rel.startswith(TEMPLATE_LINT_EXEMPT) or not is_text(rel) or (stage / rel).is_symlink():
+            continue
+        try:
+            lines = (stage / rel).read_text(encoding="utf-8").splitlines()
+        except (UnicodeDecodeError, OSError):
+            continue
+        problems += [f"{rel}:{n}: mentions templates (Basic has none)"
+                     for n, line in enumerate(lines, start=1) if TEMPLATE_WORD_RE.search(line)]
+    return problems
+
+
 def forbidden_paths(files: list[str]) -> list[str]:
     allowed_placeholders = {"customs/.gitkeep", "raw_assets/.gitkeep", "raw_assets/README.md",
                             "raw_assets/images/.gitkeep", "raw_assets/videos/.gitkeep", "raw_assets/audio/.gitkeep"}
@@ -632,6 +652,7 @@ def build_basic_stage(root: Path, stage: Path) -> tuple[Selection, list[str], di
 
 def check_basic_stage(root: Path, stage: Path, sel: Selection, files: list[str]) -> list[str]:
     problems = lint_references(stage, sel, files)
+    problems += template_mentions(stage, files)
     problems += [f"forbidden path in Basic: {rel}" for rel in forbidden_paths(files)]
     problems += secret_scan(stage, files)
     mapping = template_skill_mapping((root / "AGENTS.md").read_text(encoding="utf-8"))
@@ -1178,7 +1199,8 @@ def doctor_skills(root: Path, rep: Report) -> None:
     if broken:
         rep.add("FAIL", "skill links", "broken: " + ", ".join(sorted(broken)[:10]))
     if not (missing_skills or missing_templates or broken):
-        rep.add("PASS", "skills", f"{len(listed_skills(text))} skills and {len(mapping)} templates resolve")
+        templates = f" and {len(mapping)} templates" if mapping else ""
+        rep.add("PASS", "skills", f"{len(listed_skills(text))} skills{templates} resolve")
 
 
 def doctor_dependencies(root: Path, rep: Report) -> None:
@@ -1251,7 +1273,7 @@ def doctor_smoke(root: Path, rep: Report) -> None:
     preferred = ["podcast-karaoke-frame", "agency-life-template", "typography-data-explainer"]
     candidates.sort(key=lambda p: (preferred.index(p.name) if p.name in preferred else len(preferred), p.name))
     if not candidates:
-        rep.add("WARN", "smoke render", "no Remotion template found to render")
+        rep.add("INFO", "smoke render", "skipped: nothing to render in this edition")
         return
     template = candidates[0]
     contract = tomllib.loads((template / "template.toml").read_text(encoding="utf-8"))

@@ -75,14 +75,6 @@ ffmpeg2pass-*.log.mbtree
 /skills/jobs/
 /kie_*.json
 
-# --- Templates: source is tracked; generated/bundler output and local copies are not ---
-templates/**/build/
-templates/**/out/
-templates/**/output/
-templates/**/.remotion/
-templates/**/dist/
-/templates/*.zip
-/templates/* [0-9]/
 
 # --- User customizations (never shipped; survive upgrades) ---
 /customs/*

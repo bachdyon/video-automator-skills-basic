@@ -2,12 +2,54 @@
 
 > Bộ skill cơ bản, miễn phí, chạy trên máy của bạn để agent chuẩn bị nguyên liệu cho video ngắn: tạo giọng đọc, lấy transcript từng từ, chia subtitle, tải và nén video. Không cần API key trả phí.
 
-VAS Basic không kèm template video dựng sẵn và không gọi dịch vụ AI tạo ảnh/video. Agent vẫn có thể tự dựng video bằng Remotion nhờ bộ skill Remotion chính thức đi kèm. Các template, công cụ tạo media bằng AI và pipeline tự động đầy đủ nằm trong **VAS Premium**.
+VAS Basic không gọi dịch vụ AI tạo ảnh/video. Agent vẫn có thể tự dựng video bằng Remotion nhờ bộ skill Remotion chính thức đi kèm. Công cụ tạo media bằng AI và pipeline dựng video tự động đầy đủ nằm trong **VAS Premium**.
+
+## Cài đặt
+
+### Yêu cầu
+
+- macOS, Windows hoặc Linux.
+- Python 3.11 trở lên, Node.js 18 trở lên, `git`, và `ffmpeg` / `ffprobe` có trong PATH. Giọng đọc OmniVoice cần riêng Python 3.11 hoặc 3.12.
+- Một AI agent đọc được `AGENTS.md`, ví dụ Claude Code, Codex hoặc Cursor.
+
+### Lấy mã nguồn
+
+```bash
+git clone https://github.com/bachdyon/video-automator-skills-basic.git vas
+cd vas
+```
+
+### Cài phụ thuộc
+
+Chạy tại thư mục gốc của VAS:
+
+```bash
+npm install
+python3 -m venv .venv
+.venv/bin/python -m pip install -r skills/word-timestamps-extractor/scripts/requirements.txt -r skills/supertonic-tts/scripts/requirements.txt yt-dlp Pillow numpy
+python3.11 skills/omnivoice-tts/scripts/setup_omnivoice.py
+cp env.example .env
+```
+
+- `npm install` chỉ chạy một lần ở thư mục gốc; mọi job dùng chung `node_modules` này.
+- OmniVoice (giọng đọc mặc định) có môi trường riêng tại `.cache/omnivoice-tts/venv/`. Nếu máy có Python 3.12 thay vì 3.11, dùng `python3.12` cho lệnh này. Model được tải ở lần tạo giọng đầu tiên.
+- Trên Windows, thay `.venv/bin/python` bằng `.venv\Scripts\python` và `cp` bằng `copy`.
+- `.env` có thể để trống: Basic chạy local, các key trong đó chỉ dùng cho tính năng tùy chọn.
+
+### Kiểm tra
+
+```bash
+python3 scripts/vas.py doctor
+```
+
+Mọi dòng `FAIL` cần được xử lý trước khi dùng; `WARN` về `.env` có thể bỏ qua.
+
+Xong thì mở thư mục VAS bằng AI agent và nhờ nó làm việc, ví dụ "tạo giọng đọc cho đoạn văn này".
 
 ## Phiên bản, tùy biến và nâng cấp
 
 - File `VERSION` cho biết bạn đang dùng **VAS** (basic) hay **VAS Premium**.
-- Muốn tạo hoặc sửa skill, template, tool riêng: nhờ agent làm. Agent sẽ lưu vào `customs/` và ghi một dòng vào `AGENTS.customs.md`. Bản trong `customs/` trùng tên với bản gốc sẽ thay thế bản gốc. Upgrade không bao giờ chạm vào `customs/`, `AGENTS.customs.md`, `jobs/`, `raw_assets/` hay `.env`.
+- Muốn tạo hoặc sửa skill hoặc tool riêng: nhờ agent làm. Agent sẽ lưu vào `customs/` và ghi một dòng vào `AGENTS.customs.md`. Bản trong `customs/` trùng tên với bản gốc sẽ thay thế bản gốc. Upgrade không bao giờ chạm vào `customs/`, `AGENTS.customs.md`, `jobs/`, `raw_assets/` hay `.env`.
 - Nâng cấp lên Premium: đính kèm file ZIP Premium và nhắn agent "upgrade lên premium bằng file zip này". Agent sẽ chạy `python3 scripts/vas.py upgrade <file.zip>`, tự kiểm tra sau khi cài, và có thể hoàn tác bằng `python3 scripts/vas.py upgrade --rollback`.
 - Kiểm tra cài đặt bất kỳ lúc nào: `python3 scripts/vas.py doctor`.
 
