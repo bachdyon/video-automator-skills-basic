@@ -11,18 +11,18 @@ Bạn chỉ cần nói, agent sẽ làm: tải video từ khắp nơi, đọc l�
 - 📝 **Phụ đề chuẩn đến từng chữ.** Tự bóc lời thoại kèm mốc thời gian của từng từ, chia thành từng dòng vừa màn hình điện thoại, ngắt đúng dấu câu, sẵn sàng cho kiểu phụ đề chạy theo giọng nói.
 - 🎬 **Dựng video bằng lời nói.** Đi kèm trọn bộ skill Remotion chính thức: mô tả video bạn muốn, agent tự viết code, ghép giọng đọc, phụ đề, hình ảnh rồi xuất ra MP4.
 - 📦 **Sẵn sàng để đăng.** Nén video xuống dưới 25 MB mà vẫn giữ độ nét, xuất một ảnh storyboard tóm tắt cả video để duyệt trong vài giây.
-- 📱 **Giao việc từ xa.** Dùng cùng một AI agent có điều khiển từ điện thoại (ví dụ Remote Control của Claude Code), bạn ra lệnh khi đang ở ngoài, về nhà là có kết quả.
+- 📱 **Giao việc từ xa.** Dùng cùng một AI agent điều khiển được từ điện thoại (ví dụ ChatGPT hoặc Claude Code), bạn ra lệnh khi đang ở ngoài, về nhà là có kết quả.
 - 🧩 **Càng dùng càng hợp với bạn.** Muốn thêm một kỹ năng riêng, chỉ cần nhờ agent tạo. Kỹ năng đó được giữ nguyên qua mọi lần cập nhật.
 
-### Muốn đi xa hơn? VAS Premium
+### Muốn đi xa hơn?
 
-Khi đã quen tay, **VAS Premium** đưa bạn từ "làm từng bước" sang "giao ý tưởng, nhận video": pipeline tự động từ ý tưởng tới video hoàn chỉnh, tạo ảnh và video bằng AI (Veo, Seedance, Grok Imagine…), avatar nói chuyện khớp khẩu hình, lồng tiếng Việt cho video nước ngoài, tìm footage theo nội dung và quản lý lịch đăng bài. Nâng cấp chỉ bằng một tin nhắn cho agent, mọi giọng đọc, job và kỹ năng riêng của bạn được giữ nguyên.
+Khi đã quen tay, **VAS Premium** đưa bạn từ "làm từng bước" sang "giao ý tưởng, nhận video". Xem phần **Nâng cấp lên VAS Premium** bên dưới.
 
 ## Cài đặt
 
 Bạn không cần biết lập trình. Một AI agent sẽ cài giúp bạn, bạn chỉ cần dán một tin nhắn.
 
-**Bước 1.** Cài một AI agent trên máy tính, ví dụ [Claude Code](https://claude.com/claude-code), Codex hoặc Cursor.
+**Bước 1.** Cài một AI agent trên máy tính, ví dụ [ChatGPT](https://chatgpt.com/download), [Claude Code](https://claude.com/claude-code) hoặc Cursor.
 
 **Bước 2.** Tạo một thư mục trống, ví dụ thư mục `VAS` trong Documents, rồi mở thư mục đó bằng AI agent.
 
@@ -36,12 +36,23 @@ Bạn không cần biết lập trình. Một AI agent sẽ cài giúp bạn, b�
 
 Mọi tính năng của Basic chạy ngay trên máy bạn, không cần API key.
 
-## Phiên bản, tùy biến và nâng cấp
+## Nâng cấp lên VAS Premium
 
-- File `VERSION` cho biết bạn đang dùng **VAS** (basic) hay **VAS Premium**.
-- Muốn tạo hoặc sửa skill hoặc tool riêng: nhờ agent làm. Agent sẽ lưu vào `customs/` và ghi một dòng vào `AGENTS.customs.md`. Bản trong `customs/` trùng tên với bản gốc sẽ thay thế bản gốc. Upgrade không bao giờ chạm vào `customs/`, `AGENTS.customs.md`, `jobs/`, `raw_assets/` hay `.env`.
-- Nâng cấp lên Premium: đính kèm file ZIP Premium và nhắn agent "upgrade lên premium bằng file zip này". Agent sẽ chạy `python3 scripts/vas.py upgrade <file.zip>`, tự kiểm tra sau khi cài, và có thể hoàn tác bằng `python3 scripts/vas.py upgrade --rollback`.
-- Kiểm tra cài đặt bất kỳ lúc nào: `python3 scripts/vas.py doctor`.
+Basic giúp bạn làm từng phần của video. **Premium biến cả quy trình thành một câu lệnh:** bạn đưa ý tưởng, agent trả về video hoàn chỉnh, có hình, có tiếng, có phụ đề, sẵn sàng đăng.
+
+- 🤖 **Từ ý tưởng tới video, tự động.** Agent tự lên kế hoạch, viết kịch bản, chọn cảnh, dựng và xuất video. Bạn chỉ duyệt kịch bản.
+- 🎞️ **Hơn 30 mẫu video đóng gói sẵn, chọn mẫu là ra video.** Podcast phụ đề karaoke, tin bóng đá, kể chuyện lịch sử nhiều lớp, review phim lồng tiếng, video học tiếng Anh, bảng trắng vẽ tay, bản đồ chuyển động và nhiều nữa.
+- 🎨 **Tạo ảnh và video bằng AI.** Gọi thẳng các model hàng đầu như Veo, Seedance, Grok Imagine, Wan, Nano Banana ngay trong cuộc trò chuyện với agent.
+- 🗣️ **Nhân vật biết nói.** Avatar khớp khẩu hình từ một tấm ảnh, giọng đọc cao cấp, lồng tiếng Việt cho video nước ngoài mà vẫn giữ nhịp gốc.
+- 🔎 **Tìm đúng cảnh trong kho footage của bạn** bằng cách mô tả nội dung, không cần nhớ tên file.
+- ✨ **Hiệu ứng đẹp như studio.** Chuyển cảnh, chuyển động chữ, phụ đề nghệ thuật kiểu cắt giấy và nét cọ.
+- 📅 **Từ dựng tới đăng.** Quản lý lịch đăng bài, đăng đa nền tảng và gửi video qua Telegram.
+
+Nâng cấp chỉ bằng một tin nhắn cho agent. Mọi giọng đọc, job và kỹ năng riêng bạn đã tạo trên Basic đều được giữ nguyên.
+
+### 👉 [Đăng ký khóa học để nhận VAS Premium](https://khoa-hoc-video-ai-agent.bachdyon.com/)
+
+Vừa học cách làm video bằng AI agent từ đầu, vừa nhận ngay bộ VAS Premium đầy đủ để áp dụng.
 
 ## Skills
 
