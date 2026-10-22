@@ -1,8 +1,22 @@
 # VAS — Video Automator Skills (Basic)
 
-> Bộ skill cơ bản, miễn phí, chạy trên máy của bạn để agent chuẩn bị nguyên liệu cho video ngắn: tạo giọng đọc, lấy transcript từng từ, chia subtitle, tải và nén video. Không cần API key trả phí.
+> **Biến AI agent trên máy bạn thành một ekip làm video ngắn. Miễn phí, không giới hạn, không cần API key.**
 
-VAS Basic không gọi dịch vụ AI tạo ảnh/video. Agent vẫn có thể tự dựng video bằng Remotion nhờ bộ skill Remotion chính thức đi kèm. Công cụ tạo media bằng AI và pipeline dựng video tự động đầy đủ nằm trong **VAS Premium**.
+Bạn chỉ cần nói, agent sẽ làm: tải video từ khắp nơi, đọc lời thoại bằng giọng như người thật, bóc phụ đề chính xác từng chữ, dựng thành video và nén sẵn để đăng. Mọi thứ chạy ngay trên máy bạn, không tính tiền theo lượt, không giới hạn số video.
+
+### Làm được ngay sau khi cài
+
+- 🎙️ **Giọng đọc miễn phí, dùng bao nhiêu cũng được.** Ba engine giọng đọc chạy offline đọc tiếng Việt tự nhiên. Nhân bản giọng của chính bạn (hoặc giọng bạn được phép dùng) chỉ từ một đoạn ghi âm mẫu, lưu thành thư viện giọng để dùng lại mãi.
+- ⬇️ **Tải video đa nền tảng chỉ bằng một đường link.** YouTube, TikTok, Facebook Reels và hàng nghìn trang khác: dán link là video và audio về thẳng thư mục làm việc.
+- 📝 **Phụ đề chuẩn đến từng chữ.** Tự bóc lời thoại kèm mốc thời gian của từng từ, chia thành từng dòng vừa màn hình điện thoại, ngắt đúng dấu câu, sẵn sàng cho kiểu phụ đề chạy theo giọng nói.
+- 🎬 **Dựng video bằng lời nói.** Đi kèm trọn bộ skill Remotion chính thức: mô tả video bạn muốn, agent tự viết code, ghép giọng đọc, phụ đề, hình ảnh rồi xuất ra MP4.
+- 📦 **Sẵn sàng để đăng.** Nén video xuống dưới 25 MB mà vẫn giữ độ nét, xuất một ảnh storyboard tóm tắt cả video để duyệt trong vài giây.
+- 📱 **Giao việc từ xa.** Dùng cùng một AI agent có điều khiển từ điện thoại (ví dụ Remote Control của Claude Code), bạn ra lệnh khi đang ở ngoài, về nhà là có kết quả.
+- 🧩 **Càng dùng càng hợp với bạn.** Muốn thêm một kỹ năng riêng, chỉ cần nhờ agent tạo. Kỹ năng đó được giữ nguyên qua mọi lần cập nhật.
+
+### Muốn đi xa hơn? VAS Premium
+
+Khi đã quen tay, **VAS Premium** đưa bạn từ "làm từng bước" sang "giao ý tưởng, nhận video": pipeline tự động từ ý tưởng tới video hoàn chỉnh, tạo ảnh và video bằng AI (Veo, Seedance, Grok Imagine…), avatar nói chuyện khớp khẩu hình, lồng tiếng Việt cho video nước ngoài, tìm footage theo nội dung và quản lý lịch đăng bài. Nâng cấp chỉ bằng một tin nhắn cho agent, mọi giọng đọc, job và kỹ năng riêng của bạn được giữ nguyên.
 
 ## Cài đặt
 
