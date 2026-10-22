@@ -1,0 +1,20 @@
+{
+  "name": "@video-agent/subtitles",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./remotion": "./src/remotion.tsx",
+    "./presets": "./src/presets.tsx",
+    "./split": "./src/split.ts",
+    "./style": "./src/style.ts",
+    "./timeline": "./src/timeline.ts",
+    "./types": "./src/types.ts"
+  },
+  "types": "./src/index.ts",
+  "peerDependencies": {
+    "react": ">=18",
+    "remotion": ">=4"
+  }
+}

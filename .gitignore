@@ -1,0 +1,150 @@
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+!env.example
+/channels.yaml
+!/channels.example.yaml
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+
+# --- Virtualenv ---
+.venv/
+
+# --- Node (generic, ngoài jobs/) ---
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- OS metadata ---
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- IDE / Editor ---
+.idea/
+.vscode/
+.cursor/mcp.json
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# Local Codex client MCP config (machine-specific)
+.codex/config.toml
+
+# --- Logs & temp ---
+*.log
+ffmpeg2pass-*.log.mbtree
+*.tmp
+*.bak
+
+# --- SQLite runtime sidecar (phòng khi DB nằm ngoài .asset_index/) ---
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+*.db-journal
+*.db-wal
+*.db-shm
+
+# --- Pipeline runtime ---
+/jobs/
+/labs/
+/exports/
+/source/
+/.asset_index/
+/.content_dispatcher/
+/content-dispatcher.toml
+/skills/jobs/
+/kie_*.json
+
+# --- Templates: source is tracked; generated/bundler output and local copies are not ---
+templates/**/build/
+templates/**/out/
+templates/**/output/
+templates/**/.remotion/
+templates/**/dist/
+/templates/*.zip
+/templates/* [0-9]/
+
+# --- User customizations (never shipped; survive upgrades) ---
+/customs/*
+!/customs/.gitkeep
+/AGENTS.customs.md
+
+# --- VAS edition tooling (local state) ---
+/.vas/*
+!/.vas/manifest.json
+
+# Local generated caches
+.cache/
+
+# Root Remotion/public leftovers (job/lab assets — not package source)
+/public/
+
+# Vendored VFX-JS: keep runtime ESM + typings only
+packages/remotion-effects/vendor/**/*.map
+packages/remotion-effects/vendor/**/*.test.js
+packages/remotion-effects/vendor/**/*.test.d.ts
+
+# Local sound-effects library
+/sfx/
+
+# Local reusable voice-clone profiles (audio samples and consent metadata)
+/voice_profiles/
+
+# --- gflow-cli: machine-local only (others create their own profile/login) ---
+# Source clone under tools/gflow-cli/ may be shared; never share the profile below.
+tools/gflow-cli/.gflow-local.toml
+tools/gflow-cli/.env
+tools/gflow-cli/.env.local
+tools/gflow-cli/.env.*.local
+tools/gflow-cli/auth/
+tools/gflow-cli/profile_*/
+tools/gflow-cli/*.cookies.json
+tools/gflow-cli/storage_state.json
+tools/gflow-cli/secrets.json
+tools/gflow-cli/state/
+tools/gflow-cli/out/
+tools/gflow-cli/tmp/
+tools/gflow-cli/gflow-output/
+tools/gflow-cli/**/*.har
+tools/gflow-cli/samples/*.captured.json
+tools/gflow-cli/scripts/dev/_spike_out/
+
+# --- raw_assets pool: track folder layout, ignore large media files ---
+raw_assets/*
+!raw_assets/.gitkeep
+!raw_assets/README.md
+!raw_assets/images/
+!raw_assets/videos/
+!raw_assets/audio/
+raw_assets/images/*
+!raw_assets/images/.gitkeep
+raw_assets/videos/*
+!raw_assets/videos/.gitkeep
+raw_assets/audio/*
+!raw_assets/audio/.gitkeep
+
+# --- Local work output (not part of the repository) ---
+/output/
+/games/
+/upscaled/
+/.wrangler/

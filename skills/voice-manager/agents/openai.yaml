@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voice Manager"
+  short_description: "Manage reusable local voice profiles safely"
+  default_prompt: "Use $voice-manager to add, inspect, validate, or synthesize with a named voice profile."

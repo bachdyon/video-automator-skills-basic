@@ -1,0 +1,4 @@
+interface:
+  display_name: "Supertonic TTS"
+  short_description: "Local multilingual TTS with cached models"
+  default_prompt: "Use $supertonic-tts to generate a Vietnamese WAV file locally."

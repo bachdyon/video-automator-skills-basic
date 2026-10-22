@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok Downloader"
+  short_description: "Tải video TikTok với fallback TikWM"
+  default_prompt: "Use $tiktok-downloader to tải video TikTok công khai này vào một video job."

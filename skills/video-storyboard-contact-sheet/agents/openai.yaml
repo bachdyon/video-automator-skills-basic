@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Storyboard Contact Sheet"
+  short_description: "Ghép các still video thành một storyboard duy nhất"
+  default_prompt: "Use $video-storyboard-contact-sheet to turn my finished video into a labeled storyboard on one flat canvas."

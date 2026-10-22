@@ -1,0 +1,4 @@
+interface:
+  display_name: "OmniVoice TTS"
+  short_description: "Generate and automatically clean local cloned speech"
+  default_prompt: "Use $omnivoice-tts to generate Vietnamese narration locally and include the automatic $fix-omnivoice corrected output."

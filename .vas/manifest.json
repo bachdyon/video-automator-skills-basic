@@ -1,0 +1,1404 @@
+{
+  "edition": "basic",
+  "version": "1.0.0",
+  "created": "2026-10-22T12:02:19Z",
+  "files": {
+    ".agents/skills/motion-design/SKILL.md": {
+      "sha256": "8729ecbc7e5736c1295baaa8ba0384bb4b1aac9cf91b83fcdc64d9548a57bb19",
+      "size": 12580
+    },
+    ".agents/skills/motion-design/director/choreography.md": {
+      "sha256": "c81257b56160b9b2f3d99f78d4b8172b425c22d9ca73be06d3ffaa7305a34deb",
+      "size": 3035
+    },
+    ".agents/skills/motion-design/director/context-adaptation.md": {
+      "sha256": "550e96a1c8c369513304ee74c0e89b63168bc7287b83e9ed5685bb65609986b3",
+      "size": 3066
+    },
+    ".agents/skills/motion-design/director/core-philosophy.md": {
+      "sha256": "7aaa8a065d9940dad0198cf9cfe74979008495e6daf87f46f9022fff1b6a85e9",
+      "size": 1864
+    },
+    ".agents/skills/motion-design/director/decision-framework.md": {
+      "sha256": "4b6758da6742475c928b4f8be8c662f4b5ed0964468ba7760df8f7635c779358",
+      "size": 2866
+    },
+    ".agents/skills/motion-design/director/disney-principles.md": {
+      "sha256": "39024711890c2684a3434659a4d95a52ca8231facea74e87e79503054aaca671",
+      "size": 3197
+    },
+    ".agents/skills/motion-design/director/emotion-mapping.md": {
+      "sha256": "a279e55a3f52a9f5830d38dc54679c652d9a5c26f0dd360700c16e23766d468b",
+      "size": 2877
+    },
+    ".agents/skills/motion-design/director/motion-personality.md": {
+      "sha256": "66a3623b6654869482c02157ca791034a614ca6dcb02a8112049e28d292ee18a",
+      "size": 2998
+    },
+    ".agents/skills/motion-design/director/narrative-structure.md": {
+      "sha256": "d49db19db40425dec027c3012d553b50fd74ed79e27ace9dec1226796469061b",
+      "size": 2407
+    },
+    ".agents/skills/motion-design/patterns/ambient-continuous.md": {
+      "sha256": "f9cfa00d3325dceadcb9ffd77dcb5dcbc51d34121f3b1f162979939006056773",
+      "size": 2823
+    },
+    ".agents/skills/motion-design/patterns/entrance-exit.md": {
+      "sha256": "70b3fc3a8d58ebe58e293e643b78fd13750d9c8ef1c8fc5fe85e52f7378cbd91",
+      "size": 2822
+    },
+    ".agents/skills/motion-design/patterns/multi-element.md": {
+      "sha256": "46c8da91843c593deb763a4a7fa32849bdaeb7a7ecd4d559e3b21bcc976f2c46",
+      "size": 2362
+    },
+    ".agents/skills/motion-design/patterns/state-feedback.md": {
+      "sha256": "dac86388c2d8fcdfc2f194b4f8877caedcdc010df9ce29d27dfc99d08cf8c60e",
+      "size": 3062
+    },
+    ".agents/skills/motion-design/reference/property-selection.md": {
+      "sha256": "053d830795fc824fed27618fbd18084207af6aeed55b73c0a6e1d5665de894ae",
+      "size": 2922
+    },
+    ".agents/skills/motion-design/reference/quality-checklist.md": {
+      "sha256": "c11bf193b700d9c9ebc5d871f1d5f193bccc441c4eccc0509b53a40d6e8dc558",
+      "size": 2080
+    },
+    ".agents/skills/motion-design/reference/timing-easing-tables.md": {
+      "sha256": "e478f3b99c4cac3f96eca008e20f8808d4cfae165f5799f260092baf9b6ebcff",
+      "size": 2900
+    },
+    ".agents/skills/motion-design/reference/troubleshooting.md": {
+      "sha256": "69e5aaeee108231d51187143ae3fce4db7a42936f10682908ca9462a008a047a",
+      "size": 2709
+    },
+    ".agents/skills/motion/SKILL.md": {
+      "sha256": "e9e9b884afe14b07c3c71fe707a5fa2407b2d645c75686402927496dd7e596f3",
+      "size": 4500
+    },
+    ".agents/skills/motion/best-practices/base-ui.md": {
+      "sha256": "cf1e79a446965c965a19a07e6c92527c8f661f87e0f16e321d4136fa7f1dd0de",
+      "size": 2737
+    },
+    ".agents/skills/motion/best-practices/index.md": {
+      "sha256": "88f80af1af8e88c0eb9ad85ad70dd5f61c002c3a96055a05eeafc58bb2430bdf",
+      "size": 2670
+    },
+    ".agents/skills/motion/best-practices/motion.md": {
+      "sha256": "92dee7c7b3d39ed02956102fbc0c9790e4f45a11b80bd5846a8336871b555d8a",
+      "size": 947
+    },
+    ".agents/skills/motion/best-practices/react.md": {
+      "sha256": "bdfbe7810d96e0b6ebfe36db3823027b1cc011285f7e2f60f7ad26c08bf4337f",
+      "size": 2115
+    },
+    ".agents/skills/motion/best-practices/vue.md": {
+      "sha256": "935e462042b5f02d086d680e757f29b5e0d3177781c3aab9cc3838eed88bd292",
+      "size": 1354
+    },
+    ".agents/skills/motion/codex/index.md": {
+      "sha256": "590c1d3891019a501b77389dde78d9cb259e66bcb87746e5c7d06d8414fccaf6",
+      "size": 6143
+    },
+    ".agents/skills/motion/css-spring/index.md": {
+      "sha256": "98ae2faa1c68b5d2527e1f6bb3d94a1fb0482d24099ad6f9c5cfcd3ebb430a85",
+      "size": 2545
+    },
+    ".agents/skills/motion/performance-audit/index.md": {
+      "sha256": "90cd82c9c1e492d529e30bfe457498cd83cf8bfd235ca5b9f0789e425248cbd4",
+      "size": 1652
+    },
+    ".agents/skills/motion/transition-preview/index.md": {
+      "sha256": "64962b3757518956e56599d31bea8f7bced604b4ab35a14e2e1cf3494aa87ace",
+      "size": 2240
+    },
+    ".agents/skills/remotion-best-practices/SKILL.md": {
+      "sha256": "efebb793237cdc427e49547ee7d9f6630e7ea6ce665bad50fd2a17b13beb23f4",
+      "size": 1900
+    },
+    ".agents/skills/remotion-best-practices/remotion-captions/REFERENCE.md": {
+      "sha256": "06b26c43fe6e324755f8b7431ee8a5159577c7beaf65371ecb5e849e5b5ff011",
+      "size": 991
+    },
+    ".agents/skills/remotion-best-practices/remotion-captions/display-captions.md": {
+      "sha256": "f27fcdedaf4776659bced60effaa356244391f1e52a67dccb3c4e662eae8f85d",
+      "size": 5493
+    },
+    ".agents/skills/remotion-best-practices/remotion-captions/import-srt-captions.md": {
+      "sha256": "cf5988aad6cba8192a81e5a030955ebf09e97473e0b5ce209e18973bf1a60633",
+      "size": 2269
+    },
+    ".agents/skills/remotion-best-practices/remotion-captions/transcribe-captions.md": {
+      "sha256": "ad1a62af35fe176b37ac4d98f796451ca66bcc9983207a9710ec3eca6e847738",
+      "size": 1897
+    },
+    ".agents/skills/remotion-best-practices/remotion-create/REFERENCE.md": {
+      "sha256": "df290cddb0c597b83516f8a4ac44747abd22d8bead2e492b6cddba473e919e7b",
+      "size": 1826
+    },
+    ".agents/skills/remotion-best-practices/remotion-create/tailwind.md": {
+      "sha256": "3ef07d3225d212af6a5076e62797a04d22d394434dcdbe2c050dab0d92806f36",
+      "size": 386
+    },
+    ".agents/skills/remotion-best-practices/remotion-create/video-layout.md": {
+      "sha256": "7ad94c22e3ad87671292ebb9b22f234c544d6c7fed13f8cb112b84b0f7077d4c",
+      "size": 498
+    },
+    ".agents/skills/remotion-best-practices/remotion-docs/REFERENCE.md": {
+      "sha256": "ac25773c92d639425deb112564151426830de22c5f576c46efb12bad01f18891",
+      "size": 1394
+    },
+    ".agents/skills/remotion-best-practices/remotion-interactivity/REFERENCE.md": {
+      "sha256": "3a72cfb83e3c6bcf8ff124a40caaefd1cd0c8c7b6a919f908f807bf328591512",
+      "size": 7494
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/REFERENCE.md": {
+      "sha256": "67250ff7aa0cb2dcbb280d4a00d53046f21bad1235be906e733634b42197e311",
+      "size": 1013
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/TECHNIQUE.md": {
+      "sha256": "09057e77b67dcda23eed8ddbf1b5bd44541a952f380913a00b3bfddaa39ab675",
+      "size": 3909
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/assets/CesiumFlythrough.tsx": {
+      "sha256": "4d4a90e373176e840ae76ae91533fcd9dc445407693b17091c376bb597dbcb10",
+      "size": 8912
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/assets/cesium-path.json": {
+      "sha256": "329621928df19d115f93c472a0b7ddbd2463cad502a10722d3c23579a7441d44",
+      "size": 12329
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/assets/city-path.json": {
+      "sha256": "3bb420736d196f726b856420b319e21a8d7fc24bca7e626d67e8b00b0544e630",
+      "size": 223
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/assets/example-Root.tsx": {
+      "sha256": "51c2df109015adc992b66b62f1ffc9801ad13f3dc47e4290de40cbe1b8e7809e",
+      "size": 923
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/assets/flight-path.ts": {
+      "sha256": "fab65d2d9cc0c4ca56f8a1422494d178c0e57f92a048a4720358d236ced980f0",
+      "size": 1240
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/assets/sample-river.geojson": {
+      "sha256": "2c9f6dd35ac4aed56580078046941235ed7e1a5d432a6549dbf7fea4e8d1e9be",
+      "size": 6409
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/references/3d-data-sources.md": {
+      "sha256": "23ac1acc576d49d599b33c812dc697b264ebe28849088c04e9827cb47b95275f",
+      "size": 1451
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/references/3d-flyover-architecture.md": {
+      "sha256": "09e1891cec991a246eec60dbcf76c4ea84c52e0bee14321471197703395d0a91",
+      "size": 7887
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/references/3d-troubleshooting.md": {
+      "sha256": "c803fe443f5bab1a50408f1f6aa6aded7913577eaefcb586b320c5a96c391bf2",
+      "size": 6741
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/cesium/scripts/prep-cesium-path.mjs": {
+      "sha256": "6dbb4d1ae3f5fef9f3f6eb23e2a6d58622750714bb847b088ff58a3533839463",
+      "size": 5561
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/mapbox/TECHNIQUE.md": {
+      "sha256": "921ef62afc1057e66423a9fae11d3f849d4b3dcfbfa7e9970a281e0d12f37c22",
+      "size": 13166
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/mapbox/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maplibre/TECHNIQUE.md": {
+      "sha256": "16f659a83e4dca4817c2cc93d5be2242f3aeada1fe2d6b31190dbde51ea21c0c",
+      "size": 13403
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maplibre/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/TECHNIQUE.md": {
+      "sha256": "72896873e63d675caaab765941dbb8d668f2790090a63b94e165f254b77ef887",
+      "size": 4518
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/assets/CountryLabel.tsx": {
+      "sha256": "6be8c7d5b3435c8d933f05394ce5e807da5fc9fe0565db94ccaee6ac049df137",
+      "size": 1849
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/assets/MapTilerVectorElement.ts": {
+      "sha256": "c8137792824323b9db997a88c3b923e8072cf2886cd90c38d84fdbbaad8258ed",
+      "size": 2183
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/assets/RiverReveal.tsx": {
+      "sha256": "c3091e23dfd80178788d05c0bc43b17aee12aa4236d658f1a97c5acfb29a0f92",
+      "size": 10830
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/assets/example-Root.tsx": {
+      "sha256": "e53677a7a207e37cbc04693eca8ccbab5f5f040efdc67a8b5c030c3913895e83",
+      "size": 1039
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/assets/sample-data/country-meta.json": {
+      "sha256": "470a76cc5a45e58e7e1702cd80f74fcacf9d6e8b1ef7b05011f69853a999ba7b",
+      "size": 333134
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/assets/sample-data/yarlung-flow.json": {
+      "sha256": "73a99e77a2ce31cb3ac39be8fe4775d53ecf127a56137b587fca090067dfbb96",
+      "size": 13082
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/assets/tokens.ts": {
+      "sha256": "29ae05eedb4988b5b8f2eb44d241b9c472533fb6ed05d4b33df3e71e0eabc71c",
+      "size": 1256
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/references/map-data-sources.md": {
+      "sha256": "b99680cbda8e7d70dc2cb1a8823f66247a21fc59d10c6dae0dd9ba24d2f15b80",
+      "size": 4798
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/references/map-explainer-architecture.md": {
+      "sha256": "e09de8a4d00ea9a82b992918ec4d0302ee18979b73e6c777d584a9743092344f",
+      "size": 6871
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/references/map-geo-prep.md": {
+      "sha256": "a97b1913f06195601889d4e090ad056db2fffb7b83918924c8cd92847b3829ef",
+      "size": 4098
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/maptiler/scripts/prep-geo.mjs": {
+      "sha256": "8265f56bd7c27a7d1a5fa528a77bbe1b29c6acc0e6730233583ca53e2632d490",
+      "size": 7553
+    },
+    ".agents/skills/remotion-best-practices/remotion-maps/techniques/static-map/TECHNIQUE.md": {
+      "sha256": "1d2b15f2e09cbb2b2ba0d5a6ec54ecf619b6696acced0b7bec7e010fbe1f1f03",
+      "size": 1151
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/3d.md": {
+      "sha256": "42cef6d68fb4a266ab495d35df0c60e03672b0d85c043f9b567f6aa7ff00dd0d",
+      "size": 2292
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/REFERENCE.md": {
+      "sha256": "e2ca069eee1ed7b6246c401384e9389b1bbecd28ed6f056acaaf6dd7ab8880c4",
+      "size": 10842
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/audio-visualization.md": {
+      "sha256": "0f4043de86639b6390e5ab888eaa66a24a10a8bd540f1443327cb88107eae1e9",
+      "size": 4892
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/audio.md": {
+      "sha256": "59b03efd20139ec344c850add031bf5784e744927f896f7437242178d22ab932",
+      "size": 3615
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/calculate-metadata.md": {
+      "sha256": "711743642a475970dcadddb71805939dd6ee8f348825818cc8897b6a01e1eef0",
+      "size": 3498
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/compositions.md": {
+      "sha256": "c99d15ce34ba5d5e2fdfdef7be715b8afdae106001bf234f7fceab15378ed6df",
+      "size": 3194
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/cropping.md": {
+      "sha256": "66b470cb09d2a93939b08340a3503b6cb7aef6682c62c7ef478ca802994d622d",
+      "size": 1102
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/effects.md": {
+      "sha256": "4f8abd99e3a89668aa1b6521d2cbde8a9b3d25aa9cb4ca2b135b96fe4e70fae7",
+      "size": 8904
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/embedding-videos.md": {
+      "sha256": "543ddf73e53bd750019b0283506d2cc30e9acb605c8628fa12fc9dd3edbc145c",
+      "size": 3505
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/ffmpeg.md": {
+      "sha256": "930d26b519b744e97f0c080608b55200b97ff15d6c366c6c5361bab56ff0e873",
+      "size": 1099
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/gifs.md": {
+      "sha256": "91e17126f7f0d57efdbdbaf34e0c234f874bd6aa66ec7854b80f17b0e32c3b22",
+      "size": 3783
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/google-fonts.md": {
+      "sha256": "fff29cf692ccab0cda263cd85255cf634dbb4d1d2d99e8372b01d9fedbd6cbfd",
+      "size": 1714
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/html-in-canvas.md": {
+      "sha256": "4d7b56652090dac50e77186e529930055a437cb01c3b6260577e85e0161ac2dd",
+      "size": 3680
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/images.md": {
+      "sha256": "3a82065698ad8d4818164882212215dfe4dc78f00145c87f47513a691550b72b",
+      "size": 1466
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/light-leaks.md": {
+      "sha256": "892c90340921b5aff5499588aadd23cf9fa79758d345f6ea3acf02ae0258ea73",
+      "size": 3212
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/local-fonts.md": {
+      "sha256": "fcad2a2e3a05419d4555c59a75454c4891455dbea91ad596c1095e2887d26a11",
+      "size": 1533
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/lottie.md": {
+      "sha256": "666268c8151d91042162f9efe3f02fe8c62b4c45053614eb1a9325c169428826",
+      "size": 1806
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/measuring-dom-nodes.md": {
+      "sha256": "a677b976eaf1cbc3cdd29cf29a3fd546c557b9a31e6b1fd70e473fde7e828733",
+      "size": 995
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/measuring-text.md": {
+      "sha256": "4bed81d1ea818db3975f878152dc24ecbc17e163117dcab10761dc8690c33f0c",
+      "size": 2801
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/multi-scene-video.md": {
+      "sha256": "00d4c4cdd515b69cee84b2e274393aafd4060612372aa629712c320427e6bd37",
+      "size": 2035
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/parameters.md": {
+      "sha256": "b002ac9959105b2b91da5786bcb20aa6ff4c6632ed37074b32711f248867dff0",
+      "size": 2403
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/REFERENCE.md": {
+      "sha256": "67250ff7aa0cb2dcbb280d4a00d53046f21bad1235be906e733634b42197e311",
+      "size": 1013
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/TECHNIQUE.md": {
+      "sha256": "09057e77b67dcda23eed8ddbf1b5bd44541a952f380913a00b3bfddaa39ab675",
+      "size": 3909
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/assets/CesiumFlythrough.tsx": {
+      "sha256": "4d4a90e373176e840ae76ae91533fcd9dc445407693b17091c376bb597dbcb10",
+      "size": 8912
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/assets/cesium-path.json": {
+      "sha256": "329621928df19d115f93c472a0b7ddbd2463cad502a10722d3c23579a7441d44",
+      "size": 12329
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/assets/city-path.json": {
+      "sha256": "3bb420736d196f726b856420b319e21a8d7fc24bca7e626d67e8b00b0544e630",
+      "size": 223
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/assets/example-Root.tsx": {
+      "sha256": "51c2df109015adc992b66b62f1ffc9801ad13f3dc47e4290de40cbe1b8e7809e",
+      "size": 923
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/assets/flight-path.ts": {
+      "sha256": "fab65d2d9cc0c4ca56f8a1422494d178c0e57f92a048a4720358d236ced980f0",
+      "size": 1240
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/assets/sample-river.geojson": {
+      "sha256": "2c9f6dd35ac4aed56580078046941235ed7e1a5d432a6549dbf7fea4e8d1e9be",
+      "size": 6409
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/references/3d-data-sources.md": {
+      "sha256": "23ac1acc576d49d599b33c812dc697b264ebe28849088c04e9827cb47b95275f",
+      "size": 1451
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/references/3d-flyover-architecture.md": {
+      "sha256": "09e1891cec991a246eec60dbcf76c4ea84c52e0bee14321471197703395d0a91",
+      "size": 7887
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/references/3d-troubleshooting.md": {
+      "sha256": "c803fe443f5bab1a50408f1f6aa6aded7913577eaefcb586b320c5a96c391bf2",
+      "size": 6741
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/cesium/scripts/prep-cesium-path.mjs": {
+      "sha256": "6dbb4d1ae3f5fef9f3f6eb23e2a6d58622750714bb847b088ff58a3533839463",
+      "size": 5561
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/mapbox/TECHNIQUE.md": {
+      "sha256": "921ef62afc1057e66423a9fae11d3f849d4b3dcfbfa7e9970a281e0d12f37c22",
+      "size": 13166
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/mapbox/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maplibre/TECHNIQUE.md": {
+      "sha256": "16f659a83e4dca4817c2cc93d5be2242f3aeada1fe2d6b31190dbde51ea21c0c",
+      "size": 13403
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maplibre/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/TECHNIQUE.md": {
+      "sha256": "72896873e63d675caaab765941dbb8d668f2790090a63b94e165f254b77ef887",
+      "size": 4518
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/assets/CountryLabel.tsx": {
+      "sha256": "6be8c7d5b3435c8d933f05394ce5e807da5fc9fe0565db94ccaee6ac049df137",
+      "size": 1849
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/assets/MapTilerVectorElement.ts": {
+      "sha256": "c8137792824323b9db997a88c3b923e8072cf2886cd90c38d84fdbbaad8258ed",
+      "size": 2183
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/assets/RiverReveal.tsx": {
+      "sha256": "c3091e23dfd80178788d05c0bc43b17aee12aa4236d658f1a97c5acfb29a0f92",
+      "size": 10830
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/assets/example-Root.tsx": {
+      "sha256": "e53677a7a207e37cbc04693eca8ccbab5f5f040efdc67a8b5c030c3913895e83",
+      "size": 1039
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/assets/sample-data/country-meta.json": {
+      "sha256": "470a76cc5a45e58e7e1702cd80f74fcacf9d6e8b1ef7b05011f69853a999ba7b",
+      "size": 333134
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/assets/sample-data/yarlung-flow.json": {
+      "sha256": "73a99e77a2ce31cb3ac39be8fe4775d53ecf127a56137b587fca090067dfbb96",
+      "size": 13082
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/assets/tokens.ts": {
+      "sha256": "29ae05eedb4988b5b8f2eb44d241b9c472533fb6ed05d4b33df3e71e0eabc71c",
+      "size": 1256
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/references/map-data-sources.md": {
+      "sha256": "b99680cbda8e7d70dc2cb1a8823f66247a21fc59d10c6dae0dd9ba24d2f15b80",
+      "size": 4798
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/references/map-explainer-architecture.md": {
+      "sha256": "e09de8a4d00ea9a82b992918ec4d0302ee18979b73e6c777d584a9743092344f",
+      "size": 6871
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/references/map-geo-prep.md": {
+      "sha256": "a97b1913f06195601889d4e090ad056db2fffb7b83918924c8cd92847b3829ef",
+      "size": 4098
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/maptiler/scripts/prep-geo.mjs": {
+      "sha256": "8265f56bd7c27a7d1a5fa528a77bbe1b29c6acc0e6730233583ca53e2632d490",
+      "size": 7553
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/remotion-maps/techniques/static-map/TECHNIQUE.md": {
+      "sha256": "6fcb61a66084f4037a2fa0deb988500dd18e4ae7fa3c6923fb1142c1e521e9be",
+      "size": 1138
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/sequencing.md": {
+      "sha256": "64784498f40db7b32c032dc648282caf5a02082d4d7a6667d8b7a1465f341dc4",
+      "size": 3829
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/sfx.md": {
+      "sha256": "5397a44c2d7678bf642d746b7edbf4f51e10c31ac99c8054da4a4a7d70365dcd",
+      "size": 1806
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/silence-detection.md": {
+      "sha256": "ed95d46d078f3749b87ec3c6e25c1c5b0c8485fdcb41156d649266369748fdc2",
+      "size": 2548
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/text-highlights.md": {
+      "sha256": "70773952286e1aec2ba02f2f54d2d776dad7799d87744df03b0c75637ebfb21f",
+      "size": 1851
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/timing.md": {
+      "sha256": "48047e758b96aea519916479ede62b832bf51f982924978e091c37f569ab4bac",
+      "size": 3315
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/transitions.md": {
+      "sha256": "41d69d0b5c862bcada825a68413064837fd4fcd55f81ad59492931db982a08ad",
+      "size": 6882
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/video-editing.md": {
+      "sha256": "c43e1b419b0ea32c07b14ff6a17fb3bccb6acea7317de4051827ef0316f4262a",
+      "size": 3404
+    },
+    ".agents/skills/remotion-best-practices/remotion-markup/voiceover.md": {
+      "sha256": "28350a793939b6170c535a219b2c4702378346ea8485540f980da5ccc5fa19fc",
+      "size": 3342
+    },
+    ".agents/skills/remotion-best-practices/remotion-multimedia/REFERENCE.md": {
+      "sha256": "c1ecaf7f4f6e12e843b5147bdcb5abb47296d6e2d85d020f94ae7967cda6d67f",
+      "size": 753
+    },
+    ".agents/skills/remotion-best-practices/remotion-multimedia/get-audio-duration.md": {
+      "sha256": "720a5346ae79555e933498995d5cb04d1bfbeeee7232436d8835c3ec17d46281",
+      "size": 1357
+    },
+    ".agents/skills/remotion-best-practices/remotion-multimedia/get-video-dimensions.md": {
+      "sha256": "ed1bb6e0ae742e4bfcb18e7c50af23fc782a9d699b90d367250437c7f6da7304",
+      "size": 1626
+    },
+    ".agents/skills/remotion-best-practices/remotion-multimedia/get-video-duration.md": {
+      "sha256": "ed594a0d73a5274483f21c30e612aba57089d5bbc5437041aa32d07a8e789fd9",
+      "size": 1377
+    },
+    ".agents/skills/remotion-best-practices/remotion-render/REFERENCE.md": {
+      "sha256": "9ff3aab3c7d1b5c9e741add05a2375ce4a6ce6123eff0cf192debbb6652533e7",
+      "size": 488
+    },
+    ".agents/skills/remotion-best-practices/remotion-render/transparent-videos.md": {
+      "sha256": "394ccda476e084522d544471fee92d7c65672e2cbaf2201a785c3dd5c74f31a4",
+      "size": 2267
+    },
+    ".agents/skills/remotion-best-practices/remotion-saas/REFERENCE.md": {
+      "sha256": "f82d69a2e9fb41033356fccec73252b1877602f54a7a09bdfca51cad17124bda",
+      "size": 1108
+    },
+    ".agents/skills/remotion-best-practices/remotion-saas/framework.md": {
+      "sha256": "d1071a392f88fbafde3166547e1000b18a920e89ab8433cd1783edc8cfadc151",
+      "size": 1188
+    },
+    ".agents/skills/remotion-best-practices/remotion-saas/player.md": {
+      "sha256": "cc2f2944f1158d6ff1ddfc421a6a790f99ae86f54bbe0f0b18ef8bc7485e1b05",
+      "size": 942
+    },
+    ".agents/skills/remotion-best-practices/remotion-saas/rendering.md": {
+      "sha256": "b2f30b53e0191ef9e7f2da7360b36c0c5448ab5bdcf55575e1f7e55c5bbd257f",
+      "size": 3343
+    },
+    ".agents/skills/remotion-best-practices/remotion-upgrade/REFERENCE.md": {
+      "sha256": "3180e0ffc25e0ee99967a5b6bc273a01db2867d7156f6865f1b89514a655fdfe",
+      "size": 1580
+    },
+    ".agents/skills/remotion-captions/SKILL.md": {
+      "sha256": "06b26c43fe6e324755f8b7431ee8a5159577c7beaf65371ecb5e849e5b5ff011",
+      "size": 991
+    },
+    ".agents/skills/remotion-captions/display-captions.md": {
+      "sha256": "f27fcdedaf4776659bced60effaa356244391f1e52a67dccb3c4e662eae8f85d",
+      "size": 5493
+    },
+    ".agents/skills/remotion-captions/import-srt-captions.md": {
+      "sha256": "cf5988aad6cba8192a81e5a030955ebf09e97473e0b5ce209e18973bf1a60633",
+      "size": 2269
+    },
+    ".agents/skills/remotion-captions/transcribe-captions.md": {
+      "sha256": "ad1a62af35fe176b37ac4d98f796451ca66bcc9983207a9710ec3eca6e847738",
+      "size": 1897
+    },
+    ".agents/skills/remotion-create/SKILL.md": {
+      "sha256": "007f3a4f90dac83862ca64f2a9582a08f1ae11222abc66c6b71a30ae4180fdab",
+      "size": 1866
+    },
+    ".agents/skills/remotion-create/tailwind.md": {
+      "sha256": "3ef07d3225d212af6a5076e62797a04d22d394434dcdbe2c050dab0d92806f36",
+      "size": 386
+    },
+    ".agents/skills/remotion-create/video-layout.md": {
+      "sha256": "7ad94c22e3ad87671292ebb9b22f234c544d6c7fed13f8cb112b84b0f7077d4c",
+      "size": 498
+    },
+    ".agents/skills/remotion-docs/SKILL.md": {
+      "sha256": "0821eb90526eea63c7094a050bd3687e70b3a907a6014a09f94d2b34c23cb38f",
+      "size": 1418
+    },
+    ".agents/skills/remotion-interactivity/SKILL.md": {
+      "sha256": "3a72cfb83e3c6bcf8ff124a40caaefd1cd0c8c7b6a919f908f807bf328591512",
+      "size": 7494
+    },
+    ".agents/skills/remotion-maps/SKILL.md": {
+      "sha256": "67250ff7aa0cb2dcbb280d4a00d53046f21bad1235be906e733634b42197e311",
+      "size": 1013
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/TECHNIQUE.md": {
+      "sha256": "09057e77b67dcda23eed8ddbf1b5bd44541a952f380913a00b3bfddaa39ab675",
+      "size": 3909
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/assets/CesiumFlythrough.tsx": {
+      "sha256": "4d4a90e373176e840ae76ae91533fcd9dc445407693b17091c376bb597dbcb10",
+      "size": 8912
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/assets/cesium-path.json": {
+      "sha256": "329621928df19d115f93c472a0b7ddbd2463cad502a10722d3c23579a7441d44",
+      "size": 12329
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/assets/city-path.json": {
+      "sha256": "3bb420736d196f726b856420b319e21a8d7fc24bca7e626d67e8b00b0544e630",
+      "size": 223
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/assets/example-Root.tsx": {
+      "sha256": "51c2df109015adc992b66b62f1ffc9801ad13f3dc47e4290de40cbe1b8e7809e",
+      "size": 923
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/assets/flight-path.ts": {
+      "sha256": "fab65d2d9cc0c4ca56f8a1422494d178c0e57f92a048a4720358d236ced980f0",
+      "size": 1240
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/assets/sample-river.geojson": {
+      "sha256": "2c9f6dd35ac4aed56580078046941235ed7e1a5d432a6549dbf7fea4e8d1e9be",
+      "size": 6409
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/references/3d-data-sources.md": {
+      "sha256": "23ac1acc576d49d599b33c812dc697b264ebe28849088c04e9827cb47b95275f",
+      "size": 1451
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/references/3d-flyover-architecture.md": {
+      "sha256": "09e1891cec991a246eec60dbcf76c4ea84c52e0bee14321471197703395d0a91",
+      "size": 7887
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/references/3d-troubleshooting.md": {
+      "sha256": "c803fe443f5bab1a50408f1f6aa6aded7913577eaefcb586b320c5a96c391bf2",
+      "size": 6741
+    },
+    ".agents/skills/remotion-maps/techniques/cesium/scripts/prep-cesium-path.mjs": {
+      "sha256": "6dbb4d1ae3f5fef9f3f6eb23e2a6d58622750714bb847b088ff58a3533839463",
+      "size": 5561
+    },
+    ".agents/skills/remotion-maps/techniques/mapbox/TECHNIQUE.md": {
+      "sha256": "921ef62afc1057e66423a9fae11d3f849d4b3dcfbfa7e9970a281e0d12f37c22",
+      "size": 13166
+    },
+    ".agents/skills/remotion-maps/techniques/mapbox/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-maps/techniques/maplibre/TECHNIQUE.md": {
+      "sha256": "16f659a83e4dca4817c2cc93d5be2242f3aeada1fe2d6b31190dbde51ea21c0c",
+      "size": 13403
+    },
+    ".agents/skills/remotion-maps/techniques/maplibre/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/TECHNIQUE.md": {
+      "sha256": "72896873e63d675caaab765941dbb8d668f2790090a63b94e165f254b77ef887",
+      "size": 4518
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/assets/CountryLabel.tsx": {
+      "sha256": "6be8c7d5b3435c8d933f05394ce5e807da5fc9fe0565db94ccaee6ac049df137",
+      "size": 1849
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/assets/MapTilerVectorElement.ts": {
+      "sha256": "c8137792824323b9db997a88c3b923e8072cf2886cd90c38d84fdbbaad8258ed",
+      "size": 2183
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/assets/RiverReveal.tsx": {
+      "sha256": "c3091e23dfd80178788d05c0bc43b17aee12aa4236d658f1a97c5acfb29a0f92",
+      "size": 10830
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/assets/example-Root.tsx": {
+      "sha256": "e53677a7a207e37cbc04693eca8ccbab5f5f040efdc67a8b5c030c3913895e83",
+      "size": 1039
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/assets/sample-data/country-meta.json": {
+      "sha256": "470a76cc5a45e58e7e1702cd80f74fcacf9d6e8b1ef7b05011f69853a999ba7b",
+      "size": 333134
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/assets/sample-data/yarlung-flow.json": {
+      "sha256": "73a99e77a2ce31cb3ac39be8fe4775d53ecf127a56137b587fca090067dfbb96",
+      "size": 13082
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/assets/tokens.ts": {
+      "sha256": "29ae05eedb4988b5b8f2eb44d241b9c472533fb6ed05d4b33df3e71e0eabc71c",
+      "size": 1256
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/references/map-data-sources.md": {
+      "sha256": "b99680cbda8e7d70dc2cb1a8823f66247a21fc59d10c6dae0dd9ba24d2f15b80",
+      "size": 4798
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/references/map-explainer-architecture.md": {
+      "sha256": "e09de8a4d00ea9a82b992918ec4d0302ee18979b73e6c777d584a9743092344f",
+      "size": 6871
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/references/map-geo-prep.md": {
+      "sha256": "a97b1913f06195601889d4e090ad056db2fffb7b83918924c8cd92847b3829ef",
+      "size": 4098
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-maps/techniques/maptiler/scripts/prep-geo.mjs": {
+      "sha256": "8265f56bd7c27a7d1a5fa528a77bbe1b29c6acc0e6730233583ca53e2632d490",
+      "size": 7553
+    },
+    ".agents/skills/remotion-maps/techniques/static-map/TECHNIQUE.md": {
+      "sha256": "6499f759352fa26b4b76495965d6b0859ccd34c29cdd26fbf2402906af77d15c",
+      "size": 1143
+    },
+    ".agents/skills/remotion-markup/3d.md": {
+      "sha256": "42cef6d68fb4a266ab495d35df0c60e03672b0d85c043f9b567f6aa7ff00dd0d",
+      "size": 2292
+    },
+    ".agents/skills/remotion-markup/SKILL.md": {
+      "sha256": "170b9da287fd958853991f89590189a2c0f1a95d43ebc087e3b27a4e9dc5f58e",
+      "size": 10858
+    },
+    ".agents/skills/remotion-markup/audio-visualization.md": {
+      "sha256": "0f4043de86639b6390e5ab888eaa66a24a10a8bd540f1443327cb88107eae1e9",
+      "size": 4892
+    },
+    ".agents/skills/remotion-markup/audio.md": {
+      "sha256": "59b03efd20139ec344c850add031bf5784e744927f896f7437242178d22ab932",
+      "size": 3615
+    },
+    ".agents/skills/remotion-markup/calculate-metadata.md": {
+      "sha256": "711743642a475970dcadddb71805939dd6ee8f348825818cc8897b6a01e1eef0",
+      "size": 3498
+    },
+    ".agents/skills/remotion-markup/compositions.md": {
+      "sha256": "c99d15ce34ba5d5e2fdfdef7be715b8afdae106001bf234f7fceab15378ed6df",
+      "size": 3194
+    },
+    ".agents/skills/remotion-markup/cropping.md": {
+      "sha256": "b862b4a98e412870ab13172e52c7c0d73c7c17ebbf728046168dfd21240dce94",
+      "size": 1098
+    },
+    ".agents/skills/remotion-markup/effects.md": {
+      "sha256": "4f8abd99e3a89668aa1b6521d2cbde8a9b3d25aa9cb4ca2b135b96fe4e70fae7",
+      "size": 8904
+    },
+    ".agents/skills/remotion-markup/embedding-videos.md": {
+      "sha256": "543ddf73e53bd750019b0283506d2cc30e9acb605c8628fa12fc9dd3edbc145c",
+      "size": 3505
+    },
+    ".agents/skills/remotion-markup/ffmpeg.md": {
+      "sha256": "930d26b519b744e97f0c080608b55200b97ff15d6c366c6c5361bab56ff0e873",
+      "size": 1099
+    },
+    ".agents/skills/remotion-markup/gifs.md": {
+      "sha256": "91e17126f7f0d57efdbdbaf34e0c234f874bd6aa66ec7854b80f17b0e32c3b22",
+      "size": 3783
+    },
+    ".agents/skills/remotion-markup/google-fonts.md": {
+      "sha256": "fff29cf692ccab0cda263cd85255cf634dbb4d1d2d99e8372b01d9fedbd6cbfd",
+      "size": 1714
+    },
+    ".agents/skills/remotion-markup/html-in-canvas.md": {
+      "sha256": "4d7b56652090dac50e77186e529930055a437cb01c3b6260577e85e0161ac2dd",
+      "size": 3680
+    },
+    ".agents/skills/remotion-markup/images.md": {
+      "sha256": "3a82065698ad8d4818164882212215dfe4dc78f00145c87f47513a691550b72b",
+      "size": 1466
+    },
+    ".agents/skills/remotion-markup/light-leaks.md": {
+      "sha256": "892c90340921b5aff5499588aadd23cf9fa79758d345f6ea3acf02ae0258ea73",
+      "size": 3212
+    },
+    ".agents/skills/remotion-markup/local-fonts.md": {
+      "sha256": "fcad2a2e3a05419d4555c59a75454c4891455dbea91ad596c1095e2887d26a11",
+      "size": 1533
+    },
+    ".agents/skills/remotion-markup/lottie.md": {
+      "sha256": "666268c8151d91042162f9efe3f02fe8c62b4c45053614eb1a9325c169428826",
+      "size": 1806
+    },
+    ".agents/skills/remotion-markup/measuring-dom-nodes.md": {
+      "sha256": "a677b976eaf1cbc3cdd29cf29a3fd546c557b9a31e6b1fd70e473fde7e828733",
+      "size": 995
+    },
+    ".agents/skills/remotion-markup/measuring-text.md": {
+      "sha256": "4bed81d1ea818db3975f878152dc24ecbc17e163117dcab10761dc8690c33f0c",
+      "size": 2801
+    },
+    ".agents/skills/remotion-markup/multi-scene-video.md": {
+      "sha256": "00d4c4cdd515b69cee84b2e274393aafd4060612372aa629712c320427e6bd37",
+      "size": 2035
+    },
+    ".agents/skills/remotion-markup/parameters.md": {
+      "sha256": "b002ac9959105b2b91da5786bcb20aa6ff4c6632ed37074b32711f248867dff0",
+      "size": 2403
+    },
+    ".agents/skills/remotion-markup/remotion-maps/REFERENCE.md": {
+      "sha256": "67250ff7aa0cb2dcbb280d4a00d53046f21bad1235be906e733634b42197e311",
+      "size": 1013
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/TECHNIQUE.md": {
+      "sha256": "09057e77b67dcda23eed8ddbf1b5bd44541a952f380913a00b3bfddaa39ab675",
+      "size": 3909
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/assets/CesiumFlythrough.tsx": {
+      "sha256": "4d4a90e373176e840ae76ae91533fcd9dc445407693b17091c376bb597dbcb10",
+      "size": 8912
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/assets/cesium-path.json": {
+      "sha256": "329621928df19d115f93c472a0b7ddbd2463cad502a10722d3c23579a7441d44",
+      "size": 12329
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/assets/city-path.json": {
+      "sha256": "3bb420736d196f726b856420b319e21a8d7fc24bca7e626d67e8b00b0544e630",
+      "size": 223
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/assets/example-Root.tsx": {
+      "sha256": "51c2df109015adc992b66b62f1ffc9801ad13f3dc47e4290de40cbe1b8e7809e",
+      "size": 923
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/assets/flight-path.ts": {
+      "sha256": "fab65d2d9cc0c4ca56f8a1422494d178c0e57f92a048a4720358d236ced980f0",
+      "size": 1240
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/assets/sample-river.geojson": {
+      "sha256": "2c9f6dd35ac4aed56580078046941235ed7e1a5d432a6549dbf7fea4e8d1e9be",
+      "size": 6409
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/references/3d-data-sources.md": {
+      "sha256": "23ac1acc576d49d599b33c812dc697b264ebe28849088c04e9827cb47b95275f",
+      "size": 1451
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/references/3d-flyover-architecture.md": {
+      "sha256": "09e1891cec991a246eec60dbcf76c4ea84c52e0bee14321471197703395d0a91",
+      "size": 7887
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/references/3d-troubleshooting.md": {
+      "sha256": "c803fe443f5bab1a50408f1f6aa6aded7913577eaefcb586b320c5a96c391bf2",
+      "size": 6741
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/cesium/scripts/prep-cesium-path.mjs": {
+      "sha256": "6dbb4d1ae3f5fef9f3f6eb23e2a6d58622750714bb847b088ff58a3533839463",
+      "size": 5561
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/mapbox/TECHNIQUE.md": {
+      "sha256": "921ef62afc1057e66423a9fae11d3f849d4b3dcfbfa7e9970a281e0d12f37c22",
+      "size": 13166
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/mapbox/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maplibre/TECHNIQUE.md": {
+      "sha256": "16f659a83e4dca4817c2cc93d5be2242f3aeada1fe2d6b31190dbde51ea21c0c",
+      "size": 13403
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maplibre/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/TECHNIQUE.md": {
+      "sha256": "72896873e63d675caaab765941dbb8d668f2790090a63b94e165f254b77ef887",
+      "size": 4518
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/assets/CountryLabel.tsx": {
+      "sha256": "6be8c7d5b3435c8d933f05394ce5e807da5fc9fe0565db94ccaee6ac049df137",
+      "size": 1849
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/assets/MapTilerVectorElement.ts": {
+      "sha256": "c8137792824323b9db997a88c3b923e8072cf2886cd90c38d84fdbbaad8258ed",
+      "size": 2183
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/assets/RiverReveal.tsx": {
+      "sha256": "c3091e23dfd80178788d05c0bc43b17aee12aa4236d658f1a97c5acfb29a0f92",
+      "size": 10830
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/assets/example-Root.tsx": {
+      "sha256": "e53677a7a207e37cbc04693eca8ccbab5f5f040efdc67a8b5c030c3913895e83",
+      "size": 1039
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/assets/sample-data/country-meta.json": {
+      "sha256": "470a76cc5a45e58e7e1702cd80f74fcacf9d6e8b1ef7b05011f69853a999ba7b",
+      "size": 333134
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/assets/sample-data/yarlung-flow.json": {
+      "sha256": "73a99e77a2ce31cb3ac39be8fe4775d53ecf127a56137b587fca090067dfbb96",
+      "size": 13082
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/assets/tokens.ts": {
+      "sha256": "29ae05eedb4988b5b8f2eb44d241b9c472533fb6ed05d4b33df3e71e0eabc71c",
+      "size": 1256
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/references/map-data-sources.md": {
+      "sha256": "b99680cbda8e7d70dc2cb1a8823f66247a21fc59d10c6dae0dd9ba24d2f15b80",
+      "size": 4798
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/references/map-explainer-architecture.md": {
+      "sha256": "e09de8a4d00ea9a82b992918ec4d0302ee18979b73e6c777d584a9743092344f",
+      "size": 6871
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/references/map-geo-prep.md": {
+      "sha256": "a97b1913f06195601889d4e090ad056db2fffb7b83918924c8cd92847b3829ef",
+      "size": 4098
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/references/render-stability.md": {
+      "sha256": "96650329df3a870743b6255123e93dba866a37eb1ab1d07c8275efff0d4dead9",
+      "size": 3639
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/maptiler/scripts/prep-geo.mjs": {
+      "sha256": "8265f56bd7c27a7d1a5fa528a77bbe1b29c6acc0e6730233583ca53e2632d490",
+      "size": 7553
+    },
+    ".agents/skills/remotion-markup/remotion-maps/techniques/static-map/TECHNIQUE.md": {
+      "sha256": "7d04710ec881b2e5caee6691e684f2552f49555089399d859ebe1a98e989d482",
+      "size": 1130
+    },
+    ".agents/skills/remotion-markup/sequencing.md": {
+      "sha256": "64784498f40db7b32c032dc648282caf5a02082d4d7a6667d8b7a1465f341dc4",
+      "size": 3829
+    },
+    ".agents/skills/remotion-markup/sfx.md": {
+      "sha256": "5397a44c2d7678bf642d746b7edbf4f51e10c31ac99c8054da4a4a7d70365dcd",
+      "size": 1806
+    },
+    ".agents/skills/remotion-markup/silence-detection.md": {
+      "sha256": "ed95d46d078f3749b87ec3c6e25c1c5b0c8485fdcb41156d649266369748fdc2",
+      "size": 2548
+    },
+    ".agents/skills/remotion-markup/text-highlights.md": {
+      "sha256": "e6210a022785fd6f93a4a1ed75b600da18bc3baff20eef9e656e1f48267bebfe",
+      "size": 1847
+    },
+    ".agents/skills/remotion-markup/timing.md": {
+      "sha256": "48047e758b96aea519916479ede62b832bf51f982924978e091c37f569ab4bac",
+      "size": 3315
+    },
+    ".agents/skills/remotion-markup/transitions.md": {
+      "sha256": "41d69d0b5c862bcada825a68413064837fd4fcd55f81ad59492931db982a08ad",
+      "size": 6882
+    },
+    ".agents/skills/remotion-markup/video-editing.md": {
+      "sha256": "c43e1b419b0ea32c07b14ff6a17fb3bccb6acea7317de4051827ef0316f4262a",
+      "size": 3404
+    },
+    ".agents/skills/remotion-markup/voiceover.md": {
+      "sha256": "28350a793939b6170c535a219b2c4702378346ea8485540f980da5ccc5fa19fc",
+      "size": 3342
+    },
+    ".agents/skills/remotion-multimedia/SKILL.md": {
+      "sha256": "c1ecaf7f4f6e12e843b5147bdcb5abb47296d6e2d85d020f94ae7967cda6d67f",
+      "size": 753
+    },
+    ".agents/skills/remotion-multimedia/get-audio-duration.md": {
+      "sha256": "720a5346ae79555e933498995d5cb04d1bfbeeee7232436d8835c3ec17d46281",
+      "size": 1357
+    },
+    ".agents/skills/remotion-multimedia/get-video-dimensions.md": {
+      "sha256": "ed1bb6e0ae742e4bfcb18e7c50af23fc782a9d699b90d367250437c7f6da7304",
+      "size": 1626
+    },
+    ".agents/skills/remotion-multimedia/get-video-duration.md": {
+      "sha256": "ed594a0d73a5274483f21c30e612aba57089d5bbc5437041aa32d07a8e789fd9",
+      "size": 1377
+    },
+    ".agents/skills/remotion-render/SKILL.md": {
+      "sha256": "9ff3aab3c7d1b5c9e741add05a2375ce4a6ce6123eff0cf192debbb6652533e7",
+      "size": 488
+    },
+    ".agents/skills/remotion-render/transparent-videos.md": {
+      "sha256": "394ccda476e084522d544471fee92d7c65672e2cbaf2201a785c3dd5c74f31a4",
+      "size": 2267
+    },
+    ".agents/skills/remotion-saas/SKILL.md": {
+      "sha256": "f82d69a2e9fb41033356fccec73252b1877602f54a7a09bdfca51cad17124bda",
+      "size": 1108
+    },
+    ".agents/skills/remotion-saas/framework.md": {
+      "sha256": "d1071a392f88fbafde3166547e1000b18a920e89ab8433cd1783edc8cfadc151",
+      "size": 1188
+    },
+    ".agents/skills/remotion-saas/player.md": {
+      "sha256": "cc2f2944f1158d6ff1ddfc421a6a790f99ae86f54bbe0f0b18ef8bc7485e1b05",
+      "size": 942
+    },
+    ".agents/skills/remotion-saas/rendering.md": {
+      "sha256": "b2f30b53e0191ef9e7f2da7360b36c0c5448ab5bdcf55575e1f7e55c5bbd257f",
+      "size": 3343
+    },
+    ".agents/skills/remotion-upgrade/SKILL.md": {
+      "sha256": "3180e0ffc25e0ee99967a5b6bc273a01db2867d7156f6865f1b89514a655fdfe",
+      "size": 1580
+    },
+    ".claude/skills/facebook-reel-downloader": {
+      "symlink": "../../skills/facebook-reel-downloader"
+    },
+    ".claude/skills/fix-omnivoice": {
+      "symlink": "../../skills/fix-omnivoice"
+    },
+    ".claude/skills/free-tts": {
+      "symlink": "../../skills/free-tts"
+    },
+    ".claude/skills/motion-design": {
+      "symlink": "../../.agents/skills/motion-design"
+    },
+    ".claude/skills/remotion-best-practices": {
+      "symlink": "../../.agents/skills/remotion-best-practices"
+    },
+    ".claude/skills/remotion-captions": {
+      "symlink": "../../.agents/skills/remotion-captions"
+    },
+    ".claude/skills/remotion-create": {
+      "symlink": "../../.agents/skills/remotion-create"
+    },
+    ".claude/skills/remotion-docs": {
+      "symlink": "../../.agents/skills/remotion-docs"
+    },
+    ".claude/skills/remotion-interactivity": {
+      "symlink": "../../.agents/skills/remotion-interactivity"
+    },
+    ".claude/skills/remotion-maps": {
+      "symlink": "../../.agents/skills/remotion-maps"
+    },
+    ".claude/skills/remotion-markup": {
+      "symlink": "../../.agents/skills/remotion-markup"
+    },
+    ".claude/skills/remotion-multimedia": {
+      "symlink": "../../.agents/skills/remotion-multimedia"
+    },
+    ".claude/skills/remotion-render": {
+      "symlink": "../../.agents/skills/remotion-render"
+    },
+    ".claude/skills/remotion-saas": {
+      "symlink": "../../.agents/skills/remotion-saas"
+    },
+    ".claude/skills/remotion-upgrade": {
+      "symlink": "../../.agents/skills/remotion-upgrade"
+    },
+    ".claude/skills/subtitle-screen-splitter": {
+      "symlink": "../../skills/subtitle-screen-splitter"
+    },
+    ".claude/skills/video-audio-extractor": {
+      "symlink": "../../skills/video-audio-extractor"
+    },
+    ".claude/skills/video-compress-under-25mb": {
+      "symlink": "../../skills/video-compress-under-25mb"
+    },
+    ".claude/skills/video-downloader": {
+      "symlink": "../../skills/video-downloader"
+    },
+    ".claude/skills/video-job-manager": {
+      "symlink": "../../skills/video-job-manager"
+    },
+    ".claude/skills/video-storyboard-contact-sheet": {
+      "symlink": "../../skills/video-storyboard-contact-sheet"
+    },
+    ".claude/skills/word-timestamps-extractor": {
+      "symlink": "../../skills/word-timestamps-extractor"
+    },
+    ".cursor/rules/file-delivery-format.mdc": {
+      "sha256": "a24a8e12ff807e775b413f0915828012b3e42cc461c5211291abc189c40ce61a",
+      "size": 1168
+    },
+    ".gitignore": {
+      "sha256": "ea0a187c898ec41bfa04fd51ebcf751ee5b39e1a1f3c3c395a281f4ec0080910",
+      "size": 2894
+    },
+    ".junie/skills/remotion-best-practices": {
+      "symlink": "../../.agents/skills/remotion-best-practices"
+    },
+    "AGENTS.md": {
+      "sha256": "f43eaddfd12493b5283fc9623e39f5670d6af867c37ba430d610b9eed58cb8c7",
+      "size": 12330
+    },
+    "CONTRIBUTING.md": {
+      "sha256": "efa93e48e34088bd169946724df220355271f8ccaafce45b73709b83478c8720",
+      "size": 3358
+    },
+    "LICENSE": {
+      "sha256": "1680534195e2d30e31ab27f256aa1851ca65eb57d7fc48e128af008e07261d17",
+      "size": 4012
+    },
+    "README.md": {
+      "sha256": "7470924e0f33021f834f04436136e2cc055c1102c06f67c5d3c4c7b651f96ff6",
+      "size": 4525
+    },
+    "VERSION": {
+      "sha256": "93a477dc6cf8dda20f20acc1c3eb87bb0ae624f28764d77b607a5c1e6df3bc84",
+      "size": 36
+    },
+    "customs/.gitkeep": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "env.example": {
+      "sha256": "4391168306725c9c6151e0cf6bc026b25a7d43710cf32e88c8343b247bcd7646",
+      "size": 511
+    },
+    "logo-dark.svg": {
+      "sha256": "bd01bff86b620a5f45776e8e2415e5ebd8bf08dd44a7e5d76426a3faf5781d9c",
+      "size": 7162
+    },
+    "package-lock.json": {
+      "sha256": "d851c6c3269b77ae526e52cf06752a5c2463fe8f9a8434d1770a734e4cf0c1e2",
+      "size": 248951
+    },
+    "package.json": {
+      "sha256": "c879eac86265451005947d023883dc2f446cc8b532d76ebb5b5dc2b562652900",
+      "size": 1417
+    },
+    "packages/subtitles/README.md": {
+      "sha256": "faa72ef299e7c9edc60eddb064703dd35b62719742633b7b1cbc7300b53a9bb7",
+      "size": 1888
+    },
+    "packages/subtitles/package.json": {
+      "sha256": "afadb94cf28fafb7947b0660b71300261dd880b927dc4b654f057c43b29656b8",
+      "size": 463
+    },
+    "packages/subtitles/src/index.ts": {
+      "sha256": "f75297aff12b247da45eda791acc7424fa2a085cd38a75d74dd2043aa93ed6dd",
+      "size": 987
+    },
+    "packages/subtitles/src/presets.tsx": {
+      "sha256": "9e0f9c76d28dac6f134681150aa70288221e85a4a76b458ceccdedddce5a7c84",
+      "size": 3499
+    },
+    "packages/subtitles/src/remotion.tsx": {
+      "sha256": "347c61dd6cac4282fed02ea28366ba05263889d6f461643aeb180cc49c93df42",
+      "size": 7728
+    },
+    "packages/subtitles/src/split.ts": {
+      "sha256": "7181d54f7ee383f2f3d729b0d875e70a87999a1d09833147193f9abe4d6af4cf",
+      "size": 4113
+    },
+    "packages/subtitles/src/style.ts": {
+      "sha256": "9ac4a4c3fb67cd20c2e9649c0b9613b258a54b91c069c8124089dbf5fe5eb7eb",
+      "size": 1184
+    },
+    "packages/subtitles/src/timeline.ts": {
+      "sha256": "f018960a0490b7a78c0dc34cef824aa94efb0b2979b3493c78b9017d54737849",
+      "size": 894
+    },
+    "packages/subtitles/src/types.ts": {
+      "sha256": "309611912b52dc145e5ea833a6766a8e3bbe6b104238324565c0f4d7ca24debb",
+      "size": 1484
+    },
+    "packages/subtitles/tsconfig.json": {
+      "sha256": "68ba8cc0a895b2a3c0dd2f02ddecea0dd7dc8b4fec4121fc698df0493d1c7cb7",
+      "size": 454
+    },
+    "raw_assets/.gitkeep": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "raw_assets/README.md": {
+      "sha256": "6befa11eb81253fe66b5a316cc9fac345675737c0fc398e0499366879be8bcb6",
+      "size": 489
+    },
+    "raw_assets/audio/.gitkeep": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "raw_assets/images/.gitkeep": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "raw_assets/videos/.gitkeep": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "scripts/ensure-remotion-skill.sh": {
+      "sha256": "5dd9f1ddcf2b143d0977e8967b069953264b9726cdd6bc7951800683e96ddacd",
+      "size": 1758
+    },
+    "scripts/sync-fonts.mjs": {
+      "sha256": "fd06616ad794590b7c8f22855606f86ccf3eb5f09699ba37026bead5ceb0d65b",
+      "size": 1370
+    },
+    "scripts/tests/test_vas.py": {
+      "sha256": "097ae19fcb6c2912348e109c2ea4867741f5574048d294dae60fbca8a92acf35",
+      "size": 13332
+    },
+    "scripts/vas.py": {
+      "sha256": "90ca22bc988bd94ce05ba281dc177e28d78d78bc58f8f58895c8c75fd45b347e",
+      "size": 60512
+    },
+    "skills-lock.json": {
+      "sha256": "b6e212cb707c3f72add14fe27df691e8382cad89ad0c9722dd25b8ef1e10a2e4",
+      "size": 2753
+    },
+    "skills/_shared/pipeline_utils.py": {
+      "sha256": "9186195f37762e1174846c2ae7f85679af85c519802b32dfc634d6e6981b0408",
+      "size": 9596
+    },
+    "skills/_shared/remotion_deps.py": {
+      "sha256": "5e9c5f1af11f10b8ed56783a3b4304f7406f2c4809e877a713fa7cabfa20acae",
+      "size": 625
+    },
+    "skills/facebook-reel-downloader/SKILL.md": {
+      "sha256": "67162e4e60537b0db90f0f8687082edb4918f7686772fe949a628d3519851b17",
+      "size": 2625
+    },
+    "skills/facebook-reel-downloader/agents/openai.yaml": {
+      "sha256": "3a5bf5b2a9cf23c09ad8e6487088411a70a6086bd83cb18f70c2ed065d639fcf",
+      "size": 237
+    },
+    "skills/facebook-reel-downloader/scripts/download_facebook_reel.py": {
+      "sha256": "244bcdc4ac8171bb89ac259b3cd26d16f2a72d526f01ebd588000fd289420b46",
+      "size": 6108
+    },
+    "skills/fix-omnivoice/SKILL.md": {
+      "sha256": "876e6f2a22ea2be23a2829ab25a0f8206b6dde1bc3576e8ea399a064d05134a5",
+      "size": 2520
+    },
+    "skills/fix-omnivoice/agents/openai.yaml": {
+      "sha256": "c591a3e486ed3dbbf15527f26dcb3a2f4bc29d568822d8e235135d47bdb5cde3",
+      "size": 246
+    },
+    "skills/fix-omnivoice/scripts/fix_omnivoice.py": {
+      "sha256": "d44b2bdde56794bb968a4d6e26e6d1264d67cc7561ad7ca07d076796d8c94b6c",
+      "size": 9936
+    },
+    "skills/free-tts/SKILL.md": {
+      "sha256": "00c0a7b591f35f4b3789d28b99b0ec4f99c3e2eefc711cfd48159bb38beccbe9",
+      "size": 8487
+    },
+    "skills/free-tts/agents/openai.yaml": {
+      "sha256": "2d6c4f1c0ced37919fe3c6efa603b2e2c29e6df92ba3192d559d977dad38a71f",
+      "size": 293
+    },
+    "skills/free-tts/scripts/free_tts.py": {
+      "sha256": "0e9142aec4d7595f6596125280112fb8b959e9cc64811c91f6c122be578a6bb8",
+      "size": 14891
+    },
+    "skills/omnivoice-tts/SKILL.md": {
+      "sha256": "a1885ebc59bad860ba4ea40b2edb69cd936d08e33cf5c56a49ba6cfc02650799",
+      "size": 23156
+    },
+    "skills/omnivoice-tts/agents/openai.yaml": {
+      "sha256": "b0a6a6dbf1512e3185e7da873ea6d88e06620edcaae06a84d1bb875a58cf2264",
+      "size": 258
+    },
+    "skills/omnivoice-tts/scripts/batch_sentences.py": {
+      "sha256": "d3d899b92c2b8cba361e6f73b316b9529a4fe5af678de8e47fb5bd59af3fe699",
+      "size": 4911
+    },
+    "skills/omnivoice-tts/scripts/find_relative_volume_islands.py": {
+      "sha256": "9048d4572845ac36227513661dffe39c35ebb234e5ddb3b7448783cfcab7fe2c",
+      "size": 8724
+    },
+    "skills/omnivoice-tts/scripts/find_satellite_noise_islands.py": {
+      "sha256": "12329007d2978dec1310a1b319f3cde1461abff4aa70ed2290a94ce6ea33f001",
+      "size": 12976
+    },
+    "skills/omnivoice-tts/scripts/omnivoice_tts.py": {
+      "sha256": "9e8dbcf019e36ca209be2ea88924daf05076831622f850e465e7b512b2e309dd",
+      "size": 26379
+    },
+    "skills/omnivoice-tts/scripts/remove_low_volume_islands.py": {
+      "sha256": "9d7b521a742abbfdcac2b9a78f2714a361808c1a4cf87efe0e98b93978a0fa56",
+      "size": 5475
+    },
+    "skills/omnivoice-tts/scripts/requirements.txt": {
+      "sha256": "f193ecf8a10712a281e01313900b7210700fffbfa88493a1166ff3138d7c0efa",
+      "size": 209
+    },
+    "skills/omnivoice-tts/scripts/setup_omnivoice.py": {
+      "sha256": "bd7c22ed7a6199cf85db2114beeedb153a3b14467bc9266d4a5320439e94477f",
+      "size": 2663
+    },
+    "skills/subtitle-screen-splitter/SKILL.md": {
+      "sha256": "0f6215cab1a3a97573b2f91af888745dede7f9e723f48a8f48583c5e05974e11",
+      "size": 3477
+    },
+    "skills/subtitle-screen-splitter/agents/openai.yaml": {
+      "sha256": "73d8f26ddbe360b9f046de8c283cc22aed999f769b21580da30d5e106761f98a",
+      "size": 265
+    },
+    "skills/subtitle-screen-splitter/scripts/build_remotion_subtitle_props.py": {
+      "sha256": "5919ca2eeccd355fdea264fa18a8d28f71c019b6a786fa9d66a5b5a25f71cefb",
+      "size": 3256
+    },
+    "skills/subtitle-screen-splitter/scripts/split_subtitle_screens.py": {
+      "sha256": "4b4a4e44e6372553fdd26b38c5ed705b6644c8c04079e6b7831ecc4e2794727c",
+      "size": 7490
+    },
+    "skills/supertonic-tts/SKILL.md": {
+      "sha256": "046c5a6a30240775251f772bc14ae9c5d82b681ba6ac84e2530937e2e3bc47a3",
+      "size": 3087
+    },
+    "skills/supertonic-tts/agents/openai.yaml": {
+      "sha256": "abfe80e048df3ad156c0f2da48d7d6fa989196b857da44e4c6100e21a577d3db",
+      "size": 192
+    },
+    "skills/supertonic-tts/scripts/requirements.txt": {
+      "sha256": "6b2d6996d90e9dcc88c60d9e094a2588a983e3925c72bc22c4b7daa5a80a6fd5",
+      "size": 21
+    },
+    "skills/supertonic-tts/scripts/supertonic_tts.py": {
+      "sha256": "f0a85104e019e52bedaeb16a4c4ae943ac527a231a9ab11e0f2d823b558d8f18",
+      "size": 6085
+    },
+    "skills/tiktok-downloader/SKILL.md": {
+      "sha256": "b4510c21da013fd655fa294e094d6bd4b872929aca3ddb6cbd81821a97b0d315",
+      "size": 2167
+    },
+    "skills/tiktok-downloader/agents/openai.yaml": {
+      "sha256": "c06bef1f4fa5b17327c8a86b00333177ba47b01a3657c740082e859c9e4c308a",
+      "size": 213
+    },
+    "skills/tiktok-downloader/scripts/download_tiktok.py": {
+      "sha256": "e110dc38a9d45d94cb47581d719101470941b91b9f84619917199eb310d4bf6e",
+      "size": 10659
+    },
+    "skills/video-audio-extractor/SKILL.md": {
+      "sha256": "11bf41de2c3a110b46e0e839f38de62ce1a59c460aad65b15bbc476a0ef5f6d7",
+      "size": 3024
+    },
+    "skills/video-compress-under-25mb/SKILL.md": {
+      "sha256": "846418826e407a3741a6dba20acb8a2e3ee69f60430e7b1afc85d08b3139b6ee",
+      "size": 2859
+    },
+    "skills/video-compress-under-25mb/agents/openai.yaml": {
+      "sha256": "5b2d10ee8f6c63a930c385a670a33b93dd4573d4fd5b03c1940e0ad007932cd0",
+      "size": 231
+    },
+    "skills/video-compress-under-25mb/scripts/compress_video_under_size.py": {
+      "sha256": "02600ef780662b4e0b7bf4566e1301f186ddb52ce675eafb08138f2b0613dd0a",
+      "size": 8529
+    },
+    "skills/video-downloader/SKILL.md": {
+      "sha256": "7a51544eb7ac423fc29ee611f30ce92de32838da8d7ca1dc8391811b60d6175c",
+      "size": 5123
+    },
+    "skills/video-downloader/scripts/download_video.py": {
+      "sha256": "921141ced1329e90f47efbb317ac8309281a33176e22160069b015ba9419445a",
+      "size": 12430
+    },
+    "skills/video-job-manager/SKILL.md": {
+      "sha256": "558e1e6099519dc532298138b9b5bc674b8550b92683f035993d95919d01aee8",
+      "size": 6611
+    },
+    "skills/video-job-manager/agents/openai.yaml": {
+      "sha256": "1187aefd22d2de04c7632c45947b4a8d52ab6a698ce19a7abcca0766a8aa7a53",
+      "size": 263
+    },
+    "skills/video-job-manager/scripts/manage_job.py": {
+      "sha256": "db6db43c90cb68bb03ce53b2fdfee754e38bd102716fdeb5f86a2f64788659d5",
+      "size": 16616
+    },
+    "skills/video-storyboard-contact-sheet/SKILL.md": {
+      "sha256": "5d0b8b1bc21abb8c3aab65312667e7403dc665ecce925f268ae679cc2a0c687f",
+      "size": 3727
+    },
+    "skills/video-storyboard-contact-sheet/agents/openai.yaml": {
+      "sha256": "6226055dd135ed0505ec096e1dda27e08ca8227cb59df1f1d0d7261402a9e589",
+      "size": 269
+    },
+    "skills/video-storyboard-contact-sheet/scripts/create_storyboard_sheet.py": {
+      "sha256": "87e7cfff96dcf33697d8205198ab05102e6c538415940c14575f467ceb7965f3",
+      "size": 11494
+    },
+    "skills/voice-manager/SKILL.md": {
+      "sha256": "c4873061e9688c73f777dfaecfb574875cf54eaae4e7988e72bc5a5381b26081",
+      "size": 3657
+    },
+    "skills/voice-manager/agents/openai.yaml": {
+      "sha256": "9ad339da0870a36c3652f6c195efcab960552c28af746947c3d50221ea6d6d17",
+      "size": 218
+    },
+    "skills/voice-manager/references/profile-schema.md": {
+      "sha256": "f557c2484f3dfd03456f0f17217d1ba54f215738a58219a9db7f514b67547609",
+      "size": 1148
+    },
+    "skills/voice-manager/scripts/voice_manager.py": {
+      "sha256": "f66885c542999dbd017b3c38c0b6d4ab9e96095e236137667c6d8156db7f80cb",
+      "size": 13599
+    },
+    "skills/word-timestamps-extractor/SKILL.md": {
+      "sha256": "f312dba725c41c7ac7477eb39a1382db95dee888fcc8ce7463ad003cc94855b0",
+      "size": 5124
+    },
+    "skills/word-timestamps-extractor/agents/openai.yaml": {
+      "sha256": "d7899d652f3afd73387962e4a9eeffbd53778b5e25506948d04df686aab13d02",
+      "size": 297
+    },
+    "skills/word-timestamps-extractor/scripts/requirements.txt": {
+      "sha256": "7c47f1141285613590d12b8a119cdd9bc4ee2f78f097e61922c8e7f5eb650de7",
+      "size": 15
+    },
+    "skills/word-timestamps-extractor/scripts/transcribe_word_timestamps.py": {
+      "sha256": "541fe82a87050d93bfce642ae07e79046d844e96da251af227bc22686204c514",
+      "size": 10631
+    },
+    "skills/youtube-fast-download/SKILL.md": {
+      "sha256": "542ae62626b249ba148223c80357e69656f1efbafe9bd9680a27f0096ece79d3",
+      "size": 2152
+    },
+    "skills/youtube-fast-download/agents/openai.yaml": {
+      "sha256": "564e570f633822f3906853905c9962e6a32b54cfbc484e7b5e0ac81b71082658",
+      "size": 208
+    },
+    "skills/youtube-fast-download/scripts/download_youtube_fast.py": {
+      "sha256": "8d9a8d85b4e87efddc014c405ac2dae8206e87c870acca86d4237a605c172bdb",
+      "size": 4699
+    }
+  }
+}

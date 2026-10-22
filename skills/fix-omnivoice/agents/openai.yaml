@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fix OmniVoice"
+  short_description: "Clean isolated OmniVoice output artifacts"
+  default_prompt: "Use $fix-omnivoice to clean isolated low-volume artifacts from this OmniVoice WAV while preserving all other samples."

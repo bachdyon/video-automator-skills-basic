@@ -1,0 +1,7 @@
+interface:
+  display_name: "Free TTS"
+  short_description: "Generate free/local Vietnamese narration with VieNeu-TTS"
+  default_prompt: "Use $free-tts to generate Vietnamese narration with VieNeu-TTS because I explicitly want a free/local provider."
+
+policy:
+  allow_implicit_invocation: true

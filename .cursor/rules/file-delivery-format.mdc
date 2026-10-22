@@ -1,0 +1,30 @@
+---
+description: Khi giao file/output, luôn kèm link mở được và mở file giúp user
+alwaysApply: true
+---
+
+# File delivery format
+
+Khi câu trả lời **đi kèm file đã tạo/sửa/render** (video, audio, ảnh, JSON, v.v.), **bắt buộc**:
+
+1. **Mở file** cho user khi có thể:
+   - Gọi MCP `open_resource` với `file:///...` cho file chính
+   - Chạy `open "/absolute/path"` trên macOS cho media (mp4, wav, …)
+
+2. **Kèm link đầy đủ** trong response — không chỉ nêu tên file tương đối:
+
+```markdown
+**File chính:**  
+[final_vi_dub_hybrid.mp4](file:///Users/.../output/final_vi_dub_hybrid.mp4)
+
+**Liên quan:**
+- [voice_aligned.wav](file:///Users/.../source/voice_aligned.wav)
+- [manifest.json](file:///Users/.../source/manifest.json)
+```
+
+3. **Quy ước:**
+   - Dùng path **absolute** trong `file:///` links
+   - File chính đặt trước; file phụ liệt kê dưới **Liên quan** / **Các file liên quan**
+   - Nếu có bản cũ vs bản mới, ghi rõ tên để phân biệt
+
+4. **Không** kết thúc chỉ bằng path text thuần hoặc “xem tại `output/...`” mà không có link click được.
