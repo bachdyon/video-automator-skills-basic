@@ -46,7 +46,7 @@ Basic giúp bạn làm từng phần của video. **Premium biến cả quy trì
 - 🗣️ **Nhân vật biết nói.** Avatar khớp khẩu hình từ một tấm ảnh, giọng đọc cao cấp, lồng tiếng Việt cho video nước ngoài mà vẫn giữ nhịp gốc.
 - 🔎 **Tìm đúng cảnh trong kho footage của bạn** bằng cách mô tả nội dung, không cần nhớ tên file.
 - ✨ **Hiệu ứng đẹp như studio.** Chuyển cảnh, chuyển động chữ, phụ đề nghệ thuật kiểu cắt giấy và nét cọ.
-- 📅 **Từ dựng tới đăng.** Quản lý lịch đăng bài, đăng đa nền tảng và gửi video qua Telegram.
+- 📅 **Từ dựng tới đăng.** Tự động sản xuất, lên lịch đăng bài, đăng đa nền tảng và theo dõi chỉ số kênh.
 
 Nâng cấp chỉ bằng một tin nhắn cho agent. Mọi giọng đọc, job và kỹ năng riêng bạn đã tạo trên Basic đều được giữ nguyên.
 
