@@ -42,6 +42,7 @@ Basic giúp bạn làm từng phần của video. **Premium biến cả quy trì
 
 - 🤖 **Từ ý tưởng tới video, tự động.** Agent tự lên kế hoạch, viết kịch bản, chọn cảnh, dựng và xuất video. Bạn chỉ duyệt kịch bản.
 - 🎞️ **Hơn 30 mẫu video đóng gói sẵn, chọn mẫu là ra video.** Podcast phụ đề karaoke, tin bóng đá, kể chuyện lịch sử nhiều lớp, review phim lồng tiếng, video học tiếng Anh, bảng trắng vẽ tay, bản đồ chuyển động và nhiều nữa.
+- 📺 **Xây nhiều kênh cùng lúc, kênh nào ra kênh nấy.** Mỗi kênh gắn với một mẫu video riêng, giữ nguyên giọng đọc, phụ đề, bố cục và nhịp dựng qua từng video, nên người xem nhận ra kênh của bạn ngay từ giây đầu. Nội dung của tất cả các kênh được quản lý trong một hàng đợi duy nhất.
 - 🎨 **Tạo ảnh và video bằng AI.** Gọi thẳng các model hàng đầu như Veo, Seedance, Grok Imagine, Wan, Nano Banana ngay trong cuộc trò chuyện với agent.
 - 🗣️ **Nhân vật biết nói.** Avatar khớp khẩu hình từ một tấm ảnh, giọng đọc cao cấp, lồng tiếng Việt cho video nước ngoài mà vẫn giữ nhịp gốc.
 - 🔎 **Tìm đúng cảnh trong kho footage của bạn** bằng cách mô tả nội dung, không cần nhớ tên file.
