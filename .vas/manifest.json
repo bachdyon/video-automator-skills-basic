@@ -1,7 +1,7 @@
 {
   "edition": "basic",
-  "version": "1.0.0",
-  "created": "2026-10-22T12:02:19Z",
+  "version": "1.0.1",
+  "created": "2026-10-22T12:05:40Z",
   "files": {
     ".agents/skills/motion-design/SKILL.md": {
       "sha256": "8729ecbc7e5736c1295baaa8ba0384bb4b1aac9cf91b83fcdc64d9548a57bb19",
@@ -1077,11 +1077,11 @@
       "size": 4012
     },
     "README.md": {
-      "sha256": "7470924e0f33021f834f04436136e2cc055c1102c06f67c5d3c4c7b651f96ff6",
-      "size": 4525
+      "sha256": "bcefde8dfeb39a90e79053b8a1a377b2a80a20ccb07fe7c636e8d9ff4c36b3e0",
+      "size": 4082
     },
     "VERSION": {
-      "sha256": "93a477dc6cf8dda20f20acc1c3eb87bb0ae624f28764d77b607a5c1e6df3bc84",
+      "sha256": "97496a15c261ba9d3294546c6dca7804b5e0ba7ae6dc576bc0fa4c503c68d095",
       "size": 36
     },
     "customs/.gitkeep": {

@@ -4,8 +4,6 @@
 
 VAS Basic không kèm template video dựng sẵn và không gọi dịch vụ AI tạo ảnh/video. Agent vẫn có thể tự dựng video bằng Remotion nhờ bộ skill Remotion chính thức đi kèm. Các template, công cụ tạo media bằng AI và pipeline tự động đầy đủ nằm trong **VAS Premium**.
 
-Tài liệu đầy đủ: **https://vas.bachdyon.com/**
-
 ## Phiên bản, tùy biến và nâng cấp
 
 - File `VERSION` cho biết bạn đang dùng **VAS** (basic) hay **VAS Premium**.
@@ -52,16 +50,9 @@ Nếu repo hữu ích cho bạn, hãy cân nhắc [donate](https://vas.bachdyon.
 
 ---
 
-## Tài liệu
-
-- [Bắt đầu nhanh](https://vas.bachdyon.com/quickstart)
-- [Cài đặt đầy đủ (macOS / Windows / Linux)](https://vas.bachdyon.com/installation/macos)
-- [Cấu hình API keys](https://vas.bachdyon.com/configuration/env)
-- [Khắc phục sự cố](https://vas.bachdyon.com/troubleshooting)
-
 ## Đóng góp
 
-Đóng góp được hoan nghênh. Đọc [CONTRIBUTING.md](CONTRIBUTING.md) hoặc [hướng dẫn online](https://vas.bachdyon.com/contributing) để biết cách báo bug, đề xuất feature, hoặc viết skill mới.
+Đóng góp được hoan nghênh. Đọc [CONTRIBUTING.md](CONTRIBUTING.md) để biết cách báo bug, đề xuất feature, hoặc viết skill mới.
 
 ## License
 
