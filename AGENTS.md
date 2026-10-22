@@ -24,6 +24,19 @@ When the user asks to create or change a skill or tool, write it under `customs/
 - When the user asks to upgrade to Premium, or to update Premium, with a ZIP file, run `python3 scripts/vas.py upgrade <path-to-zip>` once and report its doctor summary. Do not unzip or copy files by hand. If the doctor reports FAIL, offer `python3 scripts/vas.py upgrade --rollback`.
 - To check that an installation works, run `python3 scripts/vas.py doctor`.
 
+## Installation Rule
+
+When the user asks you to install VAS, set it up from the repository root and finish only when it works:
+
+1. Make sure these are installed, using the platform's usual installer (Homebrew on macOS, winget on Windows, the system package manager on Linux): Python 3.11 or newer, Python 3.11 or 3.12 for OmniVoice, Node.js 18 or newer, git, and ffmpeg/ffprobe. Ask the user before anything that needs administrator rights or a password; never type a password yourself.
+2. Run `npm install` once in the repository root.
+3. Run `python3 -m venv .venv`, then `.venv/bin/python -m pip install -r skills/word-timestamps-extractor/scripts/requirements.txt -r skills/supertonic-tts/scripts/requirements.txt yt-dlp Pillow numpy`. On Windows use `.venv\Scripts\python`.
+4. Run `python3.11 skills/omnivoice-tts/scripts/setup_omnivoice.py` (use `python3.12` if that is the version available).
+5. If `.env` does not exist, copy `env.example` to `.env`. Never fill in API keys yourself or ask the user to paste a key into the chat; tell them which key a feature needs and let them edit `.env`.
+6. Run `python3 scripts/vas.py doctor` and fix every `FAIL` line. `WARN` lines about `.env` are fine.
+
+When no `FAIL` remains, reply with exactly one word: `Sẵn sàng`. If something still fails, do not say `Sẵn sàng`; explain in plain language what is missing and what the user can do.
+
 ## Job Context Rule
 
 When a new chat session begins and no existing `jobs/<job_id>/` is explicitly present in its context, create a new isolated job first with `$video-job-manager`. Do this before planning, generating assets, rendering, or otherwise performing video-production work, so all artifacts use the new job's canonical paths. Reuse an existing job only when its exact job ID or path is already provided in the chat context.

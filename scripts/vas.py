@@ -1265,6 +1265,28 @@ def doctor_env(root: Path, rep: Report) -> None:
         rep.add("PASS", ".env", "all keys from env.example are set")
 
 
+SMOKE_TIMEOUT_SECONDS = 240
+
+
+def run_with_group_timeout(cmd: list[str], cwd: Path, timeout: int) -> tuple[int | None, str]:
+    """Run `cmd`; on timeout kill its whole process group (Remotion + Chrome). Returns (returncode or None, output)."""
+    kwargs = {"start_new_session": True} if os.name != "nt" else {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
+    proc = subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, **kwargs)
+    try:
+        output, _ = proc.communicate(timeout=timeout)
+        return proc.returncode, output
+    except subprocess.TimeoutExpired:
+        if os.name != "nt":
+            try:
+                os.killpg(proc.pid, 9)
+            except ProcessLookupError:
+                pass
+        else:
+            proc.kill()
+        proc.communicate()
+        return None, ""
+
+
 def doctor_smoke(root: Path, rep: Report) -> None:
     candidates = []
     for base in (root / "templates",):
@@ -1285,14 +1307,20 @@ def doctor_smoke(root: Path, rep: Report) -> None:
         (work / "remotion" / "node_modules").symlink_to(root / "node_modules", target_is_directory=True)
         out = work / "still.png"
         cli = root / "node_modules" / ".bin" / ("remotion.cmd" if os.name == "nt" else "remotion")
-        result = subprocess.run([str(cli), "still", "src/index.ts", composition, str(out), "--frame=0", "--scale=0.25"],
-                                cwd=work / "remotion", capture_output=True, text=True, timeout=600)
-        if result.returncode == 0 and out.exists() and out.stat().st_size > 0:
+        cmd = [str(cli), "still", "src/index.ts", composition, str(out), "--frame=0", "--scale=0.25"]
+        # Headless Chrome occasionally hangs on start-up; retry once before reporting FAIL.
+        for attempt in (1, 2):
+            returncode, output = run_with_group_timeout(cmd, work / "remotion", SMOKE_TIMEOUT_SECONDS)
+            if returncode is not None:
+                break
+        if returncode is None:
+            rep.add("FAIL", "smoke render", f"{template.name}: timed out twice after {SMOKE_TIMEOUT_SECONDS}s")
+        elif returncode == 0 and out.exists() and out.stat().st_size > 0:
             rep.add("PASS", "smoke render", f"rendered a still of {template.name}/{composition}")
         else:
-            tail = (result.stderr or result.stdout).strip().splitlines()[-3:]
+            tail = output.strip().splitlines()[-3:]
             rep.add("FAIL", "smoke render", f"{template.name}: " + " | ".join(tail))
-    except (OSError, subprocess.TimeoutExpired) as exc:
+    except OSError as exc:
         rep.add("FAIL", "smoke render", f"{template.name}: {exc}")
     finally:
         shutil.rmtree(work, ignore_errors=True)

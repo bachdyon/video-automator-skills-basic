@@ -6,45 +6,21 @@ VAS Basic không gọi dịch vụ AI tạo ảnh/video. Agent vẫn có thể t
 
 ## Cài đặt
 
-### Yêu cầu
+Bạn không cần biết lập trình. Một AI agent sẽ cài giúp bạn, bạn chỉ cần dán một tin nhắn.
 
-- macOS, Windows hoặc Linux.
-- Python 3.11 trở lên, Node.js 18 trở lên, `git`, và `ffmpeg` / `ffprobe` có trong PATH. Giọng đọc OmniVoice cần riêng Python 3.11 hoặc 3.12.
-- Một AI agent đọc được `AGENTS.md`, ví dụ Claude Code, Codex hoặc Cursor.
+**Bước 1.** Cài một AI agent trên máy tính, ví dụ [Claude Code](https://claude.com/claude-code), Codex hoặc Cursor.
 
-### Lấy mã nguồn
+**Bước 2.** Tạo một thư mục trống, ví dụ thư mục `VAS` trong Documents, rồi mở thư mục đó bằng AI agent.
 
-```bash
-git clone https://github.com/bachdyon/video-automator-skills-basic.git vas
-cd vas
-```
+**Bước 3.** Dán nguyên văn tin nhắn này cho agent:
 
-### Cài phụ thuộc
+> Cài đặt VAS Basic cho tôi vào thư mục này, lấy từ https://github.com/bachdyon/video-automator-skills-basic. Sau khi tải về, làm theo mục "Installation Rule" trong file AGENTS.md. Khi bạn đã kiểm tra và đảm bảo mọi thứ chạy được, trả lời: Sẵn sàng.
 
-Chạy tại thư mục gốc của VAS:
+**Bước 4.** Agent sẽ tự tải và cài những gì còn thiếu. Thỉnh thoảng nó sẽ hỏi bạn cho phép chạy lệnh hoặc cài phần mềm (như Python, Node.js, ffmpeg): hãy đồng ý. Nếu máy hỏi mật khẩu, bạn tự nhập, đừng gửi mật khẩu cho agent.
 
-```bash
-npm install
-python3 -m venv .venv
-.venv/bin/python -m pip install -r skills/word-timestamps-extractor/scripts/requirements.txt -r skills/supertonic-tts/scripts/requirements.txt yt-dlp Pillow numpy
-python3.11 skills/omnivoice-tts/scripts/setup_omnivoice.py
-cp env.example .env
-```
+**Bước 5.** Khi agent trả lời **Sẵn sàng** là xong. Hãy thử nhờ nó làm việc, ví dụ: "Tạo giọng đọc cho đoạn văn này: …". Nếu agent báo còn lỗi, nó sẽ giải thích bạn cần làm gì tiếp.
 
-- `npm install` chỉ chạy một lần ở thư mục gốc; mọi job dùng chung `node_modules` này.
-- OmniVoice (giọng đọc mặc định) có môi trường riêng tại `.cache/omnivoice-tts/venv/`. Nếu máy có Python 3.12 thay vì 3.11, dùng `python3.12` cho lệnh này. Model được tải ở lần tạo giọng đầu tiên.
-- Trên Windows, thay `.venv/bin/python` bằng `.venv\Scripts\python` và `cp` bằng `copy`.
-- `.env` có thể để trống: Basic chạy local, các key trong đó chỉ dùng cho tính năng tùy chọn.
-
-### Kiểm tra
-
-```bash
-python3 scripts/vas.py doctor
-```
-
-Mọi dòng `FAIL` cần được xử lý trước khi dùng; `WARN` về `.env` có thể bỏ qua.
-
-Xong thì mở thư mục VAS bằng AI agent và nhờ nó làm việc, ví dụ "tạo giọng đọc cho đoạn văn này".
+Mọi tính năng của Basic chạy ngay trên máy bạn, không cần API key.
 
 ## Phiên bản, tùy biến và nâng cấp
 
