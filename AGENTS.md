@@ -28,6 +28,7 @@ When the user asks to create or change a skill or tool, write it under `customs/
 
 When the user asks you to install VAS, set it up from the repository root and finish only when it works:
 
+0. VAS must sit directly in the folder the user opened: `AGENTS.md`, `skills/`, and `scripts/` belong at its top level. If cloning or unzipping created an intermediate folder (for example `video-automator-skills-basic/` or `vas-premium-<version>/`), move everything, including hidden files such as `.git`, `.agents`, `.claude`, and `.vas`, up into the opened folder and remove the empty intermediate folder before continuing. If the opened folder is not empty and `git clone <url> .` refuses, use `git init`, `git remote add origin <url>`, and `git pull origin main` instead.
 1. Make sure these are installed, using the platform's usual installer (Homebrew on macOS, winget on Windows, the system package manager on Linux): Python 3.11 or newer, Python 3.11 or 3.12 for OmniVoice, Node.js 18 or newer, git, and ffmpeg/ffprobe. Ask the user before anything that needs administrator rights or a password; never type a password yourself.
 2. Run `npm install` once in the repository root.
 3. Run `python3 -m venv .venv`, then `.venv/bin/python -m pip install -r skills/word-timestamps-extractor/scripts/requirements.txt -r skills/supertonic-tts/scripts/requirements.txt yt-dlp Pillow numpy`. On Windows use `.venv\Scripts\python`.

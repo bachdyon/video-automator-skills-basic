@@ -28,7 +28,7 @@ Bạn không cần biết lập trình. Một AI agent sẽ cài giúp bạn, b�
 
 **Bước 3.** Dán nguyên văn tin nhắn này cho agent:
 
-> Cài đặt VAS Basic cho tôi vào thư mục này, lấy từ https://github.com/bachdyon/video-automator-skills-basic. Sau khi tải về, làm theo mục "Installation Rule" trong file AGENTS.md. Khi bạn đã kiểm tra và đảm bảo mọi thứ chạy được, trả lời: Sẵn sàng.
+> Cài đặt VAS Basic cho tôi ngay trong thư mục này, lấy từ https://github.com/bachdyon/video-automator-skills-basic. Mọi file phải nằm trực tiếp trong thư mục này, không tạo thư mục con: file AGENTS.md và thư mục skills phải ở ngay đây (ví dụ dùng `git clone <link> .`). Sau đó làm theo mục "Installation Rule" trong file AGENTS.md. Khi bạn đã kiểm tra và đảm bảo mọi thứ chạy được, trả lời: Sẵn sàng.
 
 **Bước 4.** Agent sẽ tự tải và cài những gì còn thiếu. Thỉnh thoảng nó sẽ hỏi bạn cho phép chạy lệnh hoặc cài phần mềm (như Python, Node.js, ffmpeg): hãy đồng ý. Nếu máy hỏi mật khẩu, bạn tự nhập, đừng gửi mật khẩu cho agent.
 
@@ -40,14 +40,14 @@ Mọi tính năng của Basic chạy ngay trên máy bạn, không cần API key
 
 Basic giúp bạn làm từng phần của video. **Premium biến cả quy trình thành một câu lệnh:** bạn đưa ý tưởng, agent trả về video hoàn chỉnh, có hình, có tiếng, có phụ đề, sẵn sàng đăng.
 
-- 🤖 **Từ ý tưởng tới video, tự động.** Agent tự lên kế hoạch, viết kịch bản, chọn cảnh, dựng và xuất video. Bạn chỉ duyệt kịch bản.
-- 🎞️ **Hơn 30 mẫu video đóng gói sẵn, chọn mẫu là ra video.** Podcast phụ đề karaoke, tin bóng đá, kể chuyện lịch sử nhiều lớp, review phim lồng tiếng, video học tiếng Anh, bảng trắng vẽ tay, bản đồ chuyển động và nhiều nữa.
-- 📺 **Xây nhiều kênh cùng lúc, kênh nào ra kênh nấy.** Mỗi kênh gắn với một mẫu video riêng, giữ nguyên giọng đọc, phụ đề, bố cục và nhịp dựng qua từng video, nên người xem nhận ra kênh của bạn ngay từ giây đầu. Nội dung của tất cả các kênh được quản lý trong một hàng đợi duy nhất.
-- 🎨 **Tạo ảnh và video bằng AI.** Gọi thẳng các model hàng đầu như Veo, Seedance, Grok Imagine, Wan, Nano Banana ngay trong cuộc trò chuyện với agent.
-- 🗣️ **Nhân vật biết nói.** Avatar khớp khẩu hình từ một tấm ảnh, giọng đọc cao cấp, lồng tiếng Việt cho video nước ngoài mà vẫn giữ nhịp gốc.
-- 🔎 **Tìm đúng cảnh trong kho footage của bạn** bằng cách mô tả nội dung, không cần nhớ tên file.
-- ✨ **Hiệu ứng đẹp như studio.** Chuyển cảnh, chuyển động chữ, phụ đề nghệ thuật kiểu cắt giấy và nét cọ.
-- 📅 **Từ dựng tới đăng.** Tự động sản xuất, lên lịch đăng bài, đăng đa nền tảng và theo dõi chỉ số kênh.
+- 🎁 **Từ ý tưởng tới video, tự động.** Agent tự lên kế hoạch, viết kịch bản, chọn cảnh, dựng và xuất video. Bạn chỉ duyệt kịch bản.
+- 🎁 **Hơn 30 mẫu video đóng gói sẵn, chọn mẫu là ra video.** Podcast phụ đề karaoke, tin bóng đá, kể chuyện lịch sử nhiều lớp, review phim lồng tiếng, video học tiếng Anh, bảng trắng vẽ tay, bản đồ chuyển động và nhiều nữa.
+- 🎁 **Xây nhiều kênh cùng lúc, kênh nào ra kênh nấy.** Mỗi kênh gắn với một mẫu video riêng, giữ nguyên giọng đọc, phụ đề, bố cục và nhịp dựng qua từng video, nên người xem nhận ra kênh của bạn ngay từ giây đầu. Nội dung của tất cả các kênh được quản lý trong một hàng đợi duy nhất.
+- 🎁 **Tạo ảnh và video bằng AI.** Gọi thẳng các model hàng đầu như Veo, Seedance, Grok Imagine, Wan, Nano Banana ngay trong cuộc trò chuyện với agent.
+- 🎁 **Nhân vật biết nói.** Avatar khớp khẩu hình từ một tấm ảnh, giọng đọc cao cấp, lồng tiếng Việt cho video nước ngoài mà vẫn giữ nhịp gốc.
+- 🎁 **Tìm đúng cảnh trong kho footage của bạn** bằng cách mô tả nội dung, không cần nhớ tên file.
+- 🎁 **Hiệu ứng đẹp như studio.** Chuyển cảnh, chuyển động chữ, phụ đề nghệ thuật kiểu cắt giấy và nét cọ.
+- 🎁 **Từ dựng tới đăng.** Tự động sản xuất, lên lịch đăng bài, đăng đa nền tảng và theo dõi chỉ số kênh.
 
 Nâng cấp chỉ bằng một tin nhắn cho agent. Mọi giọng đọc, job và kỹ năng riêng bạn đã tạo trên Basic đều được giữ nguyên.
 

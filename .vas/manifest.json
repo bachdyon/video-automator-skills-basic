@@ -1,7 +1,7 @@
 {
   "edition": "basic",
-  "version": "1.0.7",
-  "created": "2026-10-22T13:13:03Z",
+  "version": "1.0.8",
+  "created": "2026-10-22T13:19:22Z",
   "files": {
     ".agents/skills/motion-design/SKILL.md": {
       "sha256": "8729ecbc7e5736c1295baaa8ba0384bb4b1aac9cf91b83fcdc64d9548a57bb19",
@@ -1065,8 +1065,8 @@
       "symlink": "../../.agents/skills/remotion-best-practices"
     },
     "AGENTS.md": {
-      "sha256": "cd0ca74d782107315677804960e6249f19989311fa1d6b5d28580076566ddaca",
-      "size": 10899
+      "sha256": "976f6670f208830255e5b0c6caa3ca12774725e94ae5bdcdfe711add699c0e42",
+      "size": 11475
     },
     "CONTRIBUTING.md": {
       "sha256": "09a9c32d2596be7845129f7877d0d01ce0aee442baf864558c886770b6b5749d",
@@ -1077,11 +1077,11 @@
       "size": 4012
     },
     "README.md": {
-      "sha256": "6fa58b913d68d6b7df2f72ccd449b4e05d4ad876cc5b7694f176bf0eb769e056",
-      "size": 8678
+      "sha256": "c20f229f3fbe1a552aa4d3fb8432c631e84f2c3a130de75c3380b76a2cd60ff5",
+      "size": 8856
     },
     "VERSION": {
-      "sha256": "541fd3be0dbcfdce30d4ab449754922d5bf02986f09d44bd83a88e4108d862be",
+      "sha256": "1c0e966a2238f03c3867b4d116ae7d3c8972ecd3bd27ea9b838da670f0e6def3",
       "size": 36
     },
     "customs/.gitkeep": {
