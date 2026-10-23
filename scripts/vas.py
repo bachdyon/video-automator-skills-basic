@@ -38,6 +38,8 @@ MANIFEST_REL = ".vas/manifest.json"
 BASIC_CONFIG = "basic.toml"
 VERSION_FILE = "VERSION"
 CUSTOMS_FILE = "AGENTS.customs.md"
+# The Basic edition's README; `publish basic` ships it as README.md. Never part of Premium.
+BASIC_README = "README.basic.md"
 MARKER_START = "<!-- premium:start -->"
 MARKER_END = "<!-- premium:end -->"
 # Basic-only text: kept (markers removed) in the Basic export, cut from the Premium ZIP.
@@ -367,7 +369,7 @@ def load_basic_selection(root: Path) -> Selection:
         if rel not in links
         and not has_excluded_part(rel)
         and not any(rel.startswith(f"{mirror}/") for mirror in SYMLINK_MIRRORS)
-        and rel not in (BASIC_CONFIG, CUSTOMS_FILE, MANIFEST_REL)
+        and rel not in (BASIC_CONFIG, CUSTOMS_FILE, MANIFEST_REL, BASIC_README)
         and (root / rel).exists()
         and ((root / rel).is_symlink() or not (root / rel).is_dir())
     })
@@ -629,6 +631,11 @@ def build_basic_stage(root: Path, stage: Path) -> tuple[Selection, list[str], di
             shutil.copy2(src, dst)
 
     write_version(stage / VERSION_FILE, "basic", version)
+    if (root / BASIC_README).exists():
+        text = strip_premium_blocks((root / BASIC_README).read_text(encoding="utf-8"), BASIC_README)
+        text = drop_premium_list_lines(text, keep_skills, sel.premium_skills, sel.templates, sel.premium_templates)
+        (stage / "README.md").write_text(text, encoding="utf-8")
+        sel.files = sorted(set(sel.files) | {"README.md"})
     prune_node_manifests(stage, sel.packages)
     lock = stage / "skills-lock.json"
     if lock.exists():
@@ -759,7 +766,7 @@ def premium_files(root: Path, include_untracked: bool) -> list[str]:
     kept = sorted(
         rel for rel in files
         if rel not in links
-        and rel not in (BASIC_CONFIG, CUSTOMS_FILE, MANIFEST_REL)
+        and rel not in (BASIC_CONFIG, CUSTOMS_FILE, MANIFEST_REL, BASIC_README)
         and not has_excluded_part(rel)
         and ((root / rel).exists() or (root / rel).is_symlink())
         # Nested repositories show up as folders in `git ls-files -o`; ship files only.
