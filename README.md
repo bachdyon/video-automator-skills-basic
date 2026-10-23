@@ -30,7 +30,7 @@ Bạn không cần biết lập trình. Một AI agent sẽ cài giúp bạn, b�
 
 > Cài đặt VAS Basic cho tôi ngay trong thư mục này, lấy từ https://github.com/bachdyon/video-automator-skills-basic. Mọi file phải nằm trực tiếp trong thư mục này, không tạo thư mục con: file AGENTS.md và thư mục skills phải ở ngay đây (ví dụ dùng `git clone <link> .`). Sau đó làm theo mục "Installation Rule" trong file AGENTS.md. Khi bạn đã kiểm tra và đảm bảo mọi thứ chạy được, trả lời: Sẵn sàng.
 
-**Bước 4.** Agent chỉ cài phần lõi nên xong rất nhanh. Những thành phần lớn như bộ dựng video hay mô hình giọng đọc sẽ được agent tự cài vào lần đầu bạn dùng tới tính năng đó, nên máy bạn không phải tải thứ mình chưa cần. Khi agent hỏi cho phép chạy lệnh hoặc cài phần mềm (như Python, Node.js, ffmpeg), hãy đồng ý. Nếu máy hỏi mật khẩu, bạn tự nhập, đừng gửi mật khẩu cho agent.
+**Bước 4.** Agent chỉ cài phần lõi trước. Thời gian tùy vào máy bạn: nếu máy đã có sẵn Python, Node.js và ffmpeg thì thường xong sau vài phút; nếu chưa có, agent sẽ cài thêm nên có thể mất lâu hơn, nhất là khi mạng chậm. Những thành phần lớn như bộ dựng video hay mô hình giọng đọc sẽ được cài vào lần đầu bạn dùng tới tính năng đó, nên máy bạn không phải tải thứ mình chưa cần. Khi agent hỏi cho phép chạy lệnh hoặc cài phần mềm (như Python, Node.js, ffmpeg), hãy đồng ý. Nếu máy hỏi mật khẩu, bạn tự nhập, đừng gửi mật khẩu cho agent.
 
 **Bước 5.** Khi agent trả lời **Sẵn sàng** là xong. Hãy thử nhờ nó làm việc, ví dụ: "Tạo giọng đọc cho đoạn văn này: …". Lần đầu dùng một tính năng có thể mất vài phút để agent tải phần cần thiết; từ lần sau sẽ chạy ngay. Nếu agent báo còn lỗi, nó sẽ giải thích bạn cần làm gì tiếp.
 
@@ -41,7 +41,7 @@ Mọi tính năng của Basic chạy ngay trên máy bạn, không cần API key
 Basic giúp bạn làm từng phần của video. **Premium biến cả quy trình thành một câu lệnh:** bạn đưa ý tưởng, agent trả về video hoàn chỉnh, có hình, có tiếng, có phụ đề, sẵn sàng đăng.
 
 - 🎁 **Từ ý tưởng tới video, tự động.** Agent tự lên kế hoạch, viết kịch bản, chọn cảnh, dựng và xuất video. Bạn chỉ duyệt kịch bản.
-- 🎁 **Hơn 30 mẫu video đóng gói sẵn, chọn mẫu là ra video.** Podcast phụ đề karaoke, tin bóng đá, kể chuyện lịch sử nhiều lớp, review phim lồng tiếng, video học tiếng Anh, bảng trắng vẽ tay, bản đồ chuyển động và nhiều nữa.
+- 🎁 **Hơn 30 mẫu video độc quyền, mở khóa dần qua từng chặng.** Hoàn thành bài tập là nhận thêm mẫu mới, chọn mẫu là ra video: Podcast phụ đề karaoke, tin bóng đá, kể chuyện lịch sử nhiều lớp, review phim lồng tiếng, video học tiếng Anh, bảng trắng vẽ tay, bản đồ chuyển động và nhiều nữa.
 - 🎁 **Xây nhiều kênh cùng lúc, kênh nào ra kênh nấy.** Mỗi kênh gắn với một mẫu video riêng, giữ nguyên giọng đọc, phụ đề, bố cục và nhịp dựng qua từng video, nên người xem nhận ra kênh của bạn ngay từ giây đầu. Nội dung của tất cả các kênh được quản lý trong một hàng đợi duy nhất.
 - 🎁 **Tạo ảnh và video bằng AI.** Gọi thẳng các model hàng đầu như Veo, Seedance, Grok Imagine, Wan, Nano Banana ngay trong cuộc trò chuyện với agent.
 - 🎁 **Nhân vật biết nói.** Avatar khớp khẩu hình từ một tấm ảnh, giọng đọc cao cấp, lồng tiếng Việt cho video nước ngoài mà vẫn giữ nhịp gốc.
@@ -87,12 +87,6 @@ Vừa học cách làm video bằng AI agent từ đầu, vừa nhận ngay bộ
 **Skill Remotion chính thức** (từ `remotion-dev/skills`)
 
 - `$remotion-best-practices` — router bắt buộc cho mọi task Remotion, dẫn tới các skill `remotion-*` chuyên sâu đi kèm.
-
----
-
-Nếu repo hữu ích cho bạn, hãy cân nhắc [donate](https://vas.bachdyon.com/donate) để dự án có kinh phí tiếp tục dùng AI tools cho phát triển và test tính năng mới.
-
----
 
 ## Đóng góp
 

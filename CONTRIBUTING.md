@@ -43,9 +43,7 @@ Pattern khi viết skill mới:
 1. Copy thư mục `skills/_shared/` làm mẫu (giữ pattern shared utils).
 2. Tạo `skills/<your-skill>/SKILL.md` theo format hiện có (frontmatter `name`, `description` ngắn để Cursor index được).
 3. Cập nhật [AGENTS.md](AGENTS.md) thêm dòng `$your-skill` vào mục **Project Skills**.
-4. Tạo trang `docs/skills/<your-skill>.mdx` port nội dung SKILL.md sang MDX (giữ nguyên nội dung kỹ thuật).
-5. Thêm `skills/<your-skill>` vào `docs/docs.json` group **Skills**.
-6. Test trong 1 job dummy: `jobs/test-<your-skill>/input/...`.
+4. Test trong 1 job dummy: `jobs/test-<your-skill>/input/...`.
 
 ## Code of Conduct
 

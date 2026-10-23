@@ -87,6 +87,19 @@ class FilterTests(unittest.TestCase):
         self.assertNotIn("templates/paid-tpl/", out)
         self.assertIn("Plain $paid-gen mention", out)
 
+    def test_user_fonts_load_from_the_computer(self) -> None:
+        css = (
+            '@font-face {\n  font-family: "TH Viettay 6";\n  src: url("../fonts/TH-Viettay-6.ttf") format("truetype");\n}\n'
+            '@font-face {\n  font-family: "Yeseva One";\n  src: url("../fonts/YesevaOne-Regular.ttf") format("truetype");\n}\n'
+        )
+        out = vas.local_user_font_faces(css)
+        self.assertIn('src: local("TH Viettay 6");', out)
+        self.assertIn('url("../fonts/YesevaOne-Regular.ttf")', out)
+        for name, licensed in (("fonts/UTM Bebas.ttf", True), ("x/SVN-Gotham-Bold.otf", True),
+                               ("a/GoogleSans-Variable.ttf", True), ("f/DTPhudu-Bold.otf", True),
+                               ("y/Yomogi-Regular.ttf", False)):
+            self.assertEqual(bool(vas.USER_FONT_RE.search(name)), licensed, name)
+
     def test_template_skill_mapping(self) -> None:
         text = (
             "- `templates/a/` → `$a-template`\n"
@@ -305,6 +318,65 @@ class UpgradeTests(unittest.TestCase):
             self.assertEqual(vas.cmd_repair(target, argparse.Namespace()), 0)
         self.assertTrue(link.is_symlink())
         self.assertEqual(os.readlink(link), "../../skills/core")
+
+    def make_template_package(self, version: str, tamper: bool = False, legacy: bool = True) -> Path:
+        """A minimal template-packager ZIP. `legacy` puts the skill in skills/<name>/ (older packages);
+        otherwise it sits in templates/<id>/skill/."""
+        top = f"demo-template-v{version}"
+        skill_rel = "skills/demo-template" if legacy else "templates/demo/skill"
+        files = {
+            f"{top}/PACKAGE.json": json.dumps({
+                "id": "demo-template", "version": version, "type": vas.TEMPLATE_PACKAGE_TYPE,
+                "install_layout": {"skill": skill_rel, "template": "templates/demo"},
+                "dependencies": {"project_skills": ["core"], "credentials": ["KIE key"]},
+            }).encode(),
+            f"{top}/{skill_rel}/SKILL.md": b"---\nname: demo-template\n---\nRun skills/demo-template/scripts/go.py\n",
+            f"{top}/{skill_rel}/scripts/go.py": b"ROOT = Path(__file__).resolve().parents[3]\n",
+            f"{top}/templates/demo/template.toml": f'[template]\nid = "demo"\nversion = "{version}"\n'.encode(),
+        }
+        manifest = "".join(f"{vas.sha256_bytes(data)}  ./{name[len(top) + 1:]}\n" for name, data in files.items())
+        archive = self.install.parent / f"demo-{version}{'-bad' if tamper else ''}.zip"
+        with zipfile.ZipFile(archive, "w") as zf:
+            for name, data in files.items():
+                zf.writestr(name, data + (b"!" if tamper and name.endswith("SKILL.md") else b""))
+            zf.writestr(f"{top}/MANIFEST.sha256", manifest)
+        return archive
+
+    def test_install_template_from_zip(self) -> None:
+        import os
+        def install(archive, force=False):
+            with redirect_stdout(StringIO()):
+                return vas.cmd_install_template(self.install, argparse.Namespace(zip=str(archive), force=force))
+
+        self.assertEqual(install(self.make_template_package("1.0.0")), 0)
+        contract = self.install / "templates/demo/template.toml"
+        skill_dir = self.install / "templates/demo/skill"
+        self.assertIn('matching_skill = "demo-template"', contract.read_text(encoding="utf-8"))
+        self.assertEqual(os.readlink(self.install / ".claude/skills/demo-template"), "../../templates/demo/skill")
+        self.assertEqual(vas.installed_templates(self.install), {"demo": "demo-template"})
+        self.assertEqual(vas.resolve_skill(self.install, "demo-template"), skill_dir)
+        # The older package layout is converted: paths and parents[] now fit templates/<id>/skill/.
+        self.assertFalse((self.install / "skills/demo-template").exists())
+        self.assertIn("templates/demo/skill/scripts/go.py", (skill_dir / "SKILL.md").read_text(encoding="utf-8"))
+        self.assertIn("parents[4]", (skill_dir / "scripts/go.py").read_text(encoding="utf-8"))
+
+        self.assertEqual(install(self.make_template_package("1.0.0")), 0)  # same version: no-op
+        self.assertEqual(install(self.make_template_package("1.1.0")), 0)  # newer: update
+        self.assertIn('version = "1.1.0"', contract.read_text(encoding="utf-8"))
+        with self.assertRaises(vas.VasError):
+            install(self.make_template_package("1.2.0", tamper=True))
+
+        # Current layout: the skill ships inside the template folder and is installed as-is.
+        self.assertEqual(install(self.make_template_package("2.0.0", legacy=False)), 0)
+        self.assertIn('version = "2.0.0"', contract.read_text(encoding="utf-8"))
+        self.assertIn("parents[3]", (skill_dir / "scripts/go.py").read_text(encoding="utf-8"))
+
+    def test_install_template_requires_its_skills(self) -> None:
+        (self.install / "skills/core").rename(self.install / "skills/core-moved")
+        with self.assertRaises(vas.VasError):
+            with redirect_stdout(StringIO()):
+                vas.cmd_install_template(self.install, argparse.Namespace(
+                    zip=str(self.make_template_package("1.0.0")), force=False))
 
     def test_rejects_basic_package(self) -> None:
         files = ["VERSION"]

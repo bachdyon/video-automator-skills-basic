@@ -1,7 +1,7 @@
 {
   "edition": "basic",
-  "version": "1.0.10",
-  "created": "2026-10-23T13:48:43Z",
+  "version": "1.1.0",
+  "created": "2026-10-23T23:43:51Z",
   "files": {
     ".agents/skills/motion-design/SKILL.md": {
       "sha256": "8729ecbc7e5736c1295baaa8ba0384bb4b1aac9cf91b83fcdc64d9548a57bb19",
@@ -1069,20 +1069,20 @@
       "size": 12477
     },
     "CONTRIBUTING.md": {
-      "sha256": "09a9c32d2596be7845129f7877d0d01ce0aee442baf864558c886770b6b5749d",
-      "size": 3355
+      "sha256": "ef0b33ad0f9991bf0690eb7c8ce0bb72b80f0e1d4673adaa43913fa0f330ddb6",
+      "size": 3163
     },
     "LICENSE": {
       "sha256": "1680534195e2d30e31ab27f256aa1851ca65eb57d7fc48e128af008e07261d17",
       "size": 4012
     },
     "README.md": {
-      "sha256": "c38674bc5d3259a658a7c86fefdb61c34c30cee41157f7c61157004c8aa452d8",
-      "size": 9191
+      "sha256": "cf27953c1d8a964a011b7d054aa609a9e256aa34757daa37f1479a44b370b8c4",
+      "size": 9273
     },
     "VERSION": {
-      "sha256": "217581696e7a37b5c938219aa378b7aaff6137e0521e69925f5c72a01034f8a8",
-      "size": 37
+      "sha256": "5c923f61f64538c365d42ef343e1037d2e01a325a238af50964004bbc097f1e5",
+      "size": 36
     },
     "customs/.gitkeep": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -1173,12 +1173,12 @@
       "size": 1370
     },
     "scripts/tests/test_vas.py": {
-      "sha256": "2181820cdb89ef7793b0f9aff3e76214d005c753cafe7e620079bb90491ac65a",
-      "size": 15175
+      "sha256": "150ec960e6108144d3059016613a5dd6ef5bad0cc81a190724918295e1fa9732",
+      "size": 19976
     },
     "scripts/vas.py": {
-      "sha256": "14e9000f91ff49a737bde6e3c8dc7d68ce4acd6564f70ff67cbee547968e232d",
-      "size": 65958
+      "sha256": "56135c84e0d34baedd256f2e74497212ad5c48aa3fc21204ee30d1e816ca8373",
+      "size": 87932
     },
     "skills-lock.json": {
       "sha256": "b6e212cb707c3f72add14fe27df691e8382cad89ad0c9722dd25b8ef1e10a2e4",

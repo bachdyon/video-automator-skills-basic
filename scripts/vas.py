@@ -8,6 +8,7 @@ Commands:
   upgrade --rollback   Restore the state before the latest upgrade.
   doctor               Check that the installation works.
   repair               Recreate skill links after unzipping with a tool that drops symlinks.
+  install-template <zip>  Install one template package (template + its skill) from a template ZIP.
 
 Standard library only (Python 3.11+).
 """
@@ -65,6 +66,9 @@ PROTECTED_FILES = (CUSTOMS_FILE,)
 # Generated or local-only folder names that never ship.
 EXCLUDED_DIR_NAMES = {"node_modules", "build", "out", "output", ".remotion", "dist", "__pycache__", ".pytest_cache"}
 EXCLUDED_FILE_NAMES = {".DS_Store"}
+
+# Licensed fonts VAS may not redistribute: users install their own copy (see the Font Rule in AGENTS.md).
+USER_FONT_RE = re.compile(r"(?i)(?:^|/)(?:UTM[ _-]|GoogleSans|SVN-|MTD-|1FTV-|TH-Viettay|DT-?Phudu)[^/]*\.(?:ttf|otf|woff2?)$")
 
 # Folders whose symlinks mirror skills for agent auto-discovery.
 SYMLINK_MIRRORS = (".claude/skills", ".junie/skills")
@@ -375,6 +379,7 @@ def load_basic_selection(root: Path) -> Selection:
     })
 
     all_skills = list_dir_names(root / "skills", "SKILL.md") | list_dir_names(root / ".agents" / "skills", "SKILL.md")
+    all_skills |= template_skill_names(root)  # template skills live inside templates/<id>/skill/
     return Selection(
         files=files,
         skills=skills,
@@ -772,6 +777,19 @@ def premium_files(root: Path, include_untracked: bool) -> list[str]:
         # Nested repositories show up as folders in `git ls-files -o`; ship files only.
         and ((root / rel).is_symlink() or not (root / rel).is_dir())
     )
+    # Templates are distributed one by one as rewards (install-template), never inside Premium.
+    template_skills = template_skill_names(root)
+    def is_template_item(rel: str) -> bool:
+        parts = PurePosixPath(rel).parts
+        if parts[0] == "templates":
+            return True
+        if len(parts) >= 2 and parts[0] == "skills" and parts[1] in template_skills:
+            return True
+        if len(parts) >= 3 and parts[:2] in ((".agents", "skills"), (".claude", "skills"), (".junie", "skills")) \
+                and parts[2] in template_skills:
+            return True
+        return False
+    kept = [rel for rel in kept if not is_template_item(rel) and not USER_FONT_RE.search(rel)]
     shipped = set(kept)
     dangling = []
     for rel in kept:
@@ -785,8 +803,23 @@ def premium_files(root: Path, include_untracked: bool) -> list[str]:
     return [rel for rel in kept if rel not in set(dangling)]
 
 
+def local_user_font_faces(css: str) -> str:
+    """In each @font-face whose url() is a user-installed font, load the installed font by name instead."""
+    def fix(block: re.Match) -> str:
+        body = block.group(0)
+        url = re.search(r"url\(\s*['\"]?([^'\")]+)['\"]?\s*\)", body)
+        family = re.search(r"font-family\s*:\s*['\"]?([^;'\"]+)['\"]?\s*;", body)
+        if not url or not family or not USER_FONT_RE.search(url.group(1)):
+            return body
+        return re.sub(r"src\s*:[^;]+;", f'src: local("{family.group(1).strip()}");', body, count=1)
+    return re.sub(r"@font-face\s*\{[^}]*\}", fix, css)
+
+
 def basic_only_overrides(root: Path, files: list[str]) -> dict[str, bytes]:
-    """Premium copies of text files with their Basic-only blocks removed."""
+    """Premium copies of text files: Basic-only blocks removed, and in AGENTS.md/README.md the
+    list lines of templates (which Premium does not ship) dropped."""
+    template_skills = template_skill_names(root)
+    template_ids = list_dir_names(root / "templates", "template.toml")
     overrides: dict[str, bytes] = {}
     for rel in files:
         path = root / rel
@@ -796,8 +829,13 @@ def basic_only_overrides(root: Path, files: list[str]) -> dict[str, bytes]:
             text = path.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue
-        if BASIC_START in text:
-            overrides[rel] = strip_basic_blocks(text, rel).encode("utf-8")
+        new = strip_basic_blocks(text, rel) if BASIC_START in text else text
+        if rel.endswith(".css") and "@font-face" in new:
+            new = local_user_font_faces(new)
+        if rel in ROUTER_FILES:
+            new = drop_premium_list_lines(new, set(), template_skills, set(), template_ids)
+        if new != text:
+            overrides[rel] = new.encode("utf-8")
     return overrides
 
 
@@ -858,6 +896,9 @@ def cmd_publish_premium(root: Path, args: argparse.Namespace) -> int:
 
     overrides = basic_only_overrides(root, files)
     manifest = build_manifest(root, files, "premium", info["version"], overrides)
+    # Fonts the user drops in as files (text-preset fonts are installed on the computer instead).
+    manifest["user_fonts"] = sorted(rel for rel in git_files(root, "-c")
+                                    if USER_FONT_RE.search(rel) and not rel.startswith(("templates/", "packages/")))
     archive = Path(args.zip_out).resolve() if args.zip_out else root / "exports" / "releases" / f"vas-premium-{info['version']}.zip"
     write_zip(root, files, manifest, archive, overrides)
     print(f"Upgrade ZIP: {archive} ({archive.stat().st_size / 1048576:.1f} MB, {len(files)} files)")
@@ -959,6 +1000,18 @@ def cmd_upgrade(root: Path, args: argparse.Namespace) -> int:
         raise VasError("usage: vas.py upgrade <path-to-premium.zip>")
     archive = Path(args.zip).expanduser().resolve()
     zf, new_manifest = read_package(archive)
+    # The installed vas.py may be older than the package: let the package's own vas.py do the upgrade.
+    if not os.environ.get("VAS_UPGRADE_RUNNER") and "scripts/vas.py" in zf.namelist():
+        new_code = zf.read("scripts/vas.py")
+        if new_code != Path(__file__).read_bytes():
+            runner = root / ".vas" / "upgrade-runner" / "scripts" / "vas.py"
+            runner.parent.mkdir(parents=True, exist_ok=True)
+            runner.write_bytes(new_code)
+            zf.close()
+            cmd = [sys.executable, str(runner), "--root", str(root), "upgrade", str(archive)]
+            cmd += ["--allow-downgrade"] if args.allow_downgrade else []
+            cmd += ["--no-smoke"] if args.no_smoke else []
+            return subprocess.run(cmd, env={**os.environ, "VAS_UPGRADE_RUNNER": "1"}).returncode
     current = read_version(root)
     new_version = new_manifest["version"]
     if version_tuple(new_version) < version_tuple(current["version"]) and not args.allow_downgrade:
@@ -1000,8 +1053,21 @@ def cmd_upgrade(root: Path, args: argparse.Namespace) -> int:
             continue
         writes.append(rel)
         (overwritten if exists else added).append(rel)
+    # Templates that an older Premium shipped stay installed: they now come from template ZIPs.
+    old_mapping = template_skill_mapping((root / "AGENTS.md").read_text(encoding="utf-8")) \
+        if (root / "AGENTS.md").exists() else {}
+    kept_skills = set(old_mapping.values()) | {n for n in list_dir_names(root / "skills", "SKILL.md")
+                                                if n.endswith("-template")} - NON_TEMPLATE_SKILLS
+
+    def keeps_template(rel: str) -> bool:
+        parts = PurePosixPath(rel).parts
+        return bool(USER_FONT_RE.search(rel)) or parts[0] == "templates" or (len(parts) >= 2 and parts[0] == "skills" and parts[1] in kept_skills) or \
+            (len(parts) >= 3 and parts[:2] in ((".agents", "skills"), (".claude", "skills"), (".junie", "skills"))
+             and parts[2] in kept_skills)
+
     deleted = [rel for rel in old_files
-               if rel not in new_files and not is_protected(rel) and ((root / rel).exists() or (root / rel).is_symlink())]
+               if rel not in new_files and not is_protected(rel) and not keeps_template(rel)
+               and ((root / rel).exists() or (root / rel).is_symlink())]
 
     # Backup for rollback.
     files_backup = backup_dir / "files"
@@ -1048,6 +1114,14 @@ def cmd_upgrade(root: Path, args: argparse.Namespace) -> int:
     (root / MANIFEST_REL).parent.mkdir(parents=True, exist_ok=True)
     (root / MANIFEST_REL).write_bytes(zf.read(MANIFEST_REL))
     zf.close()
+    # Kept templates are found through their template.toml once AGENTS.md no longer maps them.
+    for template_id, skill in old_mapping.items():
+        contract = root / "templates" / template_id / "template.toml"
+        if contract.exists() and resolve_skill(root, skill):
+            try:
+                ensure_matching_skill(contract, skill)
+            except VasError:
+                notes.append(f"could not record the skill of template {template_id}")
     print(f"  files: {len(added)} added, {len(overwritten)} updated, {len(deleted)} removed")
 
     # Git: keep the clone usable without pulling Basic over Premium.
@@ -1131,6 +1205,254 @@ def rollback(root: Path) -> int:
     return 0
 
 
+# --------------------------------------------------------------------------- templates
+
+TEMPLATE_PACKAGE_TYPE = "video-agent-template-bundle"
+# Skills whose name ends in "-template" but that are tools, not a template's skill.
+NON_TEMPLATE_SKILLS = {"job-to-template"}
+
+
+def installed_templates(root: Path) -> dict[str, str]:
+    """Template id -> skill, read from `[template].matching_skill` (customs first)."""
+    found: dict[str, str] = {}
+    for base in (root / "templates", root / "customs" / "templates"):
+        if not base.is_dir():
+            continue
+        for contract in sorted(base.glob("*/template.toml")):
+            try:
+                data = tomllib.loads(contract.read_text(encoding="utf-8"))
+            except (tomllib.TOMLDecodeError, OSError):
+                continue
+            skill = data.get("template", {}).get("matching_skill")
+            if skill:
+                found[contract.parent.name] = str(skill)
+    return found
+
+
+def template_skill_names(root: Path) -> set[str]:
+    """Every skill that belongs to a template (Premium ships none of them)."""
+    agents = root / "AGENTS.md"
+    names = set(template_skill_mapping(agents.read_text(encoding="utf-8")).values()) if agents.exists() else set()
+    names |= set(installed_templates(root).values())
+    for base in (root / "skills", root / ".agents" / "skills"):
+        names |= {n for n in list_dir_names(base, "SKILL.md") if n.endswith("-template")}
+    return names - NON_TEMPLATE_SKILLS
+
+
+TEMPLATE_SKILL_DIR = "skill"  # a template's own skill lives in templates/<id>/skill/
+
+
+def rewrite_skill_paths(text: str, skill: str, template_id: str) -> str:
+    """`skills/<skill>` (and `customs/skills/<skill>`) -> `templates/<id>/skill`; `.claude/skills/<skill>` stays."""
+    pattern = re.compile(rf"(?<![\w./-])((?:customs/)?)skills/{re.escape(skill)}(?![\w-])")
+    return pattern.sub(lambda m: f"{m.group(1)}templates/{template_id}/{TEMPLATE_SKILL_DIR}", text)
+
+
+def rewrite_depth_paths(text: str, old_rel: PurePosixPath, new_rel: PurePosixPath, skill_depth: int) -> str:
+    """Keep `<path>.parents[k]` pointing at the same place after a file moves deeper.
+
+    Targets inside the skill keep their index; the repository root moves up one level; the old
+    `skills/` folder becomes `<root> / "skills"`. `skill_depth` is how many parts the skill folder had
+    (2 for skills/<name>)."""
+    old_parts = old_rel.parts[:-1]
+    new_root = len(new_rel.parts) - 1
+
+    def replace(match: re.Match) -> str:
+        k = int(match.group(1))
+        target = old_parts[: len(old_parts) - k] if k < len(old_parts) else ()
+        if k >= len(old_parts) + 1 or len(target) >= skill_depth:
+            return match.group(0)
+        if len(target) == 0:
+            return f"parents[{new_root}]"
+        return f"parents[{new_root}] / " + " / ".join(f'"{part}"' for part in target)
+
+    return re.sub(r"parents\[(\d+)\]", replace, text)
+
+
+def move_skill_into_template(root: Path, skill_dir: Path, template_id: str, skill: str) -> list[str]:
+    """Move a template's skill folder into templates/<id>/skill and fix paths. Returns changed files."""
+    template_dir = root / "templates" / template_id
+    dest = template_dir / TEMPLATE_SKILL_DIR
+    if dest.exists():
+        raise VasError(f"{dest.relative_to(root)} already exists")
+    old_base = PurePosixPath(skill_dir.relative_to(root).as_posix())
+    shutil.move(str(skill_dir), str(dest))
+    changed: list[str] = []
+    for path in sorted(template_dir.rglob("*")):
+        if not path.is_file() or path.is_symlink() or any(part in (".venv", "node_modules", "__pycache__") for part in path.parts):
+            continue
+        rel = PurePosixPath(path.relative_to(root).as_posix())
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        new = rewrite_skill_paths(text, skill, template_id)
+        if path.suffix == ".py" and dest in path.parents:
+            old_rel = old_base / path.relative_to(dest).as_posix()
+            new = rewrite_depth_paths(new, old_rel, rel, len(old_base.parts))
+        if new != text:
+            path.write_text(new, encoding="utf-8")
+            changed.append(str(rel))
+    return changed
+
+
+def ensure_matching_skill(contract: Path, skill: str) -> bool:
+    """Add `matching_skill` under [template] when missing. Returns True when the file changed."""
+    text = contract.read_text(encoding="utf-8")
+    if tomllib.loads(text).get("template", {}).get("matching_skill"):
+        return False
+    lines = text.splitlines(keepends=True)
+    for index, line in enumerate(lines):
+        if line.strip() == "[template]":
+            lines.insert(index + 1, f'matching_skill = "{skill}"\n')
+            contract.write_text("".join(lines), encoding="utf-8")
+            return True
+    raise VasError(f"{contract} has no [template] table")
+
+
+def read_template_package(archive: Path) -> tuple[zipfile.ZipFile, str, dict, str, str]:
+    """Validate a template-packager ZIP. Returns (zip, prefix, metadata, skill id, template id)."""
+    if not archive.is_file():
+        raise VasError(f"ZIP not found: {archive}")
+    try:
+        zf = zipfile.ZipFile(archive)
+    except zipfile.BadZipFile as exc:
+        raise VasError(f"not a valid ZIP file: {archive}") from exc
+    names = [n for n in zf.namelist() if not n.endswith("/")]
+    for name in names:
+        safe_rel(name)
+    meta_names = [n for n in names if PurePosixPath(n).name == "PACKAGE.json" and len(PurePosixPath(n).parts) <= 2]
+    if len(meta_names) != 1:
+        raise VasError("this ZIP is not a VAS template package (PACKAGE.json not found)")
+    prefix = str(PurePosixPath(meta_names[0]).parent)
+    prefix = "" if prefix == "." else prefix + "/"
+    meta = json.loads(zf.read(meta_names[0]))
+    if meta.get("type") != TEMPLATE_PACKAGE_TYPE:
+        raise VasError("this ZIP is not a VAS template package (wrong package type)")
+    layout = meta.get("install_layout", {})
+    skill_path, template_path = PurePosixPath(layout.get("skill", "")), PurePosixPath(layout.get("template", ""))
+    if len(template_path.parts) != 2 or template_path.parts[0] != "templates":
+        raise VasError("template package has an invalid install_layout")
+    nested = skill_path == template_path / TEMPLATE_SKILL_DIR          # current layout
+    legacy = len(skill_path.parts) == 2 and skill_path.parts[0] == "skills"  # skills/<name> (older packages)
+    if not (nested or legacy):
+        raise VasError("template package has an invalid install_layout")
+    skill_name = str(meta.get("id") or "") if nested else skill_path.parts[1]
+    if not skill_name:
+        raise VasError("template package does not name its skill (PACKAGE.json id)")
+    manifest_name = prefix + "MANIFEST.sha256"
+    if manifest_name not in names:
+        raise VasError("template package is missing MANIFEST.sha256")
+    listed: set[str] = set()
+    for line in zf.read(manifest_name).decode("utf-8").splitlines():
+        if not line.strip():
+            continue
+        digest, rel = line.split(None, 1)
+        rel = rel.strip().removeprefix("./")
+        safe_rel(rel)
+        listed.add(prefix + rel)
+        if prefix + rel not in names or sha256_bytes(zf.read(prefix + rel)) != digest:
+            raise VasError(f"template package is corrupt: checksum mismatch for {rel}")
+    unlisted = [n for n in names if n.startswith(prefix) and n != manifest_name and n not in listed]
+    if unlisted:
+        raise VasError(f"template package has files outside its checksum list, e.g. {unlisted[0]}")
+    return zf, prefix, meta, skill_name, template_path.parts[1]
+
+
+def cmd_install_template(root: Path, args: argparse.Namespace) -> int:
+    zf, prefix, meta, skill, template_id = read_template_package(Path(args.zip).expanduser().resolve())
+    version = str(meta.get("version", "0.0.0"))
+    dest_template = root / "templates" / template_id
+    dest_skill = dest_template / TEMPLATE_SKILL_DIR
+    legacy_skill = root / "skills" / skill   # where older installs kept the template's skill
+    contract = dest_template / "template.toml"
+    if contract.exists() and not args.force:
+        current = str(tomllib.loads(contract.read_text(encoding="utf-8")).get("template", {}).get("version", "0.0.0"))
+        if version_tuple(version) <= version_tuple(current):
+            print(f"Template {template_id} v{current} is already installed (package is v{version}). Nothing to do.")
+            return 0
+        print(f"Updating template {template_id} v{current} → v{version}")
+    deps = meta.get("dependencies", {})
+    missing = [name for name in deps.get("project_skills", []) if not resolve_skill(root, name)]
+    if missing:
+        raise VasError(f"this template needs skills that are not installed: {', '.join(missing)} (part of VAS Premium)")
+
+    if dest_template.exists() or legacy_skill.exists():
+        stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")  # unique even within one second
+        backup = root / ".vas" / "backups" / "templates" / f"{template_id}-{stamp}"
+        for folder in (dest_template, legacy_skill):
+            if folder.exists():
+                shutil.copytree(folder, backup / folder.relative_to(root), symlinks=True)
+                shutil.rmtree(folder)
+    count = 0
+    converted = False
+    for info in zf.infolist():
+        name = info.filename
+        if name.endswith("/") or not name.startswith(prefix):
+            continue
+        rel = name[len(prefix):]
+        if rel.startswith(f"skills/{skill}/"):   # older package: move the skill into the template
+            rel = f"templates/{template_id}/{TEMPLATE_SKILL_DIR}/" + rel[len(f"skills/{skill}/"):]
+            converted = True
+        elif not rel.startswith(f"templates/{template_id}/"):
+            continue
+        target = root / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(zf.read(info))
+        mode = (info.external_attr >> 16) & 0o777
+        if mode:
+            target.chmod(mode)
+        count += 1
+    zf.close()
+    if not contract.exists() or not (dest_skill / "SKILL.md").exists():
+        raise VasError("template package did not contain both template.toml and SKILL.md")
+    # Paths written for the older skills/<name> layout now point into the template.
+    for path in dest_template.rglob("*"):
+        if not path.is_file() or path.is_symlink():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        new = rewrite_skill_paths(text, skill, template_id)
+        if converted and path.suffix == ".py" and dest_skill in path.parents:
+            inside = path.relative_to(dest_skill).as_posix()
+            new = rewrite_depth_paths(new, PurePosixPath(f"skills/{skill}/{inside}"),
+                                      PurePosixPath(path.relative_to(root).as_posix()), 2)
+        if new != text:
+            path.write_text(new, encoding="utf-8")
+    ensure_matching_skill(contract, skill)
+    user_fonts = [str(PurePosixPath(rel).relative_to(f"templates/{template_id}"))
+                  for rel in meta.get("user_fonts", []) if rel.startswith(f"templates/{template_id}/")]
+    if user_fonts and "[user_fonts]" not in contract.read_text(encoding="utf-8"):
+        listed = ", ".join(json.dumps(rel) for rel in user_fonts)
+        contract.write_text(contract.read_text(encoding="utf-8").rstrip("\n") + f"\n\n[user_fonts]\nfiles = [{listed}]\n",
+                            encoding="utf-8")
+    link = root / ".claude" / "skills" / skill
+    target = f"../../templates/{template_id}/{TEMPLATE_SKILL_DIR}"
+    if link.is_symlink() and os.readlink(link) != target:
+        link.unlink()
+    if not link.exists() and not link.is_symlink():
+        link.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            os.symlink(target, link)
+        except OSError:
+            pass
+    print(f"Installed template {template_id} v{version} ({count} files). Use it with ${skill}.")
+    if meta.get("description"):
+        print(f"  {meta['description']}")
+    keys = deps.get("credentials", [])
+    if keys:
+        print("  Needs: " + "; ".join(keys))
+    for rel in user_fonts:
+        if not (dest_template / rel).exists():
+            print(f"  Font to install yourself: {PurePosixPath(rel).name} → place a licensed copy at templates/{template_id}/{rel}")
+    tools = [t for t in deps.get("executables", []) if not shutil.which(t)]
+    if tools:
+        print("  Installed on first use: " + ", ".join(tools))
+    return 0
+
+
 # --------------------------------------------------------------------------- repair
 
 
@@ -1182,6 +1504,18 @@ def resolve_skill(root: Path, name: str) -> Path | None:
     for base in (root / "customs" / "skills", root / "skills", root / ".agents" / "skills"):
         if (base / name / "SKILL.md").exists():
             return base / name
+    # A template's own skill lives in templates/<id>/skill/ (customs first).
+    for base in (root / "customs" / "templates", root / "templates"):
+        for contract in sorted(base.glob("*/template.toml")) if base.is_dir() else []:
+            skill_dir = contract.parent / TEMPLATE_SKILL_DIR
+            if not (skill_dir / "SKILL.md").exists():
+                continue
+            try:
+                declared = tomllib.loads(contract.read_text(encoding="utf-8")).get("template", {}).get("matching_skill")
+            except (tomllib.TOMLDecodeError, OSError):
+                declared = None
+            if name in (declared, f"{contract.parent.name}-template"):
+                return skill_dir
     return None
 
 
@@ -1227,11 +1561,11 @@ def doctor_skills(root: Path, rep: Report) -> None:
         rep.add("FAIL", "skills", "AGENTS.md missing")
         return
     text = agents.read_text(encoding="utf-8")
-    mapping = template_skill_mapping(text)
+    mapping = {**template_skill_mapping(text), **installed_templates(root)}
     missing_skills = sorted(name for name in listed_skills(text) | set(mapping.values()) if not resolve_skill(root, name))
     missing_templates = sorted(t for t in mapping if not resolve_template(root, t))
     if missing_skills:
-        rep.add("FAIL", "skills", "listed in AGENTS.md but missing: " + ", ".join(missing_skills))
+        rep.add("FAIL", "skills", "listed in AGENTS.md or a template.toml but missing: " + ", ".join(missing_skills))
     if missing_templates:
         rep.add("FAIL", "templates", "mapped in AGENTS.md but missing template.toml: " + ", ".join(missing_templates))
     broken = []
@@ -1310,6 +1644,28 @@ def doctor_customs(root: Path, rep: Report) -> None:
         rep.add("PASS", "customs", f"{len(items)} customs item(s) registered")
 
 
+def doctor_user_fonts(root: Path, rep: Report) -> None:
+    """Licensed fonts VAS does not ship: warn when one is not installed where it belongs."""
+    wanted: list[tuple[str, str]] = []
+    manifest = load_manifest(root)
+    for rel in (manifest or {}).get("user_fonts", []):
+        wanted.append((rel, "optional"))
+    for contract in sorted((root / "templates").glob("*/template.toml")) if (root / "templates").is_dir() else []:
+        try:
+            files = tomllib.loads(contract.read_text(encoding="utf-8")).get("user_fonts", {}).get("files", [])
+        except (tomllib.TOMLDecodeError, OSError):
+            continue
+        wanted += [(f"templates/{contract.parent.name}/{rel}", f"template {contract.parent.name}") for rel in files]
+    missing = [(rel, owner) for rel, owner in wanted if not (root / rel).exists()]
+    for rel, owner in missing:
+        if owner == "optional":
+            rep.add("INFO", "font", f"{PurePosixPath(rel).name} not installed (optional); place a licensed copy at {rel} if you use it")
+        else:
+            rep.add("WARN", "font", f"{PurePosixPath(rel).name} not installed (needed by {owner}); place a licensed copy at {rel}")
+    if wanted and not missing:
+        rep.add("PASS", "fonts", f"{len(wanted)} user-installed font(s) present")
+
+
 def doctor_env(root: Path, rep: Report) -> None:
     expected = env_keys(root / "env.example")
     present = env_keys(root / ".env")
@@ -1384,12 +1740,59 @@ def doctor_smoke(root: Path, rep: Report) -> None:
         shutil.rmtree(work, ignore_errors=True)
 
 
+def restore_templates_removed_by_upgrade(root: Path, rep: Report) -> None:
+    """Upgraders before 1.0.11 deleted the templates older Premium shipped; put them back once."""
+    backups = root / ".vas" / "backups"
+    records = sorted(backups.glob("*/backup.json")) if backups.is_dir() else []
+    if not records:
+        return
+    record_path = records[-1]
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    if record.get("templates_restored"):
+        return
+    files = record_path.parent / "files"
+    old_agents = files / "AGENTS.md"
+    old_mapping = template_skill_mapping(old_agents.read_text(encoding="utf-8")) if old_agents.exists() else {}
+    skills = set(old_mapping.values()) | {
+        PurePosixPath(rel).parts[1] for rel in record.get("deleted", [])
+        if rel.startswith("skills/") and PurePosixPath(rel).parts[1].endswith("-template")
+    }
+    skills -= NON_TEMPLATE_SKILLS
+
+    def is_template_item(rel: str) -> bool:
+        parts = PurePosixPath(rel).parts
+        return bool(USER_FONT_RE.search(rel)) or parts[0] == "templates" or \
+            (len(parts) >= 2 and parts[0] == "skills" and parts[1] in skills) or \
+            (len(parts) >= 3 and parts[:2] in ((".agents", "skills"), (".claude", "skills"), (".junie", "skills"))
+             and parts[2] in skills)
+
+    restored = 0
+    for rel in record.get("deleted", []):
+        source, target = files / rel, root / rel
+        if is_template_item(rel) and (source.exists() or source.is_symlink()) and not (target.exists() or target.is_symlink()):
+            copy_entry(source, target)
+            restored += 1
+    for template_id, skill in old_mapping.items():
+        contract = root / "templates" / template_id / "template.toml"
+        if contract.exists() and resolve_skill(root, skill):
+            try:
+                ensure_matching_skill(contract, skill)
+            except VasError:
+                pass
+    record["templates_restored"] = True
+    record_path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    if restored:
+        rep.add("INFO", "templates", f"restored {restored} template file(s) removed by the previous upgrade")
+
+
 def cmd_doctor(root: Path, args: argparse.Namespace) -> int:
     rep = Report()
+    restore_templates_removed_by_upgrade(root, rep)
     doctor_integrity(root, rep)
     doctor_skills(root, rep)
     doctor_dependencies(root, rep, full=args.full)
     doctor_customs(root, rep)
+    doctor_user_fonts(root, rep)
     doctor_env(root, rep)
     if args.smoke:
         doctor_smoke(root, rep)
@@ -1437,6 +1840,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("repair", help="recreate skill links listed in the manifest (after unzipping)")
 
+    install_template = sub.add_parser("install-template", help="install one template package from a template ZIP")
+    install_template.add_argument("zip")
+    install_template.add_argument("--force", action="store_true", help="reinstall even if the same or a newer version is installed")
+
     parser.add_argument("--root", default=str(REPO_ROOT), help=argparse.SUPPRESS)
     return parser
 
@@ -1452,6 +1859,8 @@ def main(argv: list[str] | None = None) -> int:
             return cmd_upgrade(root, args)
         if args.command == "repair":
             return cmd_repair(root, args)
+        if args.command == "install-template":
+            return cmd_install_template(root, args)
         return cmd_doctor(root, args)
     except VasError as exc:
         print(f"error: {exc}", file=sys.stderr)
