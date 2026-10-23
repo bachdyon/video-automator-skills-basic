@@ -30,9 +30,9 @@ Bạn không cần biết lập trình. Một AI agent sẽ cài giúp bạn, b�
 
 > Cài đặt VAS Basic cho tôi ngay trong thư mục này, lấy từ https://github.com/bachdyon/video-automator-skills-basic. Mọi file phải nằm trực tiếp trong thư mục này, không tạo thư mục con: file AGENTS.md và thư mục skills phải ở ngay đây (ví dụ dùng `git clone <link> .`). Sau đó làm theo mục "Installation Rule" trong file AGENTS.md. Khi bạn đã kiểm tra và đảm bảo mọi thứ chạy được, trả lời: Sẵn sàng.
 
-**Bước 4.** Agent sẽ tự tải và cài những gì còn thiếu. Thỉnh thoảng nó sẽ hỏi bạn cho phép chạy lệnh hoặc cài phần mềm (như Python, Node.js, ffmpeg): hãy đồng ý. Nếu máy hỏi mật khẩu, bạn tự nhập, đừng gửi mật khẩu cho agent.
+**Bước 4.** Agent chỉ cài phần lõi nên xong rất nhanh. Những thành phần lớn như bộ dựng video hay mô hình giọng đọc sẽ được agent tự cài vào lần đầu bạn dùng tới tính năng đó, nên máy bạn không phải tải thứ mình chưa cần. Khi agent hỏi cho phép chạy lệnh hoặc cài phần mềm (như Python, Node.js, ffmpeg), hãy đồng ý. Nếu máy hỏi mật khẩu, bạn tự nhập, đừng gửi mật khẩu cho agent.
 
-**Bước 5.** Khi agent trả lời **Sẵn sàng** là xong. Hãy thử nhờ nó làm việc, ví dụ: "Tạo giọng đọc cho đoạn văn này: …". Nếu agent báo còn lỗi, nó sẽ giải thích bạn cần làm gì tiếp.
+**Bước 5.** Khi agent trả lời **Sẵn sàng** là xong. Hãy thử nhờ nó làm việc, ví dụ: "Tạo giọng đọc cho đoạn văn này: …". Lần đầu dùng một tính năng có thể mất vài phút để agent tải phần cần thiết; từ lần sau sẽ chạy ngay. Nếu agent báo còn lỗi, nó sẽ giải thích bạn cần làm gì tiếp.
 
 Mọi tính năng của Basic chạy ngay trên máy bạn, không cần API key.
 

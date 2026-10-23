@@ -26,17 +26,28 @@ When the user asks to create or change a skill or tool, write it under `customs/
 
 ## Installation Rule
 
-When the user asks you to install VAS, set it up from the repository root and finish only when it works:
+When the user asks you to install VAS, set up only the core so they can start right away; everything else installs the first time a feature needs it (see the Dependency Rule).
 
-0. VAS must sit directly in the folder the user opened: `AGENTS.md`, `skills/`, and `scripts/` belong at its top level. If cloning or unzipping created an intermediate folder (for example `video-automator-skills-basic/` or `vas-premium-<version>/`), move everything, including hidden files such as `.git`, `.agents`, `.claude`, and `.vas`, up into the opened folder and remove the empty intermediate folder before continuing. If the opened folder is not empty and `git clone <url> .` refuses, use `git init`, `git remote add origin <url>`, and `git pull origin main` instead.
-1. Make sure these are installed, using the platform's usual installer (Homebrew on macOS, winget on Windows, the system package manager on Linux): Python 3.11 or newer, Python 3.11 or 3.12 for OmniVoice, Node.js 18 or newer, git, and ffmpeg/ffprobe. Ask the user before anything that needs administrator rights or a password; never type a password yourself.
-2. Run `npm install` once in the repository root.
-3. Run `python3 -m venv .venv`, then `.venv/bin/python -m pip install -r skills/word-timestamps-extractor/scripts/requirements.txt -r skills/supertonic-tts/scripts/requirements.txt yt-dlp Pillow numpy`. On Windows use `.venv\Scripts\python`.
-4. Run `python3.11 skills/omnivoice-tts/scripts/setup_omnivoice.py` (use `python3.12` if that is the version available).
-5. If `.env` does not exist, copy `env.example` to `.env`. Never fill in API keys yourself or ask the user to paste a key into the chat; tell them which key a feature needs and let them edit `.env`.
-6. Run `python3 scripts/vas.py doctor` and fix every `FAIL` line. `WARN` lines about `.env` are fine.
+1. VAS must sit directly in the folder the user opened: `AGENTS.md`, `skills/`, and `scripts/` belong at its top level. If cloning or unzipping created an intermediate folder (for example `video-automator-skills-basic/` or `vas-premium-<version>/`), move everything, including hidden files such as `.git`, `.agents`, `.claude`, and `.vas`, up into the opened folder and remove the empty intermediate folder before continuing. If the opened folder is not empty and `git clone <url> .` refuses, use `git init`, `git remote add origin <url>`, and `git pull origin main` instead.
+   If you extracted a ZIP, run `python3 scripts/vas.py repair` afterwards to restore the skill links the ZIP tool may have turned into plain files.
+2. Make sure Python 3.11 or newer is available, installing it with the platform's usual installer if needed (Homebrew on macOS, winget on Windows, the system package manager on Linux). Ask the user before anything that needs administrator rights or a password; never type a password yourself.
+3. If `.env` does not exist, copy `env.example` to `.env`. Never fill in API keys yourself or ask the user to paste a key into the chat; tell them which key a feature needs and let them edit `.env`.
+4. Run `python3 scripts/vas.py doctor` and fix every `FAIL` line. `INFO` lines marked "installed the first time a feature needs it" and `WARN` lines are expected at this point.
+5. Do not install Node.js, Remotion libraries, Python packages, or voice models now.
 
 When no `FAIL` remains, reply with exactly one word: `Sẵn sàng`. If something still fails, do not say `Sẵn sàng`; explain in plain language what is missing and what the user can do.
+
+## Dependency Rule
+
+Install a dependency only when the current task needs it and it is missing, then continue the task. Install nothing for features the user is not using. Ask before anything that needs administrator rights or a password.
+
+- Video rendering with Remotion: Node.js 18 or newer, then `npm install` once in the repository root.
+- Audio or video processing: `ffmpeg` and `ffprobe` through the platform's usual installer.
+- A skill's Python packages: create `.venv` with `python3 -m venv .venv` if it does not exist, then install that skill's `scripts/requirements.txt` (or the packages its `SKILL.md` names) with `.venv/bin/python -m pip install` (`.venv\Scripts\python` on Windows). Install only that skill's packages.
+- Video download: `yt-dlp` into `.venv`.
+- OmniVoice voice generation: `python3.11 skills/omnivoice-tts/scripts/setup_omnivoice.py` (or `python3.12`); the model downloads on the first synthesis.
+
+Before saying a task is done, check that the newly installed dependency works for that task. To check every dependency at once, run `python3 scripts/vas.py doctor --full`.
 
 ## Job Context Rule
 

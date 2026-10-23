@@ -281,6 +281,31 @@ class UpgradeTests(unittest.TestCase):
             vas.read_package(evil)
         self.assertFalse((self.install.parent / "evil.txt").exists())
 
+    def test_zip_keeps_symlinks_and_repair_restores_them(self) -> None:
+        import os
+        src = self.source
+        (src / ".claude/skills").mkdir(parents=True)
+        os.symlink("../../skills/core", src / ".claude/skills/core")
+        files = ["skills/core/SKILL.md", ".claude/skills/core"]
+        archive = self.zip_path.with_name("links.zip")
+        vas.write_zip(src, files, vas.build_manifest(src, files, "premium", "1.2.0"), archive)
+        with zipfile.ZipFile(archive) as zf:
+            info = zf.getinfo(".claude/skills/core")
+            self.assertEqual(info.external_attr >> 16 & 0o170000, 0o120000)
+
+            # A tool that ignores symlink entries leaves a plain text file behind.
+            target = self.install.parent / "plain"
+            for name in zf.namelist():
+                out = target / name
+                out.parent.mkdir(parents=True, exist_ok=True)
+                out.write_bytes(zf.read(name))
+        link = target / ".claude/skills/core"
+        self.assertFalse(link.is_symlink())
+        with redirect_stdout(StringIO()):
+            self.assertEqual(vas.cmd_repair(target, argparse.Namespace()), 0)
+        self.assertTrue(link.is_symlink())
+        self.assertEqual(os.readlink(link), "../../skills/core")
+
     def test_rejects_basic_package(self) -> None:
         files = ["VERSION"]
         basic_zip = self.zip_path.with_name("basic.zip")

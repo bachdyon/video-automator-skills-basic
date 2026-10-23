@@ -7,6 +7,7 @@ Commands:
   upgrade <zip>        Upgrade Basic to Premium (or update Premium) from a Premium ZIP.
   upgrade --rollback   Restore the state before the latest upgrade.
   doctor               Check that the installation works.
+  repair               Recreate skill links after unzipping with a tool that drops symlinks.
 
 Standard library only (Python 3.11+).
 """
@@ -368,6 +369,7 @@ def load_basic_selection(root: Path) -> Selection:
         and not any(rel.startswith(f"{mirror}/") for mirror in SYMLINK_MIRRORS)
         and rel not in (BASIC_CONFIG, CUSTOMS_FILE, MANIFEST_REL)
         and (root / rel).exists()
+        and ((root / rel).is_symlink() or not (root / rel).is_dir())
     })
 
     all_skills = list_dir_names(root / "skills", "SKILL.md") | list_dir_names(root / ".agents" / "skills", "SKILL.md")
@@ -760,6 +762,8 @@ def premium_files(root: Path, include_untracked: bool) -> list[str]:
         and rel not in (BASIC_CONFIG, CUSTOMS_FILE, MANIFEST_REL)
         and not has_excluded_part(rel)
         and ((root / rel).exists() or (root / rel).is_symlink())
+        # Nested repositories show up as folders in `git ls-files -o`; ship files only.
+        and ((root / rel).is_symlink() or not (root / rel).is_dir())
     )
     shipped = set(kept)
     dangling = []
@@ -801,7 +805,11 @@ def write_zip(base: Path, files: list[str], manifest: dict, archive: Path,
             if overrides and rel in overrides:
                 zf.writestr(rel, overrides[rel])
             elif path.is_symlink():
-                zf.writestr(rel, os.readlink(path))
+                # Store as a real symlink entry so `unzip` recreates the link on macOS/Linux.
+                info = zipfile.ZipInfo(rel)
+                info.create_system = 3
+                info.external_attr = (0o120777 << 16)
+                zf.writestr(info, os.readlink(path))
             else:
                 zf.write(path, rel)
     tmp.replace(archive)
@@ -908,22 +916,18 @@ def git_state(root: Path) -> dict | None:
 
 
 def post_install(root: Path, changed: set[str], report: list[str]) -> None:
-    if ("package-lock.json" in changed or "package.json" in changed or not (root / "node_modules").exists()):
+    """Keep what is already installed consistent; everything else installs on first use (Dependency Rule)."""
+    lock_changed = "package-lock.json" in changed or "package.json" in changed
+    if (root / "node_modules").exists() and lock_changed:
         if shutil.which("npm"):
             result = subprocess.run(["npm", "install", "--no-audit", "--no-fund"], cwd=root, capture_output=True, text=True)
-            report.append("npm install: " + ("ok" if result.returncode == 0 else f"FAILED\n{result.stderr[-2000:]}"))
+            report.append("npm install (update existing): " + ("ok" if result.returncode == 0 else f"FAILED\n{result.stderr[-2000:]}"))
         else:
-            report.append("npm not found: install Node.js, then run `npm install` in the repository root")
-    requirements = sorted(rel for rel in changed if PurePosixPath(rel).name == "requirements.txt")
-    venv_python = root / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-    if requirements:
-        if venv_python.exists():
-            for rel in requirements:
-                result = subprocess.run([str(venv_python), "-m", "pip", "install", "-q", "-r", rel],
-                                        cwd=root, capture_output=True, text=True)
-                report.append(f"pip install -r {rel}: " + ("ok" if result.returncode == 0 else "FAILED"))
-        else:
-            report.append("no .venv: create it with `python3 -m venv .venv` before using tools with Python requirements")
+            report.append("npm not found: Remotion libraries will be refreshed on the next video render")
+    elif not (root / "node_modules").exists():
+        report.append("Remotion libraries: not installed yet, installed on the first video render")
+    if any(PurePosixPath(rel).name == "requirements.txt" for rel in changed):
+        report.append("Python packages: each feature installs its own packages the first time it is used")
     ensure = root / "scripts" / "ensure-remotion-skill.sh"
     if ensure.exists() and shutil.which("bash"):
         result = subprocess.run(["bash", str(ensure)], cwd=root, capture_output=True, text=True)
@@ -1120,6 +1124,38 @@ def rollback(root: Path) -> int:
     return 0
 
 
+# --------------------------------------------------------------------------- repair
+
+
+def cmd_repair(root: Path, args: argparse.Namespace) -> int:
+    """Recreate skill symlinks from the manifest (after unzipping with a tool that drops symlinks)."""
+    manifest = load_manifest(root)
+    if manifest is None:
+        raise VasError("no .vas/manifest.json found; nothing to repair")
+    fixed, failed = 0, []
+    for rel, entry in manifest["files"].items():
+        if "symlink" not in entry or is_protected(rel):
+            continue
+        path, target = root / rel, entry["symlink"]
+        if path.is_symlink() and os.readlink(path) == target:
+            continue
+        if path.is_dir() and not path.is_symlink():
+            failed.append(f"{rel} is a folder")
+            continue
+        try:
+            if path.exists() or path.is_symlink():
+                path.unlink()
+            path.parent.mkdir(parents=True, exist_ok=True)
+            os.symlink(target, path)
+            fixed += 1
+        except OSError as exc:
+            failed.append(f"{rel}: {exc}")
+    print(f"Repaired {fixed} link(s).")
+    for item in failed:
+        print(f"  could not repair {item}")
+    return 1 if failed else 0
+
+
 # --------------------------------------------------------------------------- doctor
 
 
@@ -1203,12 +1239,15 @@ def doctor_skills(root: Path, rep: Report) -> None:
         rep.add("PASS", "skills", f"{len(listed_skills(text))} skills{templates} resolve")
 
 
-def doctor_dependencies(root: Path, rep: Report) -> None:
+def doctor_dependencies(root: Path, rep: Report, full: bool = False) -> None:
+    """Core checks fail; optional dependencies are INFO until used (FAIL with --full)."""
+    missing = "FAIL" if full else "INFO"
+    on_demand = "not installed yet; installed the first time a feature needs it"
     rep.add("PASS", "python", sys.version.split()[0])
     if not shutil.which("node"):
-        rep.add("FAIL", "node", "Node.js not found")
+        rep.add(missing, "node", f"Node.js {on_demand} (video rendering)")
     elif not (root / "node_modules").exists():
-        rep.add("FAIL", "node_modules", "missing; run `npm install` in the repository root")
+        rep.add(missing, "node_modules", f"Remotion libraries {on_demand} (video rendering)")
     else:
         result = subprocess.run(["node", "-e", "require.resolve('remotion'); require.resolve('@remotion/cli')"],
                                 cwd=root, capture_output=True, text=True)
@@ -1220,12 +1259,21 @@ def doctor_dependencies(root: Path, rep: Report) -> None:
         rep.add("PASS" if result.returncode == 0 else "FAIL", "remotion skills",
                 "complete" if result.returncode == 0 else (result.stdout + result.stderr).strip()[-300:])
     for tool in ("ffmpeg", "ffprobe"):
-        rep.add("PASS" if shutil.which(tool) else "WARN", tool, "found" if shutil.which(tool) else "not on PATH")
+        if shutil.which(tool):
+            rep.add("PASS", tool, "found")
+        else:
+            rep.add("FAIL" if full else "WARN", tool, f"{on_demand} (audio/video processing)")
+    omnivoice = root / ".cache" / "omnivoice-tts" / "venv"
+    if (root / "skills" / "omnivoice-tts").exists():
+        rep.add("PASS" if omnivoice.exists() else missing, "omnivoice",
+                "environment present" if omnivoice.exists() else f"{on_demand} (voice generation)")
     venv_python = root / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
     if venv_python.exists():
         result = subprocess.run([str(venv_python), "-m", "pip", "check"], cwd=root, capture_output=True, text=True)
         rep.add("PASS" if result.returncode == 0 else "WARN", ".venv",
                 "dependencies consistent" if result.returncode == 0 else result.stdout.strip()[-300:])
+    else:
+        rep.add(missing, ".venv", f"Python environment {on_demand}")
 
 
 def doctor_customs(root: Path, rep: Report) -> None:
@@ -1297,6 +1345,9 @@ def doctor_smoke(root: Path, rep: Report) -> None:
     if not candidates:
         rep.add("INFO", "smoke render", "skipped: nothing to render in this edition")
         return
+    if not (root / "node_modules" / ".bin").exists():
+        rep.add("INFO", "smoke render", "skipped: Remotion libraries are installed on the first video render")
+        return
     template = candidates[0]
     contract = tomllib.loads((template / "template.toml").read_text(encoding="utf-8"))
     composition = contract.get("remotion", {}).get("composition_id", "MainVideo")
@@ -1330,7 +1381,7 @@ def cmd_doctor(root: Path, args: argparse.Namespace) -> int:
     rep = Report()
     doctor_integrity(root, rep)
     doctor_skills(root, rep)
-    doctor_dependencies(root, rep)
+    doctor_dependencies(root, rep, full=args.full)
     doctor_customs(root, rep)
     doctor_env(root, rep)
     if args.smoke:
@@ -1374,6 +1425,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     doctor = sub.add_parser("doctor", help="check that the installation works")
     doctor.add_argument("--smoke", action="store_true", help="also render a still of one template")
+    doctor.add_argument("--full", action="store_true",
+                        help="treat on-demand dependencies (Node, Remotion, ffmpeg, OmniVoice, .venv) as required")
+
+    sub.add_parser("repair", help="recreate skill links listed in the manifest (after unzipping)")
 
     parser.add_argument("--root", default=str(REPO_ROOT), help=argparse.SUPPRESS)
     return parser
@@ -1388,6 +1443,8 @@ def main(argv: list[str] | None = None) -> int:
             return cmd_publish_basic(root, args) if args.target == "basic" else cmd_publish_premium(root, args)
         if args.command == "upgrade":
             return cmd_upgrade(root, args)
+        if args.command == "repair":
+            return cmd_repair(root, args)
         return cmd_doctor(root, args)
     except VasError as exc:
         print(f"error: {exc}", file=sys.stderr)
