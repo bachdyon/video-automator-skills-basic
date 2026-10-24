@@ -8,6 +8,7 @@ Commands:
   upgrade --rollback   Restore the state before the latest upgrade.
   doctor               Check that the installation works.
   repair               Recreate skill links after unzipping with a tool that drops symlinks.
+  templates            List installed templates and when to use each.
   install-template <zip>  Install one template package (template + its skill) from a template ZIP.
 
 Standard library only (Python 3.11+).
@@ -135,6 +136,11 @@ def version_tuple(value: str) -> tuple[int, ...]:
     if not parts:
         raise VasError(f"invalid version: {value!r}")
     return tuple(int(part) for part in parts[:3])
+
+
+def is_user_space(rel: str) -> bool:
+    """The user's own customizations: never shipped in a release and never written by an upgrade."""
+    return rel in (CUSTOMS_FILE, "customs") or rel.startswith("customs/")
 
 
 def is_protected(rel: str) -> bool:
@@ -331,8 +337,7 @@ def load_basic_selection(root: Path) -> Selection:
     if not config_path.exists():
         raise VasError(f"{BASIC_CONFIG} not found; publish basic runs only in the Premium source workspace")
     config = tomllib.loads(config_path.read_text(encoding="utf-8"))
-    agents_text = (root / "AGENTS.md").read_text(encoding="utf-8")
-    mapping = template_skill_mapping(agents_text)
+    mapping = installed_templates(root)  # template id -> skill, from each template.toml
 
     templates = set(config.get("templates", []))
     skills = set(config.get("skills", []))
@@ -342,11 +347,13 @@ def load_basic_selection(root: Path) -> Selection:
             errors.append(f"template not found: templates/{template_id}/template.toml")
         skill = mapping.get(template_id)
         if not skill:
-            errors.append(f"no AGENTS.md mapping for templates/{template_id}/")
+            errors.append(f"templates/{template_id}/template.toml has no [template].matching_skill")
+        elif (root / "templates" / template_id / TEMPLATE_SKILL_DIR / "SKILL.md").exists():
+            pass  # the skill ships inside the template folder
         elif (root / "skills" / skill / "SKILL.md").exists():
-            skills.add(skill)
+            skills.add(skill)  # older layout: skill outside the template
         else:
-            errors.append(f"matching skill not found: skills/{skill}/SKILL.md")
+            errors.append(f"skill not found: templates/{template_id}/{TEMPLATE_SKILL_DIR}/SKILL.md")
     agent_skills = set(config.get("agent_skills", []))
     tools = set(config.get("tools", []))
     packages = set(config.get("packages", []))
@@ -373,7 +380,8 @@ def load_basic_selection(root: Path) -> Selection:
         if rel not in links
         and not has_excluded_part(rel)
         and not any(rel.startswith(f"{mirror}/") for mirror in SYMLINK_MIRRORS)
-        and rel not in (BASIC_CONFIG, CUSTOMS_FILE, MANIFEST_REL, BASIC_README)
+        and rel not in (BASIC_CONFIG, MANIFEST_REL, BASIC_README)
+        and not is_user_space(rel)
         and (root / rel).exists()
         and ((root / rel).is_symlink() or not (root / rel).is_dir())
     })
@@ -480,13 +488,13 @@ def template_mentions(stage: Path, files: list[str]) -> list[str]:
 
 
 def forbidden_paths(files: list[str]) -> list[str]:
-    allowed_placeholders = {"customs/.gitkeep", "raw_assets/.gitkeep", "raw_assets/README.md",
+    allowed_placeholders = {"raw_assets/.gitkeep", "raw_assets/README.md",
                             "raw_assets/images/.gitkeep", "raw_assets/videos/.gitkeep", "raw_assets/audio/.gitkeep"}
     bad: list[str] = []
     for rel in files:
         if rel in allowed_placeholders:
             continue
-        if rel in (CUSTOMS_FILE, BASIC_CONFIG) or rel.startswith(("customs/", "jobs/", "raw_assets/", ".vas/backups/")):
+        if is_user_space(rel) or rel == BASIC_CONFIG or rel.startswith(("jobs/", "raw_assets/", ".vas/backups/")):
             bad.append(rel)
         elif "/" not in rel and (rel == ".env" or (rel.startswith(".env.") and rel != ".env.example")):
             bad.append(rel)
@@ -669,7 +677,7 @@ def check_basic_stage(root: Path, stage: Path, sel: Selection, files: list[str])
     problems += template_mentions(stage, files)
     problems += [f"forbidden path in Basic: {rel}" for rel in forbidden_paths(files)]
     problems += secret_scan(stage, files)
-    mapping = template_skill_mapping((root / "AGENTS.md").read_text(encoding="utf-8"))
+    mapping = installed_templates(root)
     failures, skipped = audit_templates(root, sorted(sel.templates), mapping)
     if skipped:
         print(f"  template audit not applicable (custom renderer): {', '.join(skipped)}")
@@ -771,7 +779,8 @@ def premium_files(root: Path, include_untracked: bool) -> list[str]:
     kept = sorted(
         rel for rel in files
         if rel not in links
-        and rel not in (BASIC_CONFIG, CUSTOMS_FILE, MANIFEST_REL, BASIC_README)
+        and rel not in (BASIC_CONFIG, MANIFEST_REL, BASIC_README)
+        and not is_user_space(rel)
         and not has_excluded_part(rel)
         and ((root / rel).exists() or (root / rel).is_symlink())
         # Nested repositories show up as folders in `git ls-files -o`; ship files only.
@@ -868,8 +877,9 @@ def cmd_publish_premium(root: Path, args: argparse.Namespace) -> int:
     if dirty and not args.include_untracked:
         problems.append("working tree has uncommitted changes; commit them first so the ZIP matches the pushed commit")
     files = premium_files(root, args.include_untracked)
+    problems += [f"user customization would ship in the Premium ZIP: {rel}" for rel in files if is_user_space(rel)]
     templates = sorted({PurePosixPath(rel).parts[1] for rel in files if rel.startswith("templates/") and rel.count("/") >= 2})
-    mapping = template_skill_mapping((root / "AGENTS.md").read_text(encoding="utf-8"))
+    mapping = installed_templates(root)
     failures, _ = audit_templates(root, templates, mapping)
     if failures:
         # Generated folders never ship (EXCLUDED_DIR_NAMES); contract issues are reported, not blocking.
@@ -886,11 +896,19 @@ def cmd_publish_premium(root: Path, args: argparse.Namespace) -> int:
     info = read_version(root)
     if info["edition"] != "premium":
         raise VasError(f"{VERSION_FILE} edition must be premium in the source workspace")
+    tag = f"v{info['version']}"
     if not args.no_push and not args.include_untracked:
-        print(f"Push Premium v{info['version']} ({len(files)} files) to the private repository?")
+        head = run(["git", "rev-parse", "HEAD"], cwd=root).stdout.strip()
+        existing = run(["git", "rev-parse", "-q", "--verify", f"refs/tags/{tag}^{{commit}}"], cwd=root, check=False).stdout.strip()
+        if existing and existing != head:
+            raise VasError(f"{tag} already tags another commit; bump {VERSION_FILE} first")
+        print(f"Push Premium {tag} ({len(files)} files) to the private repository?")
         if args.yes or prompt_yes("Push now?"):
             run(["git", "push", "origin", "HEAD"], cwd=root)
-            print("Pushed.")
+            if not existing:
+                run(["git", "tag", "-a", tag, "-m", f"VAS Premium {info['version']}"], cwd=root)
+            run(["git", "push", "origin", tag], cwd=root)
+            print(f"Pushed and tagged {tag}.")
         else:
             print("Not pushed.")
 
@@ -1047,7 +1065,7 @@ def cmd_upgrade(root: Path, args: argparse.Namespace) -> int:
     for rel, entry in new_files.items():
         path = root / rel
         exists = path.exists() or path.is_symlink()
-        if is_protected(rel) and exists:
+        if is_user_space(rel) or (is_protected(rel) and exists):
             continue
         if exists and current_matches(path, entry):
             continue
@@ -1142,6 +1160,8 @@ def cmd_upgrade(root: Path, args: argparse.Namespace) -> int:
         except VasError as exc:
             notes.append(f"git step skipped: {exc}")
 
+    for failure in sync_templates(root):
+        notes.append(f"could not link a template skill: {failure}")
     report: list[str] = []
     post_install(root, set(writes), report)
     for line in report:
@@ -1310,6 +1330,149 @@ def ensure_matching_skill(contract: Path, skill: str) -> bool:
     raise VasError(f"{contract} has no [template] table")
 
 
+# Claude Code discovers skills in .claude/skills, ChatGPT Codex in .agents/skills.
+TEMPLATE_LINK_DIRS = (".claude/skills", ".agents/skills")
+TEMPLATES_SECTION = "## Installed templates"
+
+
+def skill_description(skill_md: Path) -> str:
+    """The one-line `description` of a SKILL.md frontmatter."""
+    try:
+        match = re.match(r"---\r?\n(.*?)\r?\n---", skill_md.read_text(encoding="utf-8"), re.S)
+    except OSError:
+        return ""
+    lines = match.group(1).splitlines() if match else []
+    for index, line in enumerate(lines):
+        if not line.startswith("description:"):
+            continue
+        value = line[len("description:"):].strip()
+        if value in (">", ">-", "|", "|-"):   # folded block: the indented lines that follow
+            value = " ".join(l.strip() for l in lines[index + 1:] if l.startswith((" ", "\t")))
+        elif value.startswith('"'):
+            try:
+                value = json.loads(value)
+            except json.JSONDecodeError:
+                value = value.strip('"')
+        elif value.startswith("'") and value.endswith("'"):
+            value = value[1:-1].replace("''", "'")
+        return value
+    return ""
+
+
+def template_catalog(root: Path) -> list[dict]:
+    """Every installed template with its skill and when to use it (a customs copy wins)."""
+    entries: dict[str, dict] = {}
+    for base_rel in ("templates", "customs/templates"):
+        base = root / base_rel
+        for contract in sorted(base.glob("*/template.toml")) if base.is_dir() else []:
+            try:
+                data = tomllib.loads(contract.read_text(encoding="utf-8"))
+            except (tomllib.TOMLDecodeError, OSError):
+                continue
+            meta = data.get("template", {})
+            if not meta.get("matching_skill"):
+                continue
+            folder = contract.parent
+            entries[folder.name] = {
+                "id": folder.name,
+                "path": f"{base_rel}/{folder.name}",
+                "skill": str(meta["matching_skill"]),
+                "name": str(meta.get("name") or folder.name),
+                "description": skill_description(folder / TEMPLATE_SKILL_DIR / "SKILL.md")
+                or str(meta.get("description", "")),
+                "missing_fonts": [str(rel) for rel in data.get("user_fonts", {}).get("files", [])
+                                  if not (folder / rel).exists()],
+            }
+    return [entries[key] for key in sorted(entries)]
+
+
+def template_link_target(entry: dict) -> str:
+    return f"../../{entry['path']}/{TEMPLATE_SKILL_DIR}"
+
+
+def stale_template_links(root: Path, catalog: list[dict]) -> list[str]:
+    """Template skill links that are missing, point elsewhere, or point at a removed template."""
+    stale = []
+    for mirror in TEMPLATE_LINK_DIRS:
+        for entry in catalog:
+            link = root / mirror / entry["skill"]
+            if not (link.is_symlink() and os.readlink(link) == template_link_target(entry)) and not \
+                    (link.is_dir() and not link.is_symlink()):
+                stale.append(f"{mirror}/{entry['skill']}")
+        folder = root / mirror
+        for link in sorted(folder.iterdir()) if folder.is_dir() else []:
+            if link.is_symlink() and not link.exists() and \
+                    os.readlink(link).startswith(("../../templates/", "../../customs/templates/")):
+                stale.append(f"{mirror}/{link.name}")
+    return stale
+
+
+def templates_registry_text(catalog: list[dict]) -> str:
+    lines = [TEMPLATES_SECTION, "",
+             "Kept up to date by `python3 scripts/vas.py install-template` and `repair`; do not edit by hand. "
+             "Before planning a video, pick the template whose description fits the request.", ""]
+    for entry in catalog:
+        lines.append(f"- ${entry['skill']} → {entry['path']}/ — {entry['name']}: {entry['description']}".rstrip(": "))
+    return "\n".join(lines) + "\n"
+
+
+def sync_templates(root: Path) -> list[str]:
+    """Link every installed template's skill where agents look for skills and list it in AGENTS.customs.md.
+
+    Returns the links that could not be created (for example on Windows without symlink rights)."""
+    catalog = template_catalog(root)
+    failed = []
+    for rel in stale_template_links(root, catalog):
+        link = root / rel
+        entry = next((e for e in catalog if e["skill"] == link.name), None)
+        try:
+            if link.is_symlink():
+                link.unlink()
+            if entry is not None:
+                link.parent.mkdir(parents=True, exist_ok=True)
+                os.symlink(template_link_target(entry), link)
+        except OSError as exc:
+            failed.append(f"{rel}: {exc}")
+
+    customs = root / CUSTOMS_FILE
+    text = customs.read_text(encoding="utf-8") if customs.exists() else \
+        "This file overrides AGENTS.md wherever they conflict.\n\n## Customs registry\n"
+    section = re.compile(rf"^{re.escape(TEMPLATES_SECTION)}\n.*?(?=^## |\Z)", re.S | re.M)
+    block = templates_registry_text(catalog) + "\n" if catalog else ""
+    if section.search(text):
+        new = section.sub(lambda _: block, text, count=1)
+    elif not catalog:
+        new = text
+    elif "\n## Customs registry" in text:
+        # Before the customs registry, so lines the agent appends at the end stay in that registry.
+        head, tail = text.split("\n## Customs registry", 1)
+        new = f"{head.rstrip()}\n\n{block}## Customs registry{tail}"
+    else:
+        new = f"{text.rstrip()}\n\n{block}## Customs registry\n"
+    if new != text:
+        customs.write_text(new, encoding="utf-8")
+    return failed
+
+
+def cmd_templates(root: Path, args: argparse.Namespace) -> int:
+    catalog = template_catalog(root)
+    if args.json:
+        print(json.dumps(catalog, ensure_ascii=False, indent=2))
+        return 0
+    if not catalog:
+        print("No templates installed. Templates come as ZIP rewards from the course; "
+              "install one with: python3 scripts/vas.py install-template <zip>")
+        return 0
+    print(f"{len(catalog)} installed template(s). Pick the one whose description fits the request:\n")
+    for entry in catalog:
+        print(f"{entry['name']} → ${entry['skill']} ({entry['path']}/)")
+        if entry["description"]:
+            print(f"  {entry['description']}")
+        for rel in entry["missing_fonts"]:
+            print(f"  Font to install yourself: {PurePosixPath(rel).name} → {entry['path']}/{rel}")
+    return 0
+
+
 def read_template_package(archive: Path) -> tuple[zipfile.ZipFile, str, dict, str, str]:
     """Validate a template-packager ZIP. Returns (zip, prefix, metadata, skill id, template id)."""
     if not archive.is_file():
@@ -1428,19 +1591,13 @@ def cmd_install_template(root: Path, args: argparse.Namespace) -> int:
         listed = ", ".join(json.dumps(rel) for rel in user_fonts)
         contract.write_text(contract.read_text(encoding="utf-8").rstrip("\n") + f"\n\n[user_fonts]\nfiles = [{listed}]\n",
                             encoding="utf-8")
-    link = root / ".claude" / "skills" / skill
-    target = f"../../templates/{template_id}/{TEMPLATE_SKILL_DIR}"
-    if link.is_symlink() and os.readlink(link) != target:
-        link.unlink()
-    if not link.exists() and not link.is_symlink():
-        link.parent.mkdir(parents=True, exist_ok=True)
-        try:
-            os.symlink(target, link)
-        except OSError:
-            pass
+    link_failures = sync_templates(root)
     print(f"Installed template {template_id} v{version} ({count} files). Use it with ${skill}.")
-    if meta.get("description"):
-        print(f"  {meta['description']}")
+    for failure in link_failures:
+        print(f"  could not link the skill: {failure}")
+    when = skill_description(dest_skill / "SKILL.md") or meta.get("description")
+    if when:
+        print(f"  {when}")
     keys = deps.get("credentials", [])
     if keys:
         print("  Needs: " + "; ".join(keys))
@@ -1457,10 +1614,9 @@ def cmd_install_template(root: Path, args: argparse.Namespace) -> int:
 
 
 def cmd_repair(root: Path, args: argparse.Namespace) -> int:
-    """Recreate skill symlinks from the manifest (after unzipping with a tool that drops symlinks)."""
-    manifest = load_manifest(root)
-    if manifest is None:
-        raise VasError("no .vas/manifest.json found; nothing to repair")
+    """Recreate skill symlinks from the manifest (after unzipping with a tool that drops symlinks),
+    and the links and AGENTS.customs.md list of installed templates."""
+    manifest = load_manifest(root) or {"files": {}}
     fixed, failed = 0, []
     for rel, entry in manifest["files"].items():
         if "symlink" not in entry or is_protected(rel):
@@ -1480,6 +1636,10 @@ def cmd_repair(root: Path, args: argparse.Namespace) -> int:
         except OSError as exc:
             failed.append(f"{rel}: {exc}")
     print(f"Repaired {fixed} link(s).")
+    failed += sync_templates(root)
+    catalog = template_catalog(root)
+    if catalog:
+        print(f"Linked {len(catalog)} template skill(s) and listed them under {TEMPLATES_SECTION!r} in {CUSTOMS_FILE}.")
     for item in failed:
         print(f"  could not repair {item}")
     return 1 if failed else 0
@@ -1502,8 +1662,11 @@ class Report:
 
 def resolve_skill(root: Path, name: str) -> Path | None:
     for base in (root / "customs" / "skills", root / "skills", root / ".agents" / "skills"):
-        if (base / name / "SKILL.md").exists():
-            return base / name
+        path = base / name
+        if path.is_symlink() and os.readlink(path).startswith(("../../templates/", "../../customs/templates/")):
+            continue   # a template's skill link: resolved from the template below
+        if (path / "SKILL.md").exists():
+            return path
     # A template's own skill lives in templates/<id>/skill/ (customs first).
     for base in (root / "customs" / "templates", root / "templates"):
         for contract in sorted(base.glob("*/template.toml")) if base.is_dir() else []:
@@ -1569,12 +1732,21 @@ def doctor_skills(root: Path, rep: Report) -> None:
     if missing_templates:
         rep.add("FAIL", "templates", "mapped in AGENTS.md but missing template.toml: " + ", ".join(missing_templates))
     broken = []
-    for mirror in SYMLINK_MIRRORS:
+    for mirror in sorted(set(SYMLINK_MIRRORS) | set(TEMPLATE_LINK_DIRS)):
         folder = root / mirror
         if folder.is_dir():
             broken += [f"{mirror}/{e.name}" for e in folder.iterdir() if e.is_symlink() and not e.exists()]
     if broken:
         rep.add("FAIL", "skill links", "broken: " + ", ".join(sorted(broken)[:10]))
+    catalog = template_catalog(root)
+    stale = [rel for rel in stale_template_links(root, catalog) if rel not in broken]
+    registry = (root / CUSTOMS_FILE).read_text(encoding="utf-8") if (root / CUSTOMS_FILE).exists() else ""
+    unlisted = [e["id"] for e in catalog if f"{e['path']}/" not in registry.split(TEMPLATES_SECTION, 1)[-1]] \
+        if TEMPLATES_SECTION in registry else [e["id"] for e in catalog]
+    if stale or unlisted:
+        rep.add("WARN", "templates", "agents may not find every installed template "
+                f"({len(stale)} link(s) missing, {len(unlisted)} not listed in {CUSTOMS_FILE}); "
+                "run: python3 scripts/vas.py repair")
     if not (missing_skills or missing_templates or broken):
         templates = f" and {len(mapping)} templates" if mapping else ""
         rep.add("PASS", "skills", f"{len(listed_skills(text))} skills{templates} resolve")
@@ -1838,7 +2010,10 @@ def build_parser() -> argparse.ArgumentParser:
     doctor.add_argument("--full", action="store_true",
                         help="treat on-demand dependencies (Node, Remotion, ffmpeg, OmniVoice, .venv) as required")
 
-    sub.add_parser("repair", help="recreate skill links listed in the manifest (after unzipping)")
+    sub.add_parser("repair", help="recreate skill links (after unzipping) and the list of installed templates")
+
+    templates = sub.add_parser("templates", help="list installed templates and when to use each")
+    templates.add_argument("--json", action="store_true")
 
     install_template = sub.add_parser("install-template", help="install one template package from a template ZIP")
     install_template.add_argument("zip")
@@ -1859,6 +2034,8 @@ def main(argv: list[str] | None = None) -> int:
             return cmd_upgrade(root, args)
         if args.command == "repair":
             return cmd_repair(root, args)
+        if args.command == "templates":
+            return cmd_templates(root, args)
         if args.command == "install-template":
             return cmd_install_template(root, args)
         return cmd_doctor(root, args)

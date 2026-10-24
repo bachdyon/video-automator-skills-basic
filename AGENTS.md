@@ -21,6 +21,7 @@ When the user asks to create or change a skill or tool, write it under `customs/
 `VERSION` states which edition is installed (`basic` or `premium`).
 
 - If the user asks for a skill or tool that is not in this checkout or in `customs/`, say that it is part of VAS Premium. Do not rebuild it unless the user explicitly asks for their own version in `customs/`.
+- If the user asks to install a ZIP from the VAS course other than the Premium upgrade, say it needs VAS Premium; do not unzip it by hand.
 - When the user asks to upgrade to Premium, or to update Premium, with a ZIP file, run `python3 scripts/vas.py upgrade <path-to-zip>` once and report its doctor summary. Do not unzip or copy files by hand. If the doctor reports FAIL, offer `python3 scripts/vas.py upgrade --rollback`.
 - To check that an installation works, run `python3 scripts/vas.py doctor`.
 
@@ -39,7 +40,9 @@ When no `FAIL` remains, reply with exactly one word: `Sẵn sàng`. If something
 
 ## Dependency Rule
 
-Install a dependency only when the current task needs it and it is missing, then continue the task. Install nothing for features the user is not using. Ask before anything that needs administrator rights or a password.
+Install a dependency only when the current task needs it and it is missing, then continue the task. Install nothing for features the user is not using. Before running a skill for the first time, read the requirements in its `SKILL.md` (and its `scripts/requirements.txt` if present) to know what it needs. Ask before anything that needs administrator rights or a password.
+
+If you cannot install something yourself (no permission, a password or administrator prompt, an unsupported system, or the install keeps failing), stop and tell the user in plain language what to install and how, step by step, then wait. Do not switch to a different tool or a lower-quality workaround without saying so.
 
 - Video rendering with Remotion: Node.js 18 or newer, then `npm install` once in the repository root.
 - Audio or video processing: `ffmpeg` and `ffprobe` through the platform's usual installer.
@@ -51,7 +54,7 @@ Before saying a task is done, check that the newly installed dependency works fo
 
 ## Job Context Rule
 
-When a new chat session begins and no existing `jobs/<job_id>/` is explicitly present in its context, create a new isolated job first with `$video-job-manager`. Do this before planning, generating assets, rendering, or otherwise performing video-production work, so all artifacts use the new job's canonical paths. Reuse an existing job only when its exact job ID or path is already provided in the chat context.
+When a request starts video-production work (planning, generating assets, rendering, or editing a video) and no existing `jobs/<job_id>/` is explicitly present in the chat context, create a new isolated job first with `$video-job-manager`, so all artifacts use the new job's canonical paths. Reuse an existing job only when its exact job ID or path is already provided in the chat context. Do not create a job for requests that are not video production, such as installing or upgrading VAS, installing anything from a ZIP, checking the installation, or creating your own skill or tool.
 
 When a user request matches a project skill, load that skill's `SKILL.md` first, then load referenced scripts or supporting files only as needed. For Remotion work, load `$remotion-best-practices` first, then every specialist skill selected by that router. Prefer bundled scripts over regenerating equivalent code.
 
@@ -103,6 +106,8 @@ For voice/narration/TTS requests with no provider named by the user, use `$omniv
 - `$remotion-render`: Official guidance for rendering Remotion videos, stills, and transparent output.
 - `$remotion-saas`: Official architecture guidance for Remotion-powered apps, Players, render backends, and automation.
 - `$remotion-upgrade`: Official workflow for upgrading Remotion, compatible multimedia dependencies, and the installed Remotion skill set.
+- `$motion`: Third-party skill for Motion (formerly Framer Motion) and CSS animation: best practices, examples, spring/bounce generation and performance audits.
+- `$motion-design`: Third-party skill applying motion design principles (timing, easing, choreography, Disney principles) to animations and transitions.
 - `$subtitle-screen-splitter`: Split subtitle text or word-level transcripts into screen-sized pages, breaking after punctuation and before capitalized sentence starts.
 - `$video-compress-under-25mb`: Compress local videos under 25MB with H.264/AAC 2-pass encoding, preserving resolution/fps when possible, for upload limits such as Zernio upload-direct.
 - `$video-job-manager`: Create and manage isolated video production jobs and canonical paths.

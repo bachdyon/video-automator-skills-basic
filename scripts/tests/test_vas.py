@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -175,8 +176,15 @@ class LintTests(unittest.TestCase):
                  "raw_assets/README.md", "raw_assets/videos/a.mp4", "basic.toml", "skills/a/SKILL.md"]
         self.assertEqual(
             vas.forbidden_paths(files),
-            ["customs/skills/x/SKILL.md", "AGENTS.customs.md", ".env", "raw_assets/videos/a.mp4", "basic.toml"],
+            ["customs/.gitkeep", "customs/skills/x/SKILL.md", "AGENTS.customs.md", ".env", "raw_assets/videos/a.mp4",
+             "basic.toml"],
         )
+
+    def test_customs_never_ship(self) -> None:
+        for rel in ("AGENTS.customs.md", "customs", "customs/.gitkeep", "customs/templates/x/template.toml"):
+            self.assertTrue(vas.is_user_space(rel), rel)
+        for rel in ("AGENTS.md", "customsx/a", "skills/customs/SKILL.md"):
+            self.assertFalse(vas.is_user_space(rel), rel)
 
 
 def write_tree(root: Path, files: dict[str, str]) -> None:
@@ -257,6 +265,14 @@ class UpgradeTests(unittest.TestCase):
         self.assertEqual(self.read(".env"), "OPENAI_API_KEY=x\n")
         saved = list((self.install / "customs/_upgrade_backup").glob("*/skills/core/SKILL.md"))
         self.assertEqual([p.read_text(encoding="utf-8") for p in saved], ["core v1 + my tweak\n"])
+
+    def test_upgrade_never_creates_user_space(self) -> None:
+        (self.install / "AGENTS.customs.md").unlink()
+        shutil.rmtree(self.install / "customs")
+        self.assertEqual(self.upgrade(), 0)
+        self.assertFalse((self.install / "AGENTS.customs.md").exists())
+        # Only the local backup of hand-edited official files may appear there, never a file from the package.
+        self.assertFalse((self.install / "customs/.gitkeep").exists())
 
     def test_rollback_restores_previous_state(self) -> None:
         self.assertEqual(self.upgrade(), 0)
@@ -352,7 +368,11 @@ class UpgradeTests(unittest.TestCase):
         contract = self.install / "templates/demo/template.toml"
         skill_dir = self.install / "templates/demo/skill"
         self.assertIn('matching_skill = "demo-template"', contract.read_text(encoding="utf-8"))
-        self.assertEqual(os.readlink(self.install / ".claude/skills/demo-template"), "../../templates/demo/skill")
+        for mirror in vas.TEMPLATE_LINK_DIRS:
+            self.assertEqual(os.readlink(self.install / mirror / "demo-template"), "../../templates/demo/skill")
+        registry = self.read("AGENTS.customs.md")
+        self.assertTrue(registry.startswith("mine\n"))
+        self.assertIn("$demo-template → templates/demo/", registry.split(vas.TEMPLATES_SECTION)[1])
         self.assertEqual(vas.installed_templates(self.install), {"demo": "demo-template"})
         self.assertEqual(vas.resolve_skill(self.install, "demo-template"), skill_dir)
         # The older package layout is converted: paths and parents[] now fit templates/<id>/skill/.
@@ -370,6 +390,45 @@ class UpgradeTests(unittest.TestCase):
         self.assertEqual(install(self.make_template_package("2.0.0", legacy=False)), 0)
         self.assertIn('version = "2.0.0"', contract.read_text(encoding="utf-8"))
         self.assertIn("parents[3]", (skill_dir / "scripts/go.py").read_text(encoding="utf-8"))
+
+    def test_template_catalog_links_and_registry_follow_installed_templates(self) -> None:
+        import os
+        write_tree(self.install, {
+            "templates/demo/template.toml": '[template]\nname = "Demo"\nmatching_skill = "demo-template"\n'
+                                            '[user_fonts]\nfiles = ["fonts/Paid.ttf"]\n',
+            "templates/demo/skill/SKILL.md": '---\nname: demo-template\n'
+                                             'description: "Use when the user wants a demo (e.g. “làm video demo”)."\n---\n',
+        })
+        (self.install / "AGENTS.customs.md").write_text(
+            "This file overrides AGENTS.md wherever they conflict.\n\n## Customs registry\n- $x → customs/skills/x/ — mine\n",
+            encoding="utf-8")
+        [entry] = vas.template_catalog(self.install)
+        self.assertEqual(entry["description"], "Use when the user wants a demo (e.g. “làm video demo”).")
+        self.assertEqual(entry["missing_fonts"], ["fonts/Paid.ttf"])
+        with redirect_stdout(StringIO()):
+            self.assertEqual(vas.cmd_repair(self.install, argparse.Namespace()), 0)
+        registry = self.read("AGENTS.customs.md")
+        # The list sits before the customs registry, so lines appended to the registry stay there.
+        self.assertLess(registry.index(vas.TEMPLATES_SECTION), registry.index("## Customs registry"))
+        self.assertIn("- $x → customs/skills/x/ — mine", registry)
+        self.assertIn("$demo-template → templates/demo/ — Demo: Use when", registry)
+
+        # A customs copy overrides the official template; links follow it.
+        write_tree(self.install, {
+            "customs/templates/demo/template.toml": '[template]\nmatching_skill = "demo-template"\n',
+            "customs/templates/demo/skill/SKILL.md": "---\nname: demo-template\ndescription: Use when mine.\n---\n",
+        })
+        vas.sync_templates(self.install)
+        self.assertEqual(os.readlink(self.install / ".agents/skills/demo-template"), "../../customs/templates/demo/skill")
+        self.assertIn("customs/templates/demo/ — demo: Use when mine.", self.read("AGENTS.customs.md"))
+
+        # Removing every template drops its links and the list.
+        shutil.rmtree(self.install / "customs/templates/demo")
+        shutil.rmtree(self.install / "templates/demo")
+        vas.sync_templates(self.install)
+        self.assertFalse((self.install / ".claude/skills/demo-template").is_symlink())
+        self.assertNotIn(vas.TEMPLATES_SECTION, self.read("AGENTS.customs.md"))
+        self.assertIn("- $x → customs/skills/x/ — mine", self.read("AGENTS.customs.md"))
 
     def test_install_template_requires_its_skills(self) -> None:
         (self.install / "skills/core").rename(self.install / "skills/core-moved")
